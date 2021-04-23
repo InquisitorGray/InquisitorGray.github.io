@@ -1,7 +1,6 @@
 ---
 title: Документация
 nav_order: 2
-has_children: true
 ---
 
 DTM : SELECT  
