@@ -1,7 +1,7 @@
 ---
 title: Select
 parent: Запросы SQL+
-grand_parent: Руководство пользователя
+grand_parent: 5. Справочная информация
 nav_order: 1
 ---
 
