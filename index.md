@@ -35,12 +35,12 @@ DRAFT
     
 
 #### Синтаксис
-
+```SQL
 SELECT column\_list 
 FROM \[db\_name.\]entity\_name 
 \[FOR SYSTEM\_TIME time\_expression \[AS alias\_name\]\]
 \[DATASOURCE\_TYPE = 'datasource\_alias'\]
-
+```
 Описание параметров запроса см. [ниже](#select_parameters).
 
 В запросе можно использовать следующие секции, которые должны быть указаны в порядке их перечисления:
@@ -123,28 +123,28 @@ FROM \[db\_name.\]entity\_name
 #### Примеры
 
 Запрос с неявным указанием столбцов и секцией `WHERE`:
-
+```SQL
 SELECT \* FROM sales.sales
 WHERE store\_id = 1234
-
+```
 Запрос с явным указанием столбцов и выбором данных из определенной СУБД хранилища (ADQM):
-
+```SQL
 SELECT sold.store\_id, sold.product\_amount 
 FROM sales.stores\_by\_sold\_products AS sold
 DATASOURCE\_TYPE = 'adqm'
-
+```
 Запрос с агрегацией, группировкой и сортировкой данных, а также выбором первых 20 строк:
-
+```SQL
 SELECT s.store\_id, SUM(s.product\_units) AS product\_amount 
 FROM sales.sales AS s
 GROUP BY (s.store\_id)
 ORDER BY product\_amount DESC
 LIMIT 20
-
+```
 Запрос записей, актуальных на момент закрытия дельты с номером 9:
-
+```
 SELECT \* FROM sales.sales FOR SYSTEM\_TIME AS OF DELTA\_NUM 9
-
+```SQL
 Запрос с соединением данных двух логических таблиц из двух различных логических БД:
 
 SELECT 
