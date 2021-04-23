@@ -1,7 +1,7 @@
 ---
 title: Select
 parent: Запросы SQL+
-grand_parent: Turndown Demo
+grand_parent: Документация
 nav_order: 1
 ---
 
