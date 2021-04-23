@@ -1,6 +1,6 @@
 ---
-title: 5. Справочная информация
-parent: Руководство пользователя
+title: ReferenceDataFolder
+parent: UserGuideFolder
 grand_parent: Документация
 has_children: true
 nav_order: 1
