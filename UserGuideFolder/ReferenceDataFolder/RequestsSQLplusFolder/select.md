@@ -1,8 +1,8 @@
 ---
 title: Select
-parent: Запросы SQL+
+parent: RequestsSQLplusFolder
 grand_parent: Документация
-nav_order: 1
+nav_order: 2
 ---
 
 Hello all
