@@ -1,7 +1,6 @@
 ---
 title: RequestsSQLplusFolder
 parent: ReferenceDataFolder
-grandparent: UserGuideFolder
 has_children: true
 nav_order: 1
 ---
