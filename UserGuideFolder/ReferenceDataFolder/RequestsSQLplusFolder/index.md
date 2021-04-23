@@ -1,6 +1,6 @@
 ---
-title: Запросы SQL+
-parent: 5. Справочная информация
+title: RequestsSQLplusFolder
+parent: ReferenceDataFolder
 has_children: true
 nav_order: 3
 ---
