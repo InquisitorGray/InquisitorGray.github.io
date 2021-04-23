@@ -1,7 +1,7 @@
 ---
 title: Select
 parent: RequestsSQLplusFolder
-grand_parent: Документация
+grand_parent: ReferenceDataFolder
 nav_order: 2
 ---
 
