@@ -1,8 +1,7 @@
 ---
 title: Test
 parent: UserGuideFolder
-grand_parent: Документация
-nav_order: 2
+nav_order: 4
 ---
 
 Hello not all
