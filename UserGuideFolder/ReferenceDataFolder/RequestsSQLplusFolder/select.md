@@ -1,7 +1,7 @@
 ---
 title: Select
-parent: RequestsSQLplusFolder
-grand_parent: ReferenceDataFolder
+parent: ReferenceDataFolder
+grand_parent: UserGuideFolder
 has_children: true
 nav_order: 1
 ---
