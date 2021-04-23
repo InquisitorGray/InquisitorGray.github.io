@@ -1,5 +1,5 @@
 ---
-title: +++ Руководство пользователя +++
+title: Руководство пользователя
 parent: Документация
 permalink: /UserGuideFolder/
 has_children: true
