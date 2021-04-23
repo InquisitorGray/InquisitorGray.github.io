@@ -1,7 +1,7 @@
 ---
 title: Запросы SQL+
 parent: 5. Справочная информация
-grand_parent: Руководство пользователя
+grand_parent: Turndown Demo
 has_children: true
 nav_order: 1
 ---
