@@ -1,6 +1,7 @@
 ---
 title: Test
-parent: UserGuideFolder
+parent: ReferenceDataFolder
+grand_parent: UserGuideFolder
 nav_order: 4
 ---
 
