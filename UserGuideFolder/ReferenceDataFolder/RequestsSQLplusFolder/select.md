@@ -1,8 +1,7 @@
 ---
 title: Select 12345
 parent: RequestsSQLplusFolder
-grand_parent: ReferenceDataFolder
-has_children: true
+grand_parent: UserGuideFolder
 nav_order: 1
 ---
 
