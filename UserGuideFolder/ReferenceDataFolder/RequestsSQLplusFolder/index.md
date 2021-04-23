@@ -1,7 +1,7 @@
 ---
 title: RequestsSQLplusFolder
 parent: ReferenceDataFolder
-grandparent: Документация
+grandparent: UserGuideFolder
 has_children: true
 nav_order: 1
 ---
