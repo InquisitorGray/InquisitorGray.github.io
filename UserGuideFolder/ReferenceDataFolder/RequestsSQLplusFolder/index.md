@@ -1,7 +1,6 @@
 ---
 title: Запросы SQL+
 parent: 5. Справочная информация
-grand_parent: Документация
 has_children: true
 nav_order: 1
 ---
