@@ -123,7 +123,7 @@ FROM [db_name.]entity_name
 #### Примеры
 
 Запрос с неявным указанием столбцов и секцией `WHERE`:
-```js
+``` sql
 SELECT * FROM sales.sales
 WHERE store_id = 1234
 ```
