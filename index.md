@@ -128,13 +128,13 @@ SELECT * FROM sales.sales
 WHERE store_id = 1234
 ```
 Запрос с явным указанием столбцов и выбором данных из определенной СУБД хранилища (ADQM):
-```SQL
+```js
 SELECT sold.store_id, sold.product_amount 
 FROM sales.stores_by_sold_products AS sold
 DATASOURCE_TYPE = 'adqm'
 ```
 Запрос с агрегацией, группировкой и сортировкой данных, а также выбором первых 20 строк:
-```SQL
+```js
 SELECT s.store_id, SUM(s.product_units) AS product_amount 
 FROM sales.sales AS s
 GROUP BY (s.store_id)
@@ -142,11 +142,11 @@ ORDER BY product_amount DESC
 LIMIT 20
 ```
 Запрос записей, актуальных на момент закрытия дельты с номером 9:
-```SQL
+```js
 SELECT * FROM sales.sales FOR SYSTEM_TIME AS OF DELTA_NUM 9
 ```
 Запрос с соединением данных двух логических таблиц из двух различных логических БД:
-```sql
+```js
 SELECT 
   st.identification_number, 
   st.category, 
@@ -156,7 +156,7 @@ INNER JOIN sales2.sales FOR SYSTEM_TIME AS OF LATEST_UNCOMMITTED_DELTA AS s
   ON st.identification_number = s.store_id
 ```
 Запрос с соединением записей логической таблицы, добавленных и измененных в двух различных диапазонах дельт:
-```sql
+```js
 use sales
 
 SELECT
