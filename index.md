@@ -35,7 +35,7 @@ DRAFT
     
 
 #### Синтаксис
-```js
+``` sql
 SELECT column_list 
 FROM [db_name.]entity_name 
 [FOR SYSTEM_TIME time_expression [AS alias_name]]
@@ -108,7 +108,7 @@ FROM [db_name.]entity_name
     
 *   `AS OF LATEST_UNCOMMITTED_DELTA` — для запроса данных на текущий момент, включая данные, загруженные в рамках открытой (горячей) дельты. По горячей дельте возвращаются записи, загруженные в рамках непрерывного диапазона завершенных операций записи (см. параметры `cn_from` и `cn_to` в разделе [https://arenadata.atlassian.net/wiki/pages/resumedraft.action?draftId=551192787](https://arenadata.atlassian.net/wiki/pages/resumedraft.action?draftId=551192787));
     
-*   `STARTED IN (delta_num1, delta_num2)` — для запроса данных, добавленных или измененных в период между дельтой `delta_num1` и дельтой `delta_num2` (включительно);
+*   `STARTED IN (delta_num1, delta_num2)` — для запроса данных, добавленных или измененных в период между дельтой `delta_num1` и дельтой `delta_num2` (включительно);
     
 *   `FINISHED IN (delta_num1, delta_num2)` — для запроса данных, удаленных в период между дельтой `delta_num1` и дельтой `delta_num2` (включительно).
     
@@ -128,13 +128,13 @@ SELECT * FROM sales.sales
 WHERE store_id = 1234
 ```
 Запрос с явным указанием столбцов и выбором данных из определенной СУБД хранилища (ADQM):
-```js
+``` sql
 SELECT sold.store_id, sold.product_amount 
 FROM sales.stores_by_sold_products AS sold
 DATASOURCE_TYPE = 'adqm'
 ```
 Запрос с агрегацией, группировкой и сортировкой данных, а также выбором первых 20 строк:
-```js
+``` sql
 SELECT s.store_id, SUM(s.product_units) AS product_amount 
 FROM sales.sales AS s
 GROUP BY (s.store_id)
@@ -142,11 +142,11 @@ ORDER BY product_amount DESC
 LIMIT 20
 ```
 Запрос записей, актуальных на момент закрытия дельты с номером 9:
-```js
+``` sql
 SELECT * FROM sales.sales FOR SYSTEM_TIME AS OF DELTA_NUM 9
 ```
 Запрос с соединением данных двух логических таблиц из двух различных логических БД:
-```js
+``` sql
 SELECT 
   st.identification_number, 
   st.category, 
@@ -156,7 +156,7 @@ INNER JOIN sales2.sales FOR SYSTEM_TIME AS OF LATEST_UNCOMMITTED_DELTA AS s
   ON st.identification_number = s.store_id
 ```
 Запрос с соединением записей логической таблицы, добавленных и измененных в двух различных диапазонах дельт:
-```js
+``` sql
 use sales
 
 SELECT
