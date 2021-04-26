@@ -38,8 +38,8 @@ DRAFT
 ```js
 SELECT column_list 
 FROM [db_name.]entity_name 
-[FOR SYSTEM\TIME time\expression [AS alias_name]]
-[DATASOURCE\TYPE = 'datasource_alias']
+[FOR SYSTEM_TIME time_expression [AS alias_name]]
+[DATASOURCE_TYPE = 'datasource_alias']
 ```
 Описание параметров запроса см. [ниже](#select_parameters).
 
