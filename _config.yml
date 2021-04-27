@@ -1,5 +1,5 @@
 title: "Документация DTM"
-markdown: kramdown
+markdown: GFM
 remote_theme: pmarsceill/just-the-docs
 search_enabled: true
 
