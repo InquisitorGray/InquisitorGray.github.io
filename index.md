@@ -12,13 +12,13 @@ DTM : SELECT
 
 Created by Vladimir Vinnikov, last modified by Yulia Petrova on апр. 20, 2021
 
-<div class="code-example" markdown="1">
 DRAFT
 {: .label .label-blue }
-</div>
 
-TEST
+OSS
 {: .label .label-green }
+EE
+{: .label .label-red }
 
 Запрос позволяет выбрать данные из [логических таблиц](https://arenadata.atlassian.net/wiki/spaces/DTM/pages/354945309) и [представлений](https://arenadata.atlassian.net/wiki/spaces/DTM/pages/361070885). Запрос можно использовать как самостоятельный запрос для [чтения данных](https://arenadata.atlassian.net/wiki/spaces/DTM/pages/356321401), а также в качестве подзапроса в [запросах на выгрузку данных](https://arenadata.atlassian.net/wiki/spaces/DTM/pages/557089214/INSERT+INTO+download_external_table) и запросах на [создание](https://arenadata.atlassian.net/wiki/spaces/DTM/pages/544965567/CREATE+VIEW) и [обновление](https://arenadata.atlassian.net/wiki/spaces/DTM/pages/545292823/ALTER+VIEW) логических представлений.
 
