@@ -2,7 +2,7 @@
 layout: default
 title: DTM : ALTER VIEW
 nav_order: 1
-parent: Запросы SQL+
+parent: Запросы SQL\+
 grand_parent: 5. Справочная информация
 has_children: false
 ---
