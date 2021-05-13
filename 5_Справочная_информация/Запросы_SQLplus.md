@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Запросы SQL+
+title: Запросы SQL\+
 nav_order: 1
 parent: 5. Справочная информация
 has_children: true
