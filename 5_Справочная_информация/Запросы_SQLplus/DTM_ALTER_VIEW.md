@@ -2,14 +2,14 @@
 layout: default
 title: DTM : ALTER VIEW
 nav_order: 1
-parent: Запросы  SQL+
+parent: Запросы SQL+
 grand_parent: 5. Справочная информация
 has_children: false
 ---
 
 Руководство пользователя
 [5. Справочная информация](5_Справочная_информация.md)
-[Запросы  SQL+](./5_Справочная_информация/Запросы_SQLplus.md)
+[Запросы SQL+](./5_Справочная_информация/Запросы_SQLplus.md)
 
 DTM : ALTER VIEW
 ================
