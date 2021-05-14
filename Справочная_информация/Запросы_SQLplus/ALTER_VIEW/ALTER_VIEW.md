@@ -2,7 +2,7 @@
 layout: default
 title: ALTER VIEW
 nav_order: 1
-parent: Запросы SQLplus
+parent: Запросы SQL+
 grand_parent: Справочная информация
 has_children: false
 has_toc: false
