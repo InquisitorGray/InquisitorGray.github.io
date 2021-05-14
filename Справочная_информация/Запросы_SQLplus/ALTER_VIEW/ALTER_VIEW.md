@@ -1,18 +1,15 @@
----
+﻿---
 layout: default
-title: DTM : ALTER VIEW
+title: ALTER VIEW
 nav_order: 1
-parent: Запросы SQL\+
-grand_parent: 5. Справочная информация
+parent: Запросы SQLplus
+grand_parent: Справочная информация
 has_children: false
+has_toc: false
 ---
 
-Руководство пользователя
-[5. Справочная информация](5_Справочная_информация.md)
-[Запросы SQL+](./5_Справочная_информация/Запросы_SQLplus.md)
-
-DTM : ALTER VIEW
-================
+ALTER VIEW
+==========
 
 Запрос позволяет изменить вид [логического представления](361070885.html) в [логической базе данных](354945300.html).
 

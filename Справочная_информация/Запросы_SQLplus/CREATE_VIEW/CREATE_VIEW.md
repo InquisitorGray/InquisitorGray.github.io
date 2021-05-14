@@ -1,0 +1,12 @@
+﻿---
+layout: default
+title: CREATE VIEW
+nav_order: 14
+parent: Запросы SQLplus
+grand_parent: Справочная информация
+has_children: false
+has_toc: false
+---
+
+CREATE VIEW
+===========
