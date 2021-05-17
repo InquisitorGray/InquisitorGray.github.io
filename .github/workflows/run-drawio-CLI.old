@@ -21,6 +21,9 @@ jobs:
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: draw.io CLI
         # You may pin to the exact commit or the version.
         # uses: severgroup-tt/actions-drawio-cli@757714b9f66bbdf0b3d05d3e5941016ad4b27861

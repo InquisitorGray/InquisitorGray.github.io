@@ -7,7 +7,6 @@ on:
   push:
     paths:
       - '**.xml'
-      - .github/workflows/drawio-export.yml
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   drawio-export:
@@ -25,8 +24,8 @@ jobs:
       - name: Export drawio files to asciidoctor and png files
         uses: rlespinasse/drawio-export-action@v1.x
         with:
-          format: adoc
-          output: drawio-assets
+          format: svg
+          output: '.'
           transparent: true
 
       - name: Get author and committer info from HEAD commit
