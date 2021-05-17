@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: drawio-export
+
+# Controls when the action will run. 
+on:
+  push:
+    paths:
+      - '**.xml'
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  drawio-export:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Checkout sources
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Export drawio files to asciidoctor and png files
+        uses: rlespinasse/drawio-export-action@v1.x
+        with:
+          format: svg
+          output: '.'
+          transparent: true
+
+      - name: Get author and committer info from HEAD commit
+        uses: rlespinasse/git-commit-data-action@v1.x
+
+      - name: Commit changed files
+        uses: stefanzweifel/git-auto-commit-action@v4.9.2
+        with:
+          commit_message: "docs: sync draw.io exported files"
+          commit_user_name: "${{ env.GIT_COMMIT_COMMITTER_NAME }}"
+          commit_user_email: "${{ env.GIT_COMMIT_COMMITTER_EMAIL }}"
+          commit_author: "${{ env.GIT_COMMIT_AUTHOR }}"
