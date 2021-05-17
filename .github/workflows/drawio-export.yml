@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: convert
+name: drawio-export
 
 # Controls when the action will run. 
 on:
@@ -41,7 +41,7 @@ jobs:
             fi
           done
 
-      - name: Export drawio files to svg files
+      - name Export drawio files to svg files
         uses: rlespinasse/drawio-export-action@v1.x
         with:
           path: TMP/XML
@@ -49,7 +49,7 @@ jobs:
           output: TMP/SVG
           transparent: true
 
-      - name: removeTMPXML
+# removeTMPXML
       - run: rm TMP/XML/*
 
       - run: |
@@ -69,7 +69,7 @@ jobs:
             fi
           done
 
-      - name: removeTMPSVG
+# removeTMPSVG
       - run: rm TMP/SVG/*
 
       - name: Get author and committer info from HEAD commit
