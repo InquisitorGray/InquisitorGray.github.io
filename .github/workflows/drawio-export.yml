@@ -1,12 +1,13 @@
 # This is a basic workflow to help you get started with Actions
 
-name: run-drawio-CLI
+name: drawio-export
 
 # Controls when the action will run. 
 on:
   push:
     paths:
       - '**.xml'
+      - .github/workflows/drawio-export.yml
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   drawio-export:
