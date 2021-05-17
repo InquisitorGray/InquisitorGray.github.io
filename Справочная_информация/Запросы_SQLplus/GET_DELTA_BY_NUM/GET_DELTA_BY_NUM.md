@@ -2,7 +2,7 @@
 layout: default
 title: GET_DELTA_BY_NUM
 nav_order: 21
-parent: Запросы SQLplus
+parent: Запросы SQL+
 grand_parent: Справочная информация
 has_children: false
 has_toc: false

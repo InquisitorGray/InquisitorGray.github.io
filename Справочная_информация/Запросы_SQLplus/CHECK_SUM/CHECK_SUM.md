@@ -2,7 +2,7 @@
 layout: default
 title: CHECK_SUM
 nav_order: 5
-parent: Запросы SQLplus
+parent: Запросы SQL+
 grand_parent: Справочная информация
 has_children: false
 has_toc: false
