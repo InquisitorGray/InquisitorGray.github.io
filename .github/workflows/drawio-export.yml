@@ -24,7 +24,7 @@ jobs:
 #          ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: iterateXML
+      - id: iterateXML
         uses: jitterbit/get-changed-files@v1
       - run: |
           for changed_file in ${{ steps.files.outputs.all }}; do
@@ -32,6 +32,7 @@ jobs:
           done
 
       - run: |
+          echo '${{ steps.files.outputs.all }}'
           echo "${{ steps.files.outputs.renamed }}"
           echo "${{ steps.files.outputs.added_modified }}"
           files_added_modified_renamed="${{ steps.files.outputs.added_modified }} ${{ steps.files.outputs.renamed }}"
