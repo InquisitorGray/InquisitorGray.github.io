@@ -70,21 +70,21 @@ jobs:
           #for changed_file in ${{ steps.files.outputs.added_modified }}; do
           for changed_file in ${files_added_modified}; do
             fullfilename=${changed_file}
-            filename=$(basename "${fullfilename}" "xml")
+            filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
             if [ "${ext}" = "xml" ]
             then
-              filename=$(basename "${fullfilename}" "xml")
+              filename=$(basename "${fullfilename}" "xls")
               filename="${filename}.svg"
-              destfilename="${destfilepath}${filename}"
+              destfilename="${destfilepath}/${filename}"
               echo "$destfilename"
-              fullfilename="$(dirname ${changed_file})".svg")
+              fullfilename=$(dirname "${changed_file})/${filename}"
               cp "${destfilename}" "${fullfilename}"
             fi
           done
 
       - id: removeTMPSVG
-        run: rm TMP/SVG/*
+        run: rm TMP/SVG/*.svg
 
       - name: Get author and committer info from HEAD commit
         uses: rlespinasse/git-commit-data-action@v1.x
