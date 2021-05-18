@@ -15,12 +15,20 @@ jobs:
     runs-on: ubuntu-latest
       
     steps:
+
+      - name: Checkout sources
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
         with:
           output: ' '
       - name: test
         run: |
+          pwd
           ls
           echo '${{ steps.file_changes.outputs.files}}'
           echo '${{ steps.file_changes.outputs.files_modified}}'
@@ -53,7 +61,7 @@ jobs:
           transparent: true
 
       - id: removeTMPXML
-        run: rm TMP/XML/*
+        run: rm TMP/XML/*.xml
 
       - run: |
           files_added_modified='${{ steps.file_changes.outputs.files_added}} ${{ steps.file_changes.outputs.files_modified }}'
