@@ -41,7 +41,7 @@ jobs:
             fi
           done
 
-      - name Export drawio files to svg files
+      - name: Export drawio files to svg files
         uses: rlespinasse/drawio-export-action@v1.x
         with:
           path: TMP/XML
