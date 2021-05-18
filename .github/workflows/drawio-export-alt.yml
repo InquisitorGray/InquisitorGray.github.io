@@ -65,7 +65,7 @@ jobs:
         run: rm TMP/XML/*.xml
 
       - run: |
-          ls "TMP/SVG/"
+          ls TMP/SVG/
           files_added_modified='${{ steps.file_changes.outputs.files_added}} ${{ steps.file_changes.outputs.files_modified }}'
           #destfilepath=cat ${{ env.GITHUB_WORKSPACE }} "/TMP/SVG/"
           destfilepath="TMP/SVG/"
