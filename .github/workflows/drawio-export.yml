@@ -28,7 +28,8 @@ jobs:
         uses: jitterbit/get-changed-files@v1
 
       - run: |
-          srcfilepath=$(cat ${{ GITHUB_WORKSPACE }} "/TMP/XML/")
+          #srcfilepath=$(cat ${{ GITHUB_WORKSPACE }} "/TMP/XML/")
+          srcfilepath=$(cat $GITHUB_WORKSPACE "/TMP/XML/")
           for changed_file in ${{ steps.files.outputs.added_modified }}; do
             fullfilename=${changed_file}
             filename=$(basename "$fullfilename")
