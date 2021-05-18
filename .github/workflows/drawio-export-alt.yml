@@ -21,6 +21,7 @@ jobs:
           output: ' '
       - name: test
         run: |
+          ls
           echo '${{ steps.file_changes.outputs.files}}'
           echo '${{ steps.file_changes.outputs.files_modified}}'
           echo '${{ steps.file_changes.outputs.files_added}}'
