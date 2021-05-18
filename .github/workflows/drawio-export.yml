@@ -46,16 +46,17 @@ jobs:
       - name: Export drawio files to svg files
         uses: rlespinasse/drawio-export-action@v1.x
         with:
-          path: TMP/XML
+          path: 'TMP/XML/'
           format: svg
-          output: TMP/SVG
+          output: 'TMP/SVG/'
           transparent: true
 
 # removeTMPXML
       - run: rm TMP/XML/*
 
       - run: |
-          destfilepath=cat ${{ env.GITHUB_WORKSPACE }} "/TMP/SVG/"
+          #destfilepath=cat ${{ env.GITHUB_WORKSPACE }} "/TMP/SVG/"
+          destfilepath="TMP/SVG/"
           for changed_file in ${{ steps.files.outputs.added_modified }}; do
             fullfilename=${changed_file}
             filename=$(basename "$fullfilename" "xml")
