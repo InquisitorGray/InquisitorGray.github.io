@@ -28,6 +28,8 @@ jobs:
         uses: jitterbit/get-changed-files@v1
 
       - run: |
+          echo "${{ files_added_modified_renamed }}"
+          echo "${{ steps.files.outputs.added_modified }}"
           files_added_modified_renamed="${{ steps.files.outputs.added_modified }} ${{ steps.files.outputs.renamed }}"
           echo "$files_added_modified_renamed"
           #srcfilepath=$(cat ${{ env.GITHUB_WORKSPACE }} "/TMP/XML/")
