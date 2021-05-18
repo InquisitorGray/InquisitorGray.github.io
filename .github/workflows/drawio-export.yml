@@ -1,0 +1,93 @@
+# This is a basic workflow to help you get started with Actions
+
+name: drawio-export
+
+# Controls when the action will run. 
+on:
+  push:
+#  pull_request:
+#  pull_request_target:
+    paths:
+      - '**.xml'
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  drawio-export:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Checkout sources
+        uses: actions/checkout@v2
+        with:
+#          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: iterateXML
+        uses: jitterbit/get-changed-files@v1
+
+      - run: |
+          files_added_modified_renamed=$(cat "${{ steps.files.outputs.added_modified }}" "${{ steps.files.outputs.renamed }}")
+          echo "$files_added_modified_renamed"
+          #srcfilepath=$(cat ${{ env.GITHUB_WORKSPACE }} "/TMP/XML/")
+          srcfilepath="TMP/XML/"
+          #for changed_file in ${{ steps.files.outputs.added_modified }}; do
+          for changed_file in $files_added_modified_renamed; do
+            fullfilename=${changed_file}
+            filename=$(basename "$fullfilename")
+            ext="${filename##*.}"
+            echo "$ext"
+            if [ "$ext" -eq "xml" ]
+            then
+              srcfilename=$(cat "$srcfilepath" "$filename")
+              echo "$srcfilename"
+              cp "$fullfilename" "$srcfilename"
+            fi
+          done
+
+      - name: Export drawio files to svg files
+        uses: rlespinasse/drawio-export-action@v1.x
+        with:
+          path: 'TMP/XML/'
+          format: svg
+          output: 'TMP/SVG/'
+          transparent: true
+
+# removeTMPXML
+      - run: rm TMP/XML/*
+
+      - run: |
+          files_added_modified_renamed=$(cat "${{ steps.files.outputs.added_modified }}" "${{ steps.files.outputs.renamed }}")
+          #destfilepath=cat ${{ env.GITHUB_WORKSPACE }} "/TMP/SVG/"
+          destfilepath="TMP/SVG/"
+          #for changed_file in ${{ steps.files.outputs.added_modified }}; do
+          for changed_file in $files_added_modified_renamed; do
+            fullfilename=${changed_file}
+            filename=$(basename "$fullfilename" "xml")
+            ext="${filename##*.}"
+            if [ "$ext" -eq "xml" ]
+            then
+              filename=$(basename "$fullfilename" "xml")
+              filename=$(cat "$filename" ".svg")
+              destfilename=$(cat "$destfilepath" "$filename")
+              echo "$destfilename"
+              fullfilename=$(cat "$(dirname "${changed_file}")" ".svg")
+              cp "$destfilename" "$fullfilename"
+            fi
+          done
+
+# removeTMPSVG
+      - run: rm TMP/SVG/*
+
+      - name: Get author and committer info from HEAD commit
+        uses: rlespinasse/git-commit-data-action@v1.x
+
+      - name: Commit changed files
+        uses: stefanzweifel/git-auto-commit-action@v4.9.2
+        with:
+          commit_message: "docs: sync draw.io exported files"
+          commit_user_name: "${{ env.GIT_COMMIT_COMMITTER_NAME }}"
+          commit_user_email: "${{ env.GIT_COMMIT_COMMITTER_EMAIL }}"
+          commit_author: "${{ env.GIT_COMMIT_AUTHOR }}"
+

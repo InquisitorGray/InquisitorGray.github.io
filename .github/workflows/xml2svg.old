@@ -1,0 +1,55 @@
+# This is a basic workflow to help you get started with Actions
+
+name: run-drawio-CLI
+
+# Controls when the action will run. 
+on:
+  push:
+    paths:
+      - '**.xml'
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "convert"
+  convert:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: iterateXML
+        uses: jitterbit/get-changed-files@v1
+
+      - run: |
+          srcfilepath=cat ${{ GITHUB_WORKSPACE }} "/TMP/XML/"
+          for changed_file in ${{ steps.files.outputs.added_modified }}; do
+            fullfilename=${changed_file}
+            filename=$(basename "$fullfilename")
+            ext="${filename##*.}"
+            if [ "$ext" -eq "xml" ]
+            then
+              srcfilename=cat $srcfilepath $filename
+              echo $srcfilename
+              cp fullfilename cat srcfilename
+            fi
+          done
+
+      - name: draw.io CLI
+        # You may pin to the exact commit or the version.
+        uses: severgroup-tt/actions-drawio-cli@v1.0.0
+        with:
+          # Input file/drectory name
+          source:
+            'TMP/XML/'
+          destination:
+            'TMP/SVG/'
+          # Ouput file format
+          format: # optional, default is svg
+    
