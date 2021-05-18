@@ -18,20 +18,22 @@ jobs:
       - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
-      - name: Checkout sources
-        uses: actions/checkout@v2
-        with:
+#      - name: Checkout sources
+#        uses: actions/checkout@v2
+#        with:
 #          ref: ${{ github.head_ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+#          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - id: iterateXML
+      - id: get-changed-files
         uses: jitterbit/get-changed-files@v1
-      - run: |
+      - id: check-changed-files
+        run: |
           for changed_file in ${{ steps.files.outputs.all }}; do
             echo "Do something with this ${changed_file}."
           done
 
-      - run: |
+      - id: check-changed-xml
+        run: |
           echo '${{ steps.files.outputs.all }}'
           echo "${{ steps.files.outputs.renamed }}"
           echo "${{ steps.files.outputs.added_modified }}"
@@ -61,8 +63,8 @@ jobs:
           output: 'TMP/SVG/'
           transparent: true
 
-# removeTMPXML
-      - run: rm TMP/XML/*
+      - id removeTMPXML
+        run: rm TMP/XML/*
 
       - run: |
           files_added_modified_renamed="${{ steps.files.outputs.added_modified }} ${{ steps.files.outputs.renamed }}"
@@ -84,8 +86,8 @@ jobs:
             fi
           done
 
-# removeTMPSVG
-      - run: rm TMP/SVG/*
+      - id removeTMPSVG
+        run: rm TMP/SVG/*
 
       - name: Get author and committer info from HEAD commit
         uses: rlespinasse/git-commit-data-action@v1.x
