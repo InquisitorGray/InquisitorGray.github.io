@@ -28,21 +28,21 @@ jobs:
         uses: jitterbit/get-changed-files@v1
 
       - run: |
-          files_added_modified_renamed=$(cat "${{ steps.files.outputs.added_modified }}" "${{ steps.files.outputs.renamed }}")
+          files_added_modified_renamed="${{ steps.files.outputs.added_modified }} ${{ steps.files.outputs.renamed }}"
           echo "$files_added_modified_renamed"
           #srcfilepath=$(cat ${{ env.GITHUB_WORKSPACE }} "/TMP/XML/")
           srcfilepath="TMP/XML/"
           #for changed_file in ${{ steps.files.outputs.added_modified }}; do
-          for changed_file in $files_added_modified_renamed; do
+          for changed_file in ${files_added_modified_renamed}; do
             fullfilename=${changed_file}
-            filename=$(basename "$fullfilename")
+            filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
             echo "$ext"
-            if [ "$ext" -eq "xml" ]
+            if [ "${ext}" -eq "xml" ]
             then
-              srcfilename=$(cat "$srcfilepath" "$filename")
+              srcfilename="${srcfilepath}${filename}"
               echo "$srcfilename"
-              cp "$fullfilename" "$srcfilename"
+              cp "${fullfilename}" "${srcfilename}"
             fi
           done
 
@@ -58,22 +58,22 @@ jobs:
       - run: rm TMP/XML/*
 
       - run: |
-          files_added_modified_renamed=$(cat "${{ steps.files.outputs.added_modified }}" "${{ steps.files.outputs.renamed }}")
+          files_added_modified_renamed="${{ steps.files.outputs.added_modified }} ${{ steps.files.outputs.renamed }}"
           #destfilepath=cat ${{ env.GITHUB_WORKSPACE }} "/TMP/SVG/"
           destfilepath="TMP/SVG/"
           #for changed_file in ${{ steps.files.outputs.added_modified }}; do
-          for changed_file in $files_added_modified_renamed; do
+          for changed_file in ${files_added_modified_renamed}; do
             fullfilename=${changed_file}
-            filename=$(basename "$fullfilename" "xml")
+            filename=$(basename "${fullfilename}" "xml")
             ext="${filename##*.}"
-            if [ "$ext" -eq "xml" ]
+            if [ "${ext}" -eq "xml" ]
             then
-              filename=$(basename "$fullfilename" "xml")
-              filename=$(cat "$filename" ".svg")
-              destfilename=$(cat "$destfilepath" "$filename")
+              filename=$(basename "${fullfilename}" "xml")
+              filename="${filename}.svg"
+              destfilename="${destfilepath}${filename}"
               echo "$destfilename"
-              fullfilename=$(cat "$(dirname "${changed_file}")" ".svg")
-              cp "$destfilename" "$fullfilename"
+              fullfilename="$(dirname ${changed_file})".svg")
+              cp "${destfilename}" "${fullfilename}"
             fi
           done
 
