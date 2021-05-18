@@ -63,7 +63,7 @@ jobs:
           output: 'TMP/SVG/'
           transparent: true
 
-      - id removeTMPXML
+      - id: removeTMPXML
         run: rm TMP/XML/*
 
       - run: |
@@ -86,7 +86,7 @@ jobs:
             fi
           done
 
-      - id removeTMPSVG
+      - id: removeTMPSVG
         run: rm TMP/SVG/*
 
       - name: Get author and committer info from HEAD commit
