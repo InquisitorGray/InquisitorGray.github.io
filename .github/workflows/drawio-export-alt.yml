@@ -35,7 +35,7 @@ jobs:
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
             echo "$ext"
-            if [ "${ext}" -eq "xml" ]
+            if [ "${ext}" = "xml ]
             then
               srcfilename="${srcfilepath}${filename}"
               echo "$srcfilename"
@@ -63,7 +63,7 @@ jobs:
             fullfilename=${changed_file}
             filename=$(basename "${fullfilename}" "xml")
             ext="${filename##*.}"
-            if [ "${ext}" -eq "xml" ]
+            if [ "${ext}" = "xml" ]
             then
               filename=$(basename "${fullfilename}" "xml")
               filename="${filename}.svg"
