@@ -43,14 +43,15 @@ jobs:
             fullfilename=${changed_file}
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
-            echo "$ext"
+            echo "${ext}"
             if [ "${ext}" = "xml" ]
             then
               srcfilename="${srcfilepath}${filename}"
-              echo "$srcfilename"
+              echo "${srcfilename}"
               cp "${fullfilename}" "${srcfilename}"
             fi
           done
+          ls "${srcfilepath}"
 
       - name: Export drawio files to svg files
         uses: rlespinasse/drawio-export-action@v1.x
@@ -64,6 +65,7 @@ jobs:
         run: rm TMP/XML/*.xml
 
       - run: |
+          ls "TMP/SVG/"
           files_added_modified='${{ steps.file_changes.outputs.files_added}} ${{ steps.file_changes.outputs.files_modified }}'
           #destfilepath=cat ${{ env.GITHUB_WORKSPACE }} "/TMP/SVG/"
           destfilepath="TMP/SVG/"
@@ -76,8 +78,8 @@ jobs:
             then
               filename=$(basename "${fullfilename}" "xls")
               filename="${filename}.svg"
-              destfilename="${destfilepath}/${filename}"
-              echo "$destfilename"
+              destfilename="${destfilepath}${filename}"
+              echo "${destfilename}"
               fullfilename=$(dirname "${changed_file})/${filename}"
               cp "${destfilename}" "${fullfilename}"
             fi
