@@ -29,11 +29,12 @@ jobs:
 
       - run: |
           #srcfilepath=$(cat ${{ env.GITHUB_WORKSPACE }} "/TMP/XML/")
-          srcfilepath="/TMP/XML/"
+          srcfilepath="TMP/XML/"
           for changed_file in ${{ steps.files.outputs.added_modified }}; do
             fullfilename=${changed_file}
             filename=$(basename "$fullfilename")
             ext="${filename##*.}"
+            echo "$ext"
             if [ "$ext" -eq "xml" ]
             then
               srcfilename=$(cat "$srcfilepath" "$filename")
