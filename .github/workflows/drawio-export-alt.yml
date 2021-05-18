@@ -35,7 +35,7 @@ jobs:
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
             echo "$ext"
-            if [ "${ext}" = "xml ]
+            if [ "${ext}" = "xml" ]
             then
               srcfilename="${srcfilepath}${filename}"
               echo "$srcfilename"
