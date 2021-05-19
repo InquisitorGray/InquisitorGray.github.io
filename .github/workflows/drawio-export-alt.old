@@ -76,7 +76,7 @@ jobs:
             ext="${filename##*.}"
             if [ "${ext}" = "xml" ]
             then
-              filename=$(basename "${fullfilename}" "xls")
+              filename=$(basename "${fullfilename}" "xml")
               echo "${filename}"
               filename="${filename}.svg"
               echo "${filename}"

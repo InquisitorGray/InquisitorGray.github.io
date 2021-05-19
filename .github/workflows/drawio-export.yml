@@ -8,7 +8,8 @@ on:
 #  pull_request:
 #  pull_request_target:
     paths:
-      - '**.xml'
+      - '**.drawio'
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   drawio-export:
@@ -47,15 +48,16 @@ jobs:
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
             echo "${ext}"
-            if [ "${ext}" = "xml" ]
+            if [ "${ext}" = "drawio" ]
             then
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
               cp "${fullfilename}" "${srcfilename}"
-              fileCnt=${fileCnt}+1
+              let fileCnt++
+              #fileCnt=$(expr $fileCnt + 1 )
             fi
           done
-          if [ "${fileCnt}" -eq 0 ]
+          if [ ${fileCnt} -eq 0 ]
           then
           ::exit::neutral
           fi
@@ -70,7 +72,7 @@ jobs:
           transparent: true
 
       - name: removeTMPXML
-        run: rm TMP/XML/*.xml
+        run: rm TMP/XML/*.drawio
 
       - run: |
           ls TMP/SVG/
@@ -81,9 +83,9 @@ jobs:
             fullfilename=${changed_file}
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
-            if [ "${ext}" = "xml" ]
+            if [ "${ext}" = "drawio" ]
             then
-              filename=$(basename "${fullfilename}" "xls")
+              filename=$(basename "${fullfilename}" "drawio")
               echo "${filename}"
               filename="${filename}.svg"
               echo "${filename}"
