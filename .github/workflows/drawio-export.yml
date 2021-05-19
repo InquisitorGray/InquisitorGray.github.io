@@ -29,26 +29,22 @@ jobs:
           format: space-delimited
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: check-continue
-        run: |
-          if [ ${#steps.file_changes.outputs.files_added_modified} -eq 0] && [${#steps.file_changes.outputs.renamed} -eq 0]
-          then
-            ::exit::neutral
-          fi
-
       - name: check-xml-and-copy
         run: |
-          files_added_modified_renamed=" "
-          if [ ${#steps.file_changes.outputs.files_added_modified} -neq 0]
+          length_added_modified=`echo '${{ steps.file_changes.outputs.added_modified }}' | wc -c`
+          length_renamed=`echo '${{ steps.file_changes.outputs.added_modified }}' | wc -c`
+
+          if [ ${length_added_modified} -neq 0]
           then
-            files_added_modified_renamed='${{ steps.file_changes.outputs.files_added_modified }}'
-          elif [${#steps.file_changes.outputs.renamed} -neq 0]
+            files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }}'
+          elif [${length_renamed} -neq 0]
           then
             files_added_modified_renamed='${{ steps.file_changes.outputs.renamed }}'
           else
-            files_added_modified_renamed='${{ steps.file_changes.outputs.files_added_modified }} ${{ steps.file_changes.outputs.renamed }}'
+            ::exit::neutral
           fi
 
+          files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
           echo 'Added+Modified+Renamed: ${files_added_modified_renamed}'
           srcfilepath="TMP/XML/"
           fileCnt=0
@@ -85,7 +81,7 @@ jobs:
 
       - run: |
           ls TMP/SVG/
-          files_added_modified_renamed='${{ steps.file_changes.outputs.files_added_modified }} ${{ steps.file_changes.outputs.renamed }}'
+          files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
           #destfilepath=cat ${{ env.GITHUB_WORKSPACE }} "/TMP/SVG/"
           destfilepath="TMP/SVG/"
           for changed_file in ${files_added_modified_renamed}; do
