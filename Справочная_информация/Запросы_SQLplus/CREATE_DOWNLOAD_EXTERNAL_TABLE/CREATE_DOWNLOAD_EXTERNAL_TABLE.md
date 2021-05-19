@@ -30,14 +30,14 @@ CREATE DOWNLOAD EXTERNAL TABLE
 
 #### Синтаксис
 ```sql
-CREATE DOWNLOAD EXTERNAL TABLE \[db_name.\]ext_table_name(
+CREATE DOWNLOAD EXTERNAL TABLE [db_name.]ext_table_name(
 column_name_1 datatype_1,
 column_name_2 datatype_2,
 column_name_3 datatype_3
 )
 LOCATION receiver_URI
 FORMAT 'AVRO'
-\[CHUNK_SIZE records_per_message\]
+[CHUNK_SIZE records_per_message]
 ```
 #### Параметры
 

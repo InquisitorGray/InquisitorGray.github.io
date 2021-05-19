@@ -33,8 +33,8 @@ DROP TABLE
 
 #### Синтаксис
 ```sql
-DROP TABLE \[IF EXISTS\] \[db_name.\]table_name
-\[DATASOURCE_TYPE = datasource_alias\]
+DROP TABLE [IF EXISTS] [db_name.]table_name
+[DATASOURCE_TYPE = datasource_alias]
 ```
 Опциональная секция `IF EXISTS` активирует проверку существования логической таблицы до попытки ее удаления. 
 При наличии этой секции запрос по отсутствующей таблице возвращает успешный ответ.

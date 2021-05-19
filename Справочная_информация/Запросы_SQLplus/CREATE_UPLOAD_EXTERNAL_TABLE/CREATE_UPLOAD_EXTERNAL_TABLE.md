@@ -30,14 +30,14 @@ CREATE UPLOAD EXTERNAL TABLE
 
 #### Синтаксис
 ```sql
-CREATE UPLOAD EXTERNAL TABLE \[db_name.\]ext_table_name (
+CREATE UPLOAD EXTERNAL TABLE [db_name.]ext_table_name (
 column_name_1 datatype_1,
 column_name_2 datatype_2,
 column_name_3 datatype_3
 )
 LOCATION source_URI
 FORMAT 'AVRO'
-\[MESSAGE_LIMIT messages_per_segment\]
+[MESSAGE_LIMIT messages_per_segment]
 ```
 #### Параметры
 
