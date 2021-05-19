@@ -56,7 +56,7 @@ CHECK_DATA
 
 #### Синтаксис
 ```sql
-CHECK_DATA(\[db_name.\]table_name, delta_number\[, square-bracketed_column_list\])
+CHECK_DATA([db_name.]table_name, delta_number[, square-bracketed_column_list])
 ```
 #### Параметры
 
@@ -87,6 +87,6 @@ CHECK_DATA(sales.sales, 4)
 Проверка целостности данных столбцов `identification_number` и `transaction_date` логической таблицы 
 `sales`:
 ```sql
-CHECK_DATA(sales.sales, 4, \[identification_number, transaction_date\])
+CHECK_DATA(sales.sales, 4, [identification_number, transaction_date])
 CHECK_DATA(sales.sales, 4)
 ```

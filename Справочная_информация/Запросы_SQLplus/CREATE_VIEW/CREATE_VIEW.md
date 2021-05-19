@@ -24,11 +24,11 @@ CREATE VIEW
 
 Создание логического представления:
 ```sql
-CREATE VIEW \[db_name.\]view_name AS SELECT query
+CREATE VIEW [db_name.]view_name AS SELECT query
 ```
 Создание логического представления с заменой существующего представления, если такое будет найдено:
 ```sql
-CREATE OR REPLACE VIEW \[db_name.\]view_name AS SELECT query
+CREATE OR REPLACE VIEW [db_name.]view_name AS SELECT query
 ```
 #### Параметры
 

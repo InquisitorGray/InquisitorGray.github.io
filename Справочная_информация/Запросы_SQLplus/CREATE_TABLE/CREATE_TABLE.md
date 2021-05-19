@@ -38,7 +38,7 @@ CREATE TABLE
 
 #### Синтаксис
 ```sql
-CREATE TABLE \[db_name.\]table_name (
+CREATE TABLE [db_name.]table_name (
 column_name_1 datatype_1 NOT NULL,
 column_name_2 datatype_2 DEFAULT default_value_2,
 column_name_3 datatype_3,

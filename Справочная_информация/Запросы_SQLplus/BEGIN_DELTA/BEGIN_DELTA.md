@@ -31,7 +31,7 @@ BEGIN DELTA
 с номером, следующим по порядку за номером последней закрытой дельты.
 
 После успешного выполнения запроса можно выполнять запросы 
-[INSERT INTO logical\_table](../INSERT_INTO_logical_table/INSERT_INTO_logical_table.md) на загрузку данных. 
+[INSERT INTO logical_table](../INSERT_INTO_logical_table/INSERT_INTO_logical_table.md) на загрузку данных. 
 Подробнее о порядке выполнения запросов для загрузки данных см. в разделе 
 [Загрузка данных](../../../Работа_с_системой/Загрузка_данных/Загрузка_данных.md).
 
@@ -52,7 +52,7 @@ BEGIN DELTA SET delta_number
 
 *   `delta_number` — целочисленный номер открываемой дельты, равный номеру последней закрытой дельты + 1. 
     Номер последней закрытой дельты можно узнать с помощью запроса 
-    [GET\_DELTA\_OK](../GET_DELTA_OK/GET_DELTA_OK.md).
+    [GET_DELTA_OK](../GET_DELTA_OK/GET_DELTA_OK.md).
     
 #### Ограничения
 

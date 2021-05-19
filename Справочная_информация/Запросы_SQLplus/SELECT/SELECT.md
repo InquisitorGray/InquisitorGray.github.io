@@ -148,7 +148,7 @@ FROM [db_name.]entity_name
 
 Запрос с неявным указанием столбцов и секцией `WHERE`:
 ```sql
-SELECT \* FROM sales.sales
+SELECT * FROM sales.sales
 WHERE store_id = 1234
 ```
 Запрос с явным указанием столбцов и выбором данных из определенной СУБД хранилища (ADQM):
@@ -167,7 +167,7 @@ LIMIT 20
 ```
 Запрос записей, актуальных на момент закрытия дельты с номером 9:
 ```sql
-SELECT \* FROM sales.sales FOR SYSTEM_TIME AS OF DELTA_NUM 9
+SELECT * FROM sales.sales FOR SYSTEM_TIME AS OF DELTA_NUM 9
 ```
 Запрос с соединением данных двух логических таблиц из двух различных логических БД:
 ```sql
