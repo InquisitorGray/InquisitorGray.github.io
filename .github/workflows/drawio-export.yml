@@ -31,16 +31,21 @@ jobs:
 
       - name: check-xml-and-copy
         run: |
-          pwd
-          ls
-          echo "All: ${{ steps.file_changes.outputs.all }}"
-          echo "Added: ${{ steps.file_changes.outputs.added }}"
-          echo "Removed: ${{ steps.file_changes.outputs.removed }}"
-          echo "Renamed: ${{ steps.file_changes.outputs.renamed }}"
-          echo "Modified: ${{ steps.file_changes.outputs.modified }}"
-          echo "Added+Modified: ${{ steps.file_changes.outputs.added_modified }}"
-          files_added_modified_renamed='${{ steps.file_changes.outputs.files_added_modified }} ${{ steps.file_changes.outputs.renamed }}'
-          echo '${files_added_modified_renamed}'
+          length_added_modified='${#steps.file_changes.outputs.added_modified}'
+          length_renamed='${#steps.file_changes.outputs.added_modified}'
+
+          if [ ${length_added_modified} -neq 0];
+          then
+            files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }}'
+          elif [${length_renamed} -neq 0];
+          then
+            files_added_modified_renamed='${{ steps.file_changes.outputs.renamed }}'
+          else
+            ::exit::neutral
+          fi
+
+          files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
+          echo 'Added+Modified+Renamed: ${files_added_modified_renamed}'
           srcfilepath="TMP/XML/"
           fileCnt=0
           for changed_file in ${files_added_modified_renamed}; do
@@ -48,7 +53,7 @@ jobs:
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
             echo "${ext}"
-            if [ "${ext}" = "drawio" ]
+            if [ "${ext}" = "drawio" ];
             then
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
@@ -57,9 +62,9 @@ jobs:
               #fileCnt=$(expr $fileCnt + 1 )
             fi
           done
-          if [ ${fileCnt} -eq 0 ]
+          if [ ${fileCnt} -eq 0 ];
           then
-          ::exit::neutral
+            ::exit::neutral
           fi
           ls "${srcfilepath}"
 
@@ -76,14 +81,14 @@ jobs:
 
       - run: |
           ls TMP/SVG/
-          files_added_modified_renamed='${{ steps.file_changes.outputs.files_added_modified }} ${{ steps.file_changes.outputs.renamed }}'
+          files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
           #destfilepath=cat ${{ env.GITHUB_WORKSPACE }} "/TMP/SVG/"
           destfilepath="TMP/SVG/"
           for changed_file in ${files_added_modified_renamed}; do
             fullfilename=${changed_file}
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
-            if [ "${ext}" = "drawio" ]
+            if [ "${ext}" = "drawio" ];
             then
               filename=$(basename "${fullfilename}" "drawio")
               echo "${filename}"
