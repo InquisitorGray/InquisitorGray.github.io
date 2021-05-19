@@ -1,2 +1,7 @@
-﻿Temporary folder for processing XML-files
+﻿---
+layout: default
+nav_exclude: true
+---
+
+Temporary folder for processing XML-files
 =========================================
