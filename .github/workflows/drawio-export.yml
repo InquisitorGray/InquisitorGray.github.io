@@ -31,9 +31,8 @@ jobs:
 
       - name: check-xml-and-copy
         run: |
-          echo "${{steps.file_changes.outputs.added_modified}}"
-          length_added_modified="${#steps.file_changes.outputs.added_modified}"
-          length_renamed="${#steps.file_changes.outputs.renamed}"
+          length_added_modified=`expr length "${steps.file_changes.outputs.added_modified}"`
+          length_renamed=`expr length "${#steps.file_changes.outputs.renamed}"`
           echo "${{length_added_modified}}"
           if [ "${length_added_modified}" -neq 0 ];
           then
