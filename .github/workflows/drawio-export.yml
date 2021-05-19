@@ -38,7 +38,7 @@ jobs:
 
       - name: check-xml-and-copy
         run: |
-          files_added_modified_renamed=' '
+          files_added_modified_renamed=" "
           if [ ${#steps.file_changes.outputs.files_added_modified} -neq 0]
           then
             files_added_modified_renamed='${{ steps.file_changes.outputs.files_added_modified }}'
@@ -49,7 +49,7 @@ jobs:
             files_added_modified_renamed='${{ steps.file_changes.outputs.files_added_modified }} ${{ steps.file_changes.outputs.renamed }}'
           fi
 
-          echo 'Added+Modified+Renamed: ${{files_added_modified_renamed}}'
+          echo 'Added+Modified+Renamed: ${files_added_modified_renamed}'
           srcfilepath="TMP/XML/"
           fileCnt=0
           for changed_file in ${files_added_modified_renamed}; do
