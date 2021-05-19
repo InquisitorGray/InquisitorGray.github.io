@@ -33,11 +33,10 @@ jobs:
         run: |
           length_added_modified='${#steps.file_changes.outputs.added_modified}'
           length_renamed='${#steps.file_changes.outputs.renamed}'
-          echo '${length_added_modified}'
-          if [ ${length_added_modified} -neq 0];
+          if [ ${length_added_modified} -neq 0 ];
           then
             files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }}'
-          elif [${length_renamed} -neq 0];
+          elif [${length_renamed} -neq 0 ];
           then
             files_added_modified_renamed='${{ steps.file_changes.outputs.renamed }}'
           else
