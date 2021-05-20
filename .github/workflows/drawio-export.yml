@@ -46,7 +46,7 @@ jobs:
             then
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
-              cp "${fullfilename}" "${srcfilename}"
+              cp ${fullfilename} ${srcfilename}
               ((fileCnt++))
               echo '$fileCnt'
               #fileCnt=$(expr $fileCnt + 1 )
@@ -67,6 +67,7 @@ jobs:
           fileCnt=0
           for changed_file in ${files_renamed}; do
             fullfilename=${changed_file}
+            echo "${fullfilename}"
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
             echo "${ext}"
@@ -74,7 +75,7 @@ jobs:
             then
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
-              cp "${fullfilename}" "${srcfilename}"
+              cp ${fullfilename} ${srcfilename}
               ((fileCnt++))
               echo '$fileCnt'
               #fileCnt=$(expr $fileCnt + 1 )
