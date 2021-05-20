@@ -35,7 +35,7 @@ jobs:
           if [ "${{steps.file_changes.outputs.added_modified}}" != "" ];
           then
             files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }}'
-          elif ["${{steps.file_changes.outputs.renamed}}" != "" ];
+          elif [ "${{steps.file_changes.outputs.renamed}}" != "" ];
           then
             files_added_modified_renamed='${{ steps.file_changes.outputs.renamed }}'
           else

@@ -22,10 +22,10 @@ has_toc: false
 
   2. Добавьте новый драйвер со следующими настройками (см. рисунок ниже):
 
-    * **(Driver) Name** — произвольное имя драйвера, например DTM,
-    * **(Class) Name** — `io.arenadata.dtm.jdbc.DtmDriver`,
-    * **URL Template** — `jdbc:adtm://{host}:{port}/{database}`,
-    * **Default Port** (если параметр присутствует) — 9090 или 9092.
+    - **(Driver) Name** — произвольное имя драйвера, например DTM,
+    - **(Class) Name** — `io.arenadata.dtm.jdbc.DtmDriver`,
+    - **URL Template** — `jdbc:adtm://{host}:{port}/{database}`,
+    - **Default Port** (если параметр присутствует) — 9090 или 9092.
 
   3. Нажмите кнопку **Add (File)** для добавления файла драйвера и выберите файл `dtm-jdbc-<version>.jar` в вашей файловой системе.
   4. Сохраните настройки драйвера.
