@@ -1,11 +1,6 @@
+﻿---
+nav_exclude: true
 ---
-title: Документация
-nav_order: 2
----
-
-DTM : SELECT  
-
-1.  [DTM](index.html)
 
 DTM : SELECT
 ============
