@@ -32,7 +32,6 @@ jobs:
       - name: check-added-modified-and-copy
         id: check_added_modified
         run: |
-          echo "X"${{steps.file_changes.outputs.added_modified}}
           echo '::set-output name=INPUTFILES::true'
           files_added_modified=${{steps.file_changes.outputs.added_modified}}
           
@@ -48,7 +47,8 @@ jobs:
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
               cp "${fullfilename}" "${srcfilename}"
-              let fileCnt++
+              ((fileCnt++))
+              echo '$fileCnt'
               #fileCnt=$(expr $fileCnt + 1 )
             fi
           done
@@ -60,7 +60,6 @@ jobs:
       - name: check-renamed-and-copy
         id: check_renamed
         run: |
-          echo "X"${{steps.file_changes.outputs.renamed}}
           echo '::set-output name=INPUTFILES::true'
           files_added_modified=${{steps.file_changes.outputs.renamed}}
           
@@ -76,7 +75,8 @@ jobs:
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
               cp "${fullfilename}" "${srcfilename}"
-              let fileCnt++
+              ((fileCnt++))
+              echo '$fileCnt'
               #fileCnt=$(expr $fileCnt + 1 )
             fi
           done
