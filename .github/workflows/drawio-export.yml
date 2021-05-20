@@ -30,22 +30,25 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: check-xml-and-copy
+        id: check
+        if: [[ "${{steps.file_changes.outputs.added_modified}}" ]] && [[ "${{steps.file_changes.outputs.renamed}}" ]]
         run: |
           echo "X${{steps.file_changes.outputs.added_modified}}"
           echo "X${{steps.file_changes.outputs.renamed}}"
-          ::exit::neutral
-#          if [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ] && [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
-#          then
-#           files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
-#          elif [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ];
-#          then
-#            files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }}'
-#	  elif [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
-#          then
-#            files_added_modified_renamed=${{files_added_modified_renamed}}'
-#          else
-            ::exit::neutral
-#          fi
+          echo '::set-output name=INPUTFILES::true'
+
+          if [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ] && [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
+          then
+           files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
+          elif [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ];
+          then
+            files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }}'
+	  elif [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
+          then
+            files_added_modified_renamed=${{files_added_modified_renamed}}'
+          else
+            echo '::set-output name=INPUTFILES::false'
+          fi
           
           echo 'Added+Modified+Renamed: ${files_added_modified_renamed}'
           srcfilepath="TMP/XML/"
@@ -66,11 +69,12 @@ jobs:
           done
           if [ ${fileCnt} -eq 0 ];
           then
-            ::exit::neutral
+            echo '::set-output name=INPUTFILES::false'
           fi
           ls "${srcfilepath}"
 
       - name: Export drawio files to svg files
+        if [[ "${{steps.file_changes.outputs.added_modified}}" ]] && [[ "${{steps.file_changes.outputs.renamed}}" ]] && [[ "${{steps.check.outputs.INPUTFILES}}" ]]
         uses: rlespinasse/drawio-export-action@v1.x
         with:
           path: 'TMP/XML/'
@@ -79,9 +83,11 @@ jobs:
           transparent: true
 
       - name: removeTMPXML
+        if [[ "${{steps.file_changes.outputs.added_modified}}" ]] && [[ "${{steps.file_changes.outputs.renamed}}" ]] && [[ "${{steps.check.outputs.INPUTFILES}}" ]]
         run: rm TMP/XML/*.drawio
 
-      - run: |
+      - if [[ "${{steps.file_changes.outputs.added_modified}}" ]] && [[ "${{steps.file_changes.outputs.renamed}}" ]] && [[ "${{steps.check.outputs.INPUTFILES}}" ]]
+        run: |
           ls TMP/SVG/
           files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
           #destfilepath=cat ${{ env.GITHUB_WORKSPACE }} "/TMP/SVG/"
@@ -104,12 +110,15 @@ jobs:
           done
 
       - name: removeTMPSVG
+        if [[ "${{steps.file_changes.outputs.added_modified}}" ]] && [[ "${{steps.file_changes.outputs.renamed}}" ]] && [[ "${{steps.check.outputs.INPUTFILES}}" ]]
         run: rm TMP/SVG/*.svg
 
       - name: Get author and committer info from HEAD commit
+        if [[ "${{steps.file_changes.outputs.added_modified}}" ]] && [[ "${{steps.file_changes.outputs.renamed}}" ]] && [[ "${{steps.check.outputs.INPUTFILES}}" ]]
         uses: rlespinasse/git-commit-data-action@v1.x
 
       - name: Commit changed files
+        if [[ "${{steps.file_changes.outputs.added_modified}}" ]] && [[ "${{steps.file_changes.outputs.renamed}}" ]] && [[ "${{steps.check.outputs.INPUTFILES}}" ]]
         uses: stefanzweifel/git-auto-commit-action@v4.9.2
         with:
           commit_message: "docs: sync draw.io exported files"
