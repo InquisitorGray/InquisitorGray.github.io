@@ -24,12 +24,10 @@ CHECK_VERSIONS
 
 *   исключение при неуспешном выполнении запроса.
 
-<center>
-
 ![](check_versions.png)
-*Ответ CHECK_VERSIONS*
 
-</center>
+{:.image-caption}
+*Ответ CHECK_VERSIONS*
 
 #### Синтаксис
 ```sql
