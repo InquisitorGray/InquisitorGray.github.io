@@ -1,6 +1,6 @@
----
-title: Turndown Demo
+﻿---
 nav_order: 10
+nav_exclude: true
 ---
 
 Turndown Demo
