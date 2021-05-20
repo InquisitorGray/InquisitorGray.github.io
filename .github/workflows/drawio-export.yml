@@ -86,7 +86,7 @@ jobs:
           fi
 
       - name: Export drawio files to svg files
-        if: "${{steps.check_added_modified.outputs.INPUTFILES}}" || "${{steps.check_renamed.outputs.INPUTFILES}}"
+        if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
         uses: rlespinasse/drawio-export-action@v1.x
         with:
           path: 'TMP/XML/'
