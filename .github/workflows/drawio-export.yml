@@ -95,10 +95,10 @@ jobs:
           transparent: true
 
       - name: removeTMPXML
-        if: "${{steps.check_added_modified.outputs.INPUTFILES}}" || "${{steps.check_renamed.outputs.INPUTFILES}}"
+        if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
         run: rm TMP/XML/*.drawio
 
-      - if: "${{steps.check_added_modified.outputs.INPUTFILES}}"
+      - if: steps.check_added_modified.outputs.INPUTFILES == 'true'
         run: |
           ls TMP/SVG/
           files_added_modified=${{steps.file_changes.outputs.added_modified}}
@@ -120,7 +120,7 @@ jobs:
             fi
           done
 
-      - if: "${{steps.check_renamed.outputs.INPUTFILES}}"
+      - if: steps.check_renamed.outputs.INPUTFILES == 'true'
         run: |
           files_renamed=${{ steps.file_changes.outputs.renamed }}
           destfilepath="TMP/SVG/"
@@ -142,15 +142,15 @@ jobs:
           done
 
       - name: removeTMPSVG
-        if: "${{steps.check_added_modified.outputs.INPUTFILES}}" || "${{steps.check_renamed.outputs.INPUTFILES}}"
+        if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
         run: rm TMP/SVG/*.svg
 
       - name: Get author and committer info from HEAD commit
-        if: "${{steps.check_added_modified.outputs.INPUTFILES}}" || "${{steps.check_renamed.outputs.INPUTFILES}}"
+        if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
         uses: rlespinasse/git-commit-data-action@v1.x
 
       - name: Commit changed files
-        if: "${{steps.check_added_modified.outputs.INPUTFILES}}" || "${{steps.check_renamed.outputs.INPUTFILES}}"
+        if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4.9.2
         with:
           commit_message: "docs: sync draw.io exported files"
