@@ -66,7 +66,7 @@ jobs:
           srcfilepath="TMP/XML/"
           fileCnt=0
           pwd
-          ls
+          ls .
           for changed_file in ${files_renamed}; do
             fullfilename=${changed_file}
             echo "${fullfilename}"
