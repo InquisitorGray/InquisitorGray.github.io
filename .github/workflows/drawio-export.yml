@@ -31,10 +31,10 @@ jobs:
 
       - name: check-xml-and-copy
         id: check
-        if: [[ "${{steps.file_changes.outputs.added_modified}}" ]] && [[ "${{steps.file_changes.outputs.renamed}}" ]]
+        if: [[ ${{steps.file_changes.outputs.added_modified}} ]] && [[ ${{steps.file_changes.outputs.renamed}} ]]
         run: |
-          echo "X${{steps.file_changes.outputs.added_modified}}"
-          echo "X${{steps.file_changes.outputs.renamed}}"
+          echo "X"${{steps.file_changes.outputs.added_modified}}
+          echo "X"${{steps.file_changes.outputs.renamed}}
           echo '::set-output name=INPUTFILES::true'
 
           if [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ] && [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
