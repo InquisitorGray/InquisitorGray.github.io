@@ -65,14 +65,15 @@ jobs:
           
           srcfilepath="TMP/XML/"
           fileCnt=0
+          pwd
+          ls
           for changed_file in ${files_renamed}; do
             fullfilename=${changed_file}
             echo "${fullfilename}"
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
             echo "${ext}"
-	    ls .
-            pwd
+
             if [ "${ext}" = "drawio" ];
             then
               srcfilename="${srcfilepath}${filename}"
