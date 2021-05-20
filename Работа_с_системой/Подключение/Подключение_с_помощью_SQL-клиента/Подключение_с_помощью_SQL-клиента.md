@@ -19,10 +19,10 @@ has_toc: false
 1. Настройте подключение к системе:
     1. Откройте меню, отвечающее за добавление новых JDBC-драйверов. В SQL-клиенте DBeaver это меню __Driver Management__, доступное в панели __Database Navigator__, в DataGrip — меню __Data Sources__.
     2. Добавьте новый драйвер со следующими настройками (см. рисунок ниже):
-        - __(Driver) Name__ — произвольное имя драйвера, например DTM,
-        - __(Class) Name__ — `io.arenadata.dtm.jdbc.DtmDriver`,
-        - __URL Template__ — `jdbc:adtm://{host}:{port}/{database}`,
-        - __Default Port__ (если параметр присутствует) — 9090 или 9092.
+        + __(Driver) Name__ — произвольное имя драйвера, например DTM,
+        + __(Class) Name__ — `io.arenadata.dtm.jdbc.DtmDriver`,
+        + __URL Template__ — `jdbc:adtm://{host}:{port}/{database}`,
+        + __Default Port__ (если параметр присутствует) — 9090 или 9092.
     3. Нажмите кнопку __Add (File)__ для добавления файла драйвера и выберите файл `dtm-jdbc-<version>.jar` в вашей файловой системе.
     4. Сохраните настройки драйвера.
     5. Настройте новое подключение к системе с использованием добавленного JDBC-драйвера и укажите URL для подключения (например, `jdbc:adtm://10.92.3.3:9092`).
