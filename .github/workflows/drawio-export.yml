@@ -32,10 +32,11 @@ jobs:
       - name: check-xml-and-copy
         run: |
           echo "${{steps.file_changes.outputs.added_modified}}"
-          if [ "${{steps.file_changes.outputs.added_modified}}" != "" ];
+          echo "${{steps.file_changes.outputs.renamed}}"
+          if [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ];
           then
             files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }}'
-          elif [ "${{steps.file_changes.outputs.renamed}}" != "" ];
+          elif [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
           then
             files_added_modified_renamed='${{ steps.file_changes.outputs.renamed }}'
           else
