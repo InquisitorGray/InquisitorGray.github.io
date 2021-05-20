@@ -71,7 +71,7 @@ jobs:
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
             echo "${ext}"
-	    ls
+	    ls .
             pwd
             if [ "${ext}" = "drawio" ];
             then
