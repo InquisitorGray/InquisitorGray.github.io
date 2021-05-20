@@ -29,25 +29,15 @@ jobs:
           format: space-delimited
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: check-xml-and-copy
+      - name: check-added-modified-and-copy
+        id: check_added_modified
         run: |
-          echo "${{steps.file_changes.outputs.added_modified}}"
-          echo "${{steps.file_changes.outputs.renamed}}"
-          if [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ];
-          then
-            files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }}'
-          elif [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
-          then
-            files_added_modified_renamed='${{ steps.file_changes.outputs.renamed }}'
-          else
-            ::exit::neutral
-          fi
-
-          files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
-          echo 'Added+Modified+Renamed: ${files_added_modified_renamed}'
+          echo '::set-output name=INPUTFILES::true'
+          files_added_modified=${{steps.file_changes.outputs.added_modified}}
+          
           srcfilepath="TMP/XML/"
           fileCnt=0
-          for changed_file in ${files_added_modified_renamed}; do
+          for changed_file in ${files_added_modified}; do
             fullfilename=${changed_file}
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
@@ -56,18 +46,51 @@ jobs:
             then
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
-              cp "${fullfilename}" "${srcfilename}"
-              let fileCnt++
+              cp ${fullfilename} ${srcfilename}
+              ((fileCnt++))
+              echo '$fileCnt'
               #fileCnt=$(expr $fileCnt + 1 )
             fi
           done
           if [ ${fileCnt} -eq 0 ];
           then
-            ::exit::neutral
+            echo '::set-output name=INPUTFILES::false'
           fi
-          ls "${srcfilepath}"
+
+      - name: check-renamed-and-copy
+        id: check_renamed
+        run: |
+          echo '::set-output name=INPUTFILES::true'
+          files_renamed=${{steps.file_changes.outputs.renamed}}
+          
+          srcfilepath="TMP/XML/"
+          fileCnt=0
+          pwd
+          ls .
+          for changed_file in ${files_renamed}; do
+            fullfilename=${changed_file}
+            echo "${fullfilename}"
+            filename=$(basename "${fullfilename}")
+            ext="${filename##*.}"
+            echo "${ext}"
+
+            if [ "${ext}" = "drawio" ];
+            then
+              srcfilename="${srcfilepath}${filename}"
+              echo "${srcfilename}"
+              cp ${fullfilename} ${srcfilename}
+              ((fileCnt++))
+              echo '$fileCnt'
+              #fileCnt=$(expr $fileCnt + 1 )
+            fi
+          done
+          if [ ${fileCnt} -eq 0 ];
+          then
+            echo '::set-output name=INPUTFILES::false'
+          fi
 
       - name: Export drawio files to svg files
+        if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
         uses: rlespinasse/drawio-export-action@v1.x
         with:
           path: 'TMP/XML/'
@@ -76,14 +99,36 @@ jobs:
           transparent: true
 
       - name: removeTMPXML
+        if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
         run: rm TMP/XML/*.drawio
 
-      - run: |
+      - if: steps.check_added_modified.outputs.INPUTFILES == 'true'
+        run: |
           ls TMP/SVG/
-          files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
-          #destfilepath=cat ${{ env.GITHUB_WORKSPACE }} "/TMP/SVG/"
+          files_added_modified=${{steps.file_changes.outputs.added_modified}}
           destfilepath="TMP/SVG/"
-          for changed_file in ${files_added_modified_renamed}; do
+          for changed_file in ${files_added_modified}; do
+            fullfilename=${changed_file}
+            filename=$(basename "${fullfilename}")
+            ext="${filename##*.}"
+            if [ "${ext}" = "drawio" ];
+            then
+              filename=$(basename "${fullfilename}" "drawio")
+              echo "${filename}"
+              filename="${filename}.svg"
+              echo "${filename}"
+              destfilename="${destfilepath}${filename}"
+              echo "${destfilename}"
+              fullfilename=$(dirname "${changed_file})/${filename}"
+              cp "${destfilename}" "${fullfilename}"
+            fi
+          done
+
+      - if: steps.check_renamed.outputs.INPUTFILES == 'true'
+        run: |
+          files_renamed=${{ steps.file_changes.outputs.renamed }}
+          destfilepath="TMP/SVG/"
+          for changed_file in ${files_renamed}; do
             fullfilename=${changed_file}
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
@@ -101,12 +146,15 @@ jobs:
           done
 
       - name: removeTMPSVG
+        if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
         run: rm TMP/SVG/*.svg
 
       - name: Get author and committer info from HEAD commit
+        if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
         uses: rlespinasse/git-commit-data-action@v1.x
 
       - name: Commit changed files
+        if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4.9.2
         with:
           commit_message: "docs: sync draw.io exported files"
