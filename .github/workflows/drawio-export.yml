@@ -34,18 +34,18 @@ jobs:
           echo "X${{steps.file_changes.outputs.added_modified}}"
           echo "X${{steps.file_changes.outputs.renamed}}"
           ::exit::neutral
-          if [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ] && [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
-          then
-            files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
-          elif [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ];
-          then
-            files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }}'
-	  elif [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
-          then
-            files_added_modified_renamed=${{files_added_modified_renamed}}'
-          else
-            ::exit::neutral
-          fi
+#          if [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ] && [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
+#          then
+#           files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
+#          elif [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ];
+#          then
+#            files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }}'
+#	  elif [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
+#          then
+#            files_added_modified_renamed=${{files_added_modified_renamed}}'
+#          else
+#            ::exit::neutral
+#          fi
           
           echo 'Added+Modified+Renamed: ${files_added_modified_renamed}'
           srcfilepath="TMP/XML/"
