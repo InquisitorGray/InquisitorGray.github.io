@@ -33,17 +33,19 @@ jobs:
         run: |
           echo "${{steps.file_changes.outputs.added_modified}}"
           echo "${{steps.file_changes.outputs.renamed}}"
-          if [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ];
+          if [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ] && [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
+          then
+            files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
+          elif [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ];
           then
             files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }}'
-          elif [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
+	  elif [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
           then
-            files_added_modified_renamed='${{ steps.file_changes.outputs.renamed }}'
+            files_added_modified_renamed=${{files_added_modified_renamed}}'
           else
             ::exit::neutral
           fi
-
-          files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
+          
           echo 'Added+Modified+Renamed: ${files_added_modified_renamed}'
           srcfilepath="TMP/XML/"
           fileCnt=0
