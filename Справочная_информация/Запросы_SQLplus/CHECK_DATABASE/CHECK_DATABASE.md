@@ -46,8 +46,8 @@ CHECK_DATABASE
 при наличии расхождений. Расхождения вызваны тем, что в целях иллюстрации между первым и вторым запросом 
 столбец `description` был переименован в ADB.
 
-![Alt text](check_database_без_расхождений.png)
-![Alt text](check_database_с_расхождениями.png)
+![](check_database_без_расхождений.png){:height="50%" width="50%"}
+![](check_database_с_расхождениями.png)
 
 #### Синтаксис
 

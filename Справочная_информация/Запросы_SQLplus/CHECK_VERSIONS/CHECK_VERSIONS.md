@@ -24,7 +24,7 @@ CHECK_VERSIONS
 
 *   исключение при неуспешном выполнении запроса.
 
-![Alt text](check_versions.png)
+![](check_versions.png)
 
 #### Синтаксис
 ```sql

@@ -43,7 +43,7 @@ ALTER VIEW [db_name.]view_name AS SELECT query
 
 *   логических представлений,
     
-*   [системных представлений](../../Системные_представления_(INFORMATION_SCHEMA)/Системные_представления_(INFORMATION_SCHEMA).md) 
+*   [системных представлений](../../Системные_представления_INFORMATION_SCHEMA/Системные_представления_INFORMATION_SCHEMA.md) 
     INFORMATION_SCHEMA,
     
 *   директивы [FOR SYSTEM_TIME](<LINK>),
