@@ -31,8 +31,9 @@ jobs:
 
       - name: check-xml-and-copy
         run: |
-          echo "${{steps.file_changes.outputs.added_modified}}"
-          echo "${{steps.file_changes.outputs.renamed}}"
+          echo "X${{steps.file_changes.outputs.added_modified}}"
+          echo "X${{steps.file_changes.outputs.renamed}}"
+          ::exit::neutral
           if [ "X${{steps.file_changes.outputs.added_modified}}" != "X" ] && [ "X${{steps.file_changes.outputs.renamed}}" != "X" ];
           then
             files_added_modified_renamed='${{ steps.file_changes.outputs.added_modified }} ${{ steps.file_changes.outputs.renamed }}'
