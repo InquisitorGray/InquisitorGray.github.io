@@ -8,8 +8,7 @@ has_children: false
 has_toc: false
 ---
 
-CHECK_VERSIONS
-==============
+# CHECK_VERSIONS
 
 Запрос позволяет получить информацию о версиях следующих программных компонентов:
 
@@ -29,7 +28,7 @@ CHECK_VERSIONS
 {:.image-caption}
 *Ответ CHECK_VERSIONS*
 
-#### Синтаксис
+## Синтаксис
 ```sql
 CHECK_VERSIONS()
 ```
