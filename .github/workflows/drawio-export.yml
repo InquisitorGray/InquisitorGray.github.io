@@ -71,6 +71,8 @@ jobs:
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
             echo "${ext}"
+	    ls
+            pwd
             if [ "${ext}" = "drawio" ];
             then
               srcfilename="${srcfilepath}${filename}"
