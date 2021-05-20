@@ -61,7 +61,7 @@ jobs:
         id: check_renamed
         run: |
           echo '::set-output name=INPUTFILES::true'
-          files_added_modified=${{steps.file_changes.outputs.renamed}}
+          files_renamed=${{steps.file_changes.outputs.renamed}}
           
           srcfilepath="TMP/XML/"
           fileCnt=0
