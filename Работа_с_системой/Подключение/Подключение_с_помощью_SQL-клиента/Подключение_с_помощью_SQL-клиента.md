@@ -33,13 +33,13 @@ has_toc: false
 
 <a id="img_driver_settings"></a>
 ![](Настройки_драйвера.png){:height="50%" width="50%"}
-{: .text-center}
+{: .figure-center}
 *Параметры JDBC-драйвера*
-{: .text-center .fs-3 .v-align-text-top}
+{: .caption-center}
 
 На рисунке ниже показаны параметры подключения к системе с использованием драйвера DTM.
 
 ![](Настройки_подключения.png){:height="50%" width="50%"}
-{: .text-center}
+{: .figure-center}
 *Параметры подключения к системе*
-{: .text-center .fs-3}
+{: .caption-center}

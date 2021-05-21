@@ -1,0 +1,12 @@
+
+figure-center
+{
+  margin: 0;
+  text-align: center;
+}
+
+figure-caption-center
+{
+  text-align: center;
+  @include fs-2;
+}
