@@ -34,6 +34,11 @@ jobs:
         run: |
           cd
           ls .
+          echo "---"
+          ls $PWD
+          echo "---"
+          ls ..
+          echo "---"
           echo '::set-output name=INPUTFILES::true'
           files_added_modified=${{steps.file_changes.outputs.added_modified}}
           
