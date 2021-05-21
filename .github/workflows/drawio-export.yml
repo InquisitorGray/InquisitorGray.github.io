@@ -45,14 +45,18 @@ jobs:
           fileCnt=0
           for changed_file in ${files_added_modified}; do
             fullfilename=${changed_file}
+            fulldirname=$(dirname "${fullfilename}")
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
             echo "${ext}"
             if [ "${ext}" = "drawio" ];
             then
               srcfilename="${srcfilepath}${filename}"
+              echo "${fulldirname}"
               echo "${srcfilename}"
-              cp $PWD"/${fullfilename}" $PWD"/$srcfilename"
+              cd "${fulldirname}"
+              ls
+              cp $PWD"/"${fullfilename} $PWD"/"$srcfilename
               cp $fullfilename $srcfilename
               cp ${fullfilename} ${srcfilename}
               ((fileCnt++))
