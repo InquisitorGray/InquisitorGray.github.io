@@ -40,12 +40,14 @@ has_toc: false
 столбец `description` был переименован в ADB.
 
 ![](check_database_без_расхождений.png){:height="50%" width="50%"}
-{:.image-caption}
+{: .figure-center}
 *Ответ CHECK_DATABASE при успешной проверке*
+{: .caption-center}
 
 ![](check_database_с_расхождениями.png)
-{:.image-caption}
+{: .figure-center}
 *Ответ CHECK_DATABASE с найденными расхождениями*
+{: .caption-center}
 
 ## Синтаксис
 

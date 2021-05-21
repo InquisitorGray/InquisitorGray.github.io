@@ -42,10 +42,12 @@ has_toc: false
 дельту (`запись 1` была актуальной).
 
 ![](truncate_history.svg)
-{:.image-caption}
+{: .figure-center}
 *Удаление архивной записи по запросу с меткой времени*
+{: .caption-center}
 
 ## Синтаксис
+
 ```sql
 TRUNCATE HISTORY [db_name.]table_name FOR SYSTEM_TIME AS OF date_time_expression
 [WHERE filter_expression]

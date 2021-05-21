@@ -20,8 +20,9 @@ has_toc: false
 *   исключение при неуспешном выполнении запроса.
 
 ![](check_versions.png)
-{:.image-caption}
+{: .figure-center}
 *Ответ CHECK_VERSIONS*
+{: .caption-center}
 
 ## Синтаксис
 
