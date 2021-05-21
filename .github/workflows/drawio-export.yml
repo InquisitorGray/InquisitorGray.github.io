@@ -32,7 +32,6 @@ jobs:
       - name: check-added-modified-and-copy
         id: check_added_modified
         run: |
-          cd
           ls .
           echo "---"
           ls $PWD
