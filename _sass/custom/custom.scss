@@ -1,12 +1,11 @@
+//custom styles for images and captions
 
-figure-center
-{
+figure-center {
   margin: 0;
   text-align: center;
 }
 
-figure-caption-center
-{
+figure-caption-center {
   text-align: center;
   @include fs-2;
 }
