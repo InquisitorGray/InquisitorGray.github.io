@@ -34,7 +34,7 @@ jobs:
         run: |
           ls .
           echo "---"
-          ls $PWD
+          echo $PWD
           echo "---"
           ls ..
           echo "---"
@@ -52,7 +52,7 @@ jobs:
             then
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
-              cp "./${fullfilename}" "./$srcfilename"
+              cp "$PWD/${fullfilename}" "$PWD/$srcfilename"
               cp $fullfilename $srcfilename
               cp ${fullfilename} ${srcfilename}
               ((fileCnt++))
