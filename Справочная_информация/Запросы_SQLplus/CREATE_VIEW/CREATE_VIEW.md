@@ -8,8 +8,7 @@ has_children: false
 has_toc: false
 ---
 
-CREATE VIEW
-===========
+# CREATE VIEW
 
 Запрос позволяет создать или заменить [логическое представление](../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическое_представление/Логическое_представление.md) 
 в [логической базе данных](../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md).
@@ -20,7 +19,7 @@ CREATE VIEW
 
 *   исключение при неуспешном выполнении запроса.
 
-#### Синтаксис
+## Синтаксис
 
 Создание логического представления:
 ```sql
@@ -30,7 +29,7 @@ CREATE VIEW [db_name.]view_name AS SELECT query
 ```sql
 CREATE OR REPLACE VIEW [db_name.]view_name AS SELECT query
 ```
-#### Параметры
+## Параметры
 
 *   `db_name` — имя логической базы данных, в которой создается или заменяется логическое представление. 
     Указывается опционально, если выбрана логическая БД, 
@@ -42,7 +41,7 @@ CREATE OR REPLACE VIEW [db_name.]view_name AS SELECT query
 *   `query` — [SELECT](../SELECT/SELECT.md)-подзапрос, на основе которого строится логическое представление.
 
 
-#### Ограничения
+## Ограничения
 
 В подзапросе `query` не допускается использование:
 
@@ -55,7 +54,7 @@ CREATE OR REPLACE VIEW [db_name.]view_name AS SELECT query
 
 *   секции `DATASOURCE_TYPE`.
 
-#### Пример
+## Пример
 ```sql
 CREATE VIEW sales.stores_by_sold_products AS
 SELECT store_id, SUM(product_units) AS product_amount
