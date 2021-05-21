@@ -34,7 +34,6 @@ has_toc: false
 <a id="img_driver_settings"></a>
 ![](Настройки_драйвера.png){:height="50%" width="50%"}
 {: .text-center}
-
 *Параметры JDBC-драйвера*
 {: .text-center}
 
@@ -42,6 +41,5 @@ has_toc: false
 
 ![](Настройки_подключения.png){:height="50%" width="50%"}
 {: .text-center}
-
 *Параметры подключения к системе*
 {: .text-center}
