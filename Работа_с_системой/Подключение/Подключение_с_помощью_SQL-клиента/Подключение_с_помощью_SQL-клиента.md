@@ -35,11 +35,11 @@ has_toc: false
 ![](Настройки_драйвера.png){:height="50%" width="50%"}
 {: .figure-center}
 *Параметры JDBC-драйвера*
-{: .caption-center}
+{: .figure-caption-center}
 
 На рисунке ниже показаны параметры подключения к системе с использованием драйвера DTM.
 
 ![](Настройки_подключения.png){:height="50%" width="50%"}
 {: .figure-center}
 *Параметры подключения к системе*
-{: .caption-center}
+{: .figure-caption-center}
