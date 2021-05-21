@@ -57,7 +57,7 @@ jobs:
               #cd "${fulldirname}"
               #cat "./"${fullfilename}
               cat "./TMP/XML/readme.md"
-              cp "./"${fullfilename} "./"{$srcfilepath}
+              cp "./"$fullfilename "./"$srcfilename
               #cp "./"${fullfilename} "./"{$srcfilename}
               #cp $fullfilename $srcfilename
               #cp ${fullfilename} ${srcfilename}
