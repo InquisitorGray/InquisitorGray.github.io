@@ -160,18 +160,18 @@ use sales
 
 -- запрос данных из логической таблицы prices
 SELECT
-    p1.product_code,
-    p1.price as feb_price,
-    p2.price as march_price,
-    (p2.price - p1.price) as diff
+  p1.product_code,
+  p1.price as feb_price,
+  p2.price as march_price,
+  (p2.price - p1.price) as diff
 FROM
-    (SELECT product_code,
-    price from sales.prices
-    FOR SYSTEM_TIME STARTED IN(3,6)) AS p1
+  (SELECT product_code,
+  price from sales.prices
+  FOR SYSTEM_TIME STARTED IN(3,6)) AS p1
 FULL JOIN (select product_code,
-    price from sales.prices
-    FOR SYSTEM_TIME STARTED IN(7,10)) AS p2
-    ON p1.product_code = p2.product_code
+  price from sales.prices
+  FOR SYSTEM_TIME STARTED IN(7,10)) AS p2
+  ON p1.product_code = p2.product_code
 WHERE p1.product_code is NOT NULL
 ORDER BY diff DESC
 LIMIT 50

@@ -29,9 +29,9 @@ has_toc: false
 
 ```sql
 CREATE DOWNLOAD EXTERNAL TABLE [db_name.]ext_table_name(
-column_name_1 datatype_1,
-column_name_2 datatype_2,
-column_name_3 datatype_3
+  column_name_1 datatype_1,
+  column_name_2 datatype_2,
+  column_name_3 datatype_3
 )
 LOCATION receiver_URI
 FORMAT 'AVRO'
@@ -57,12 +57,12 @@ FORMAT 'AVRO'
 
 ```sql
 CREATE DOWNLOAD EXTERNAL TABLE sales.sales_ext_download (
-identification_number INT,
-transaction_date TIMESTAMP,
-product_code VARCHAR(256),
-product_units INT,
-store_id INT,
-description VARCHAR(256)
+  identification_number INT,
+  transaction_date TIMESTAMP,
+  product_code VARCHAR(256),
+  product_units INT,
+  store_id INT,
+  description VARCHAR(256)
 )
 LOCATION  'kafka://zk1:2181,zk2:2181,zk3:2181/sales_out'
 FORMAT 'AVRO'

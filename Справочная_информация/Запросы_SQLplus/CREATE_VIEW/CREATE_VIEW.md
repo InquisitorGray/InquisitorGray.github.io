@@ -51,9 +51,9 @@ CREATE OR REPLACE VIEW [db_name.]view_name AS SELECT query
 
 ```sql
 CREATE VIEW sales.stores_by_sold_products AS
-SELECT store_id, SUM(product_units) AS product_amount
-FROM sales.sales
-GROUP BY store_id
-ORDER BY product_amount DESC
-LIMIT 20
-``
+  SELECT store_id, SUM(product_units) AS product_amount
+  FROM sales.sales
+  GROUP BY store_id
+  ORDER BY product_amount DESC
+  LIMIT 20
+```

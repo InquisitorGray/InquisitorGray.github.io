@@ -79,6 +79,6 @@ WHERE table_schema = 'SALES'
 SELECT TC.table_schema, TC.table_name, TT.table_type, TC.column_name
 FROM information_schema.columns AS TC
 JOIN information_schema.tables AS TT
-on TC.table_schema = TT.table_schema and TC.table_name = TT.table_name
+  ON TC.table_schema = TT.table_schema and TC.table_name = TT.table_name
 ORDER BY TC.table_schema, TC.table_name
 ```
