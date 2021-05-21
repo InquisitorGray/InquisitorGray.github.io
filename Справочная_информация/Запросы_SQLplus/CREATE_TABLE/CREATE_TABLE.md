@@ -37,10 +37,10 @@ has_toc: false
 
 ```sql
 CREATE TABLE [db_name.]table_name (
-column_name_1 datatype_1 NOT NULL,
-column_name_2 datatype_2 DEFAULT default_value_2,
-column_name_3 datatype_3,
-PRIMARY KEY (column_list_1)
+  column_name_1 datatype_1 NOT NULL,
+  column_name_2 datatype_2 DEFAULT default_value_2,
+  column_name_3 datatype_3,
+  PRIMARY KEY (column_list_1)
 ) DISTRIBUTED BY (column_list_2)
 DATASOURCE_TYPE (datasource_aliases)
 ```
@@ -73,13 +73,13 @@ DATASOURCE_TYPE (datasource_aliases)
 Создание логической таблицы с размещением данных во всех СУБД хранилища:
 ```sql
 CREATE TABLE sales.sales (
-identification_number INT NOT NULL,
-transaction_date TIMESTAMP NOT NULL,
-product_code VARCHAR(256) NOT NULL,
-product_units INT NOT NULL,
-store_id INT NOT NULL,
-description VARCHAR(256),
-PRIMARY KEY (identification_number)
+  identification_number INT NOT NULL,
+  transaction_date TIMESTAMP NOT NULL,
+  product_code VARCHAR(256) NOT NULL,
+  product_units INT NOT NULL,
+  store_id INT NOT NULL,
+  description VARCHAR(256),
+  PRIMARY KEY (identification_number)
 )
 DISTRIBUTED BY (identification_number)
 ```
@@ -87,12 +87,12 @@ DISTRIBUTED BY (identification_number)
 Создание логической таблицы с составным первичным ключом и размещением данных во всех СУБД хранилища:
 ```sql
 CREATE TABLE sales.stores (
-identification_number INT NOT NULL,
-category VARCHAR(256) NOT NULL,
-region VARCHAR(256) NOT NULL,
-address VARCHAR(256) NOT NULL,
-description VARCHAR(256),
-PRIMARY KEY (identification_number, region)
+  identification_number INT NOT NULL,
+  category VARCHAR(256) NOT NULL,
+  region VARCHAR(256) NOT NULL,
+  address VARCHAR(256) NOT NULL,
+  description VARCHAR(256),
+  PRIMARY KEY (identification_number, region)
 )
 DISTRIBUTED BY (identification_number)
 ```
@@ -100,12 +100,12 @@ DISTRIBUTED BY (identification_number)
 Создание логической таблицы с размещением данных в ADQM и ADG (без размещения в ADB):
 ```sql
 CREATE TABLE sales.clients (
-identification_number INT NOT NULL,
-first_name VARCHAR(256) NOT NULL,
-last_name VARCHAR(256) NOT NULL,
-patronymic_name VARCHAR(256),
-birth_date DATE,
-PRIMARY KEY (identification_number)
+  identification_number INT NOT NULL,
+  first_name VARCHAR(256) NOT NULL,
+  last_name VARCHAR(256) NOT NULL,
+  patronymic_name VARCHAR(256),
+  birth_date DATE,
+  PRIMARY KEY (identification_number)
 ) DISTRIBUTED BY (identification_number)
 DATASOURCE_TYPE (adqm,adg)
 ```
