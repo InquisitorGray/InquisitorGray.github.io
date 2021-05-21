@@ -32,8 +32,12 @@ jobs:
       - name: check-added-modified-and-copy
         id: check_added_modified
         run: |
-          cd
           ls .
+          echo "---"
+          echo $PWD
+          echo "---"
+          ls ..
+          echo "---"
           echo '::set-output name=INPUTFILES::true'
           files_added_modified=${{steps.file_changes.outputs.added_modified}}
           
@@ -48,7 +52,7 @@ jobs:
             then
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
-              cp "./${fullfilename}" "./$srcfilename"
+              cp $PWD"/${fullfilename}" $PWD"/$srcfilename"
               cp $fullfilename $srcfilename
               cp ${fullfilename} ${srcfilename}
               ((fileCnt++))

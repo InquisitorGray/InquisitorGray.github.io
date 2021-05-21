@@ -33,8 +33,10 @@ has_toc: false
 
 <a id="img_driver_settings"></a>
 ![](Настройки_драйвера.png){:height="50%" width="50%"}
-{:.image-caption}
+{:.center}
+
 *Параметры JDBC-драйвера*
+{:.image-caption .center}
 
 На рисунке ниже показаны параметры подключения к системе с использованием драйвера DTM.
 
