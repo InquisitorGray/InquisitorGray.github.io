@@ -41,16 +41,18 @@ has_toc: false
 остались без изменений.
 
 ![](check_data_с_расхождениями.png)
-{:.image-caption}
+{: .figure-center}
 *Ответ CHECK_DATA с найденными расхождениями*
+{: .caption-center}
 
 На рисунке ниже показан пример ответа в случае успешной проверки логической таблицы, данные которой 
 размещены только в ADB.
 
 <a id="img_check_for_one_db"></a>
 ![](check_data_без_расхождений.png){:height="50%" width="50%"}
-{:.image-caption}
+{: .figure-center}
 *Ответ CHECK_DATA с проверкой только в ADB*
+{: .caption-center}
 
 ## Синтаксис
 
