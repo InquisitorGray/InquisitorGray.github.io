@@ -38,12 +38,10 @@ has_toc: false
 которой размещены только в ADB.
 
 ![](check_table_без_расхождений_3_бд.png){:height="50%" width="50%"}
-
 {:.image-caption}
 *Ответ CHECK_TABLE при успешной проверке*
 
 ![](check_table_без_расхождений_1_бд.png){:height="50%" width="50%"}
-
 {:.image-caption}
 *Ответ CHECK_TABLE с проверкой только в ADB*
 
@@ -51,7 +49,6 @@ has_toc: false
 а в ADB найдено несоответствие — столбец `description` отсутсвует в физической таблице с архивными записями.
 
 ![](check_table_с_расхождениями.png)
-
 {:.image-caption}
 *Ответ CHECK_TABLE с найденными расхождениями*
 

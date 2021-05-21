@@ -41,7 +41,6 @@ has_toc: false
 остались без изменений.
 
 ![](check_data_с_расхождениями.png)
-
 {:.image-caption}
 *Ответ CHECK_DATA с найденными расхождениями*
 
@@ -50,7 +49,6 @@ has_toc: false
 
 <a id="img_check_for_one_db"></a>
 ![](check_data_без_расхождений.png){:height="50%" width="50%"}
-
 {:.image-caption}
 *Ответ CHECK_DATA с проверкой только в ADB*
 

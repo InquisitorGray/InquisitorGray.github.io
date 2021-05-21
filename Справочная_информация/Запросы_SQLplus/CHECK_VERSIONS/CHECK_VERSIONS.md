@@ -20,7 +20,6 @@ has_toc: false
 *   исключение при неуспешном выполнении запроса.
 
 ![](check_versions.png)
-
 {:.image-caption}
 *Ответ CHECK_VERSIONS*
 
