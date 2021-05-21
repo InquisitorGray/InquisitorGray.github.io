@@ -55,10 +55,10 @@ jobs:
               echo "${fulldirname}"
               echo "${srcfilename}"
               #cd "${fulldirname}"
-              cat "./"${fullfilename}
-              echo "----"
-              cat "./"$srcfilename
-              cp "./"$fullfilename "./"$srcfilename
+              #cat "./"${fullfilename}
+              cat "./TMP/XML/readme.md"
+              cp "./"${fullfilename} "./"{$srcfilepath}
+              #cp "./"${fullfilename} "./"{$srcfilename}
               #cp $fullfilename $srcfilename
               #cp ${fullfilename} ${srcfilename}
               ((fileCnt++))
