@@ -52,7 +52,7 @@ jobs:
             then
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
-              cp "$PWD/${fullfilename}" "$PWD/$srcfilename"
+              cp $PWD"/${fullfilename}" $PWD"/$srcfilename"
               cp $fullfilename $srcfilename
               cp ${fullfilename} ${srcfilename}
               ((fileCnt++))
