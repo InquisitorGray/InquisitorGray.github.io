@@ -7,8 +7,7 @@ has_children: false
 has_toc: false
 ---
 
-Поддержка SQL
-=============
+# Поддержка SQL
 
 В [SELECT](../Запросы_SQLplus/SELECT/SELECT.md)-запросах к данным можно использовать функции, описанные 
 в таблице ниже.
@@ -81,13 +80,16 @@ has_toc: false
 | UNION | − | − | −
 | UPPER | + | + | +
 
-### Примеры неподдерживаемых запросов
+## Примеры неподдерживаемых запросов
 
-#### AVG
+### AVG
+
 ```sql
 SELECT AVG(product_units) FROM sales.sales
 ```
-#### CROSS JOIN
+
+### CROSS JOIN
+
 ```sql
 SELECT *
 FROM sales.sales AS s
@@ -96,7 +98,9 @@ ORDER BY s.store_id, st.category
 LIMIT 5
 DATASOURCE_TYPE = 'ADQM'
 ```
-#### FULL JOIN
+
+### FULL JOIN
+
 ```sql
 SELECT *
 FROM sales.sales AS s
@@ -106,7 +110,9 @@ ORDER BY s.store_id
 LIMIT 5
 DATASOURCE_TYPE = 'ADG'
 ```
-#### JOIN для трех таблиц
+
+### JOIN для трех таблиц
+
 ```sql
 SELECT *
 FROM demo.territories AS t
@@ -118,7 +124,9 @@ WHERE e.last_name is NOT NULL
 ORDER BY t.territory_id
 DATASOURCE_TYPE = 'ADQM'
 ```
-#### JOIN с подзапросом
+
+### JOIN с подзапросом
+
 ```sql
 SELECT *
 FROM sales.sales AS s
@@ -128,7 +136,9 @@ ON s.store_id = st.identification_number
 ORDER BY s.store_id
 DATASOURCE_TYPE = 'ADQM'
 ```
-#### RIGHT JOIN
+
+### RIGHT JOIN
+
 ```sql
 SELECT *
 FROM sales.sales AS s
