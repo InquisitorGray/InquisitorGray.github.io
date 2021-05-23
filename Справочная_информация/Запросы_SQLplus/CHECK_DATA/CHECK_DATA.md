@@ -43,7 +43,7 @@ has_toc: false
 ![](check_data_с_расхождениями.png)
 {: .figure-center}
 *Ответ CHECK_DATA с найденными расхождениями*
-{: .caption-center}
+{: .figure-caption-center}
 
 На рисунке ниже показан пример ответа в случае успешной проверки логической таблицы, данные которой 
 размещены только в ADB.
@@ -52,7 +52,7 @@ has_toc: false
 ![](check_data_без_расхождений.png){:height="50%" width="50%"}
 {: .figure-center}
 *Ответ CHECK_DATA с проверкой только в ADB*
-{: .caption-center}
+{: .figure-caption-center}
 
 ## Синтаксис
 
