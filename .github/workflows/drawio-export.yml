@@ -54,9 +54,9 @@ jobs:
               srcfilename="${srcfilepath}${filename}"
               echo "${fulldirname}"
               echo "${srcfilename}"
-              cd "${fulldirname}"
+              #cd "${fulldirname}"
               ls
-              cp $PWD"/"${fullfilename} $PWD"/"$srcfilename
+              cp "./"${fullfilename} "./"$srcfilename
               cp $fullfilename $srcfilename
               cp ${fullfilename} ${srcfilename}
               ((fileCnt++))
