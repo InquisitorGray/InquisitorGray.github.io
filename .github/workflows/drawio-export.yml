@@ -55,10 +55,12 @@ jobs:
               echo "${fulldirname}"
               echo "${srcfilename}"
               #cd "${fulldirname}"
-              ls
-              cp "./"${fullfilename} "./"$srcfilename
-              cp $fullfilename $srcfilename
-              cp ${fullfilename} ${srcfilename}
+              #cat "./"${fullfilename}
+              cat "./TMP/XML/readme.md"
+              cp "./"$fullfilename "./"$srcfilename
+              #cp "./"${fullfilename} "./"{$srcfilename}
+              #cp $fullfilename $srcfilename
+              #cp ${fullfilename} ${srcfilename}
               ((fileCnt++))
               echo '$fileCnt'
               #fileCnt=$(expr $fileCnt + 1 )
