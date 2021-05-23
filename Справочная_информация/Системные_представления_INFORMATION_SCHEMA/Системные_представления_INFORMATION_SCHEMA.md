@@ -95,4 +95,4 @@ has_children: false
 ![](Связь_системных_представлений.svg)
 {: .figure-center}
 *Взаимосвязь системных представлений*
-{: .caption-center}
+{: .figure-caption-center}

@@ -44,7 +44,7 @@ has_toc: false
 ![](truncate_history.svg)
 {: .figure-center}
 *Удаление архивной записи по запросу с меткой времени*
-{: .caption-center}
+{: .figure-caption-center}
 
 ## Синтаксис
 

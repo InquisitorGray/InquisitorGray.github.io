@@ -40,12 +40,12 @@ has_toc: false
 ![](check_table_без_расхождений_3_бд.png){:height="50%" width="50%"}
 {: .figure-center}
 *Ответ CHECK_TABLE при успешной проверке*
-{: .caption-center}
+{: .figure-caption-center}
 
 ![](check_table_без_расхождений_1_бд.png){:height="50%" width="50%"}
 {: .figure-center}
 *Ответ CHECK_TABLE с проверкой только в ADB*
-{: .caption-center}
+{: .figure-caption-center}
 
 На рисунке ниже показан пример ответа при наличии расхождений. Проверка прошла успешно для ADG и ADQM, 
 а в ADB найдено несоответствие — столбец `description` отсутсвует в физической таблице с архивными записями.
@@ -53,7 +53,7 @@ has_toc: false
 ![](check_table_с_расхождениями.png)
 {: .figure-center}
 *Ответ CHECK_TABLE с найденными расхождениями*
-{: .caption-center}
+{: .figure-caption-center}
 
 ## Синтаксис
 

@@ -22,7 +22,7 @@ has_toc: false
 ![](check_versions.png)
 {: .figure-center}
 *Ответ CHECK_VERSIONS*
-{: .caption-center}
+{: .figure-caption-center}
 
 ## Синтаксис
 
