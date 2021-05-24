@@ -1,5 +1,16 @@
 ﻿title: "Документация DTM"
 markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter_opts:
+    default_lang: html
+    css_class   : 'syntax'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: false
+      start_line: 1
 remote_theme: pmarsceill/just-the-docs
 color_scheme: corporate_colors
 lang: ru
