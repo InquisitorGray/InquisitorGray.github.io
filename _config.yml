@@ -1,5 +1,7 @@
-title: "Документация DTM"
+﻿title: "Документация DTM"
 markdown: kramdown
 remote_theme: pmarsceill/just-the-docs
+color_scheme: corporate_colors
+lang: ru
 search_enabled: true
 
