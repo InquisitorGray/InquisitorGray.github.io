@@ -12,7 +12,7 @@ kramdown:
       line_numbers: false
       start_line: 1
 remote_theme: pmarsceill/just-the-docs
-color_scheme: corporate_colors
+#color_scheme: corporate_colors
 lang: ru
 search_enabled: true
 
