@@ -42,12 +42,12 @@ has_toc: false
 ![](check_database_без_расхождений.png){:height="50%" width="50%"}
 {: .figure-center}
 *Ответ CHECK_DATABASE при успешной проверке*
-{: .caption-center}
+{: .figure-caption-center}
 
 ![](check_database_с_расхождениями.png)
 {: .figure-center}
 *Ответ CHECK_DATABASE с найденными расхождениями*
-{: .caption-center}
+{: .figure-caption-center}
 
 ## Синтаксис
 
