@@ -10,6 +10,8 @@
   @include fs-2;
 }
 
+// custom styles for links
+
 a:link {
   color: #12976b;
 }
@@ -17,4 +19,7 @@ a:link {
 a:visited {
   color: #15a872;
 }
+
+//custom variables for code highlighting
+$code-background-color: #f8f8f8;
 
