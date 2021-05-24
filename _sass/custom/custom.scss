@@ -9,3 +9,8 @@
   text-align: center;
   @include fs-2;
 }
+
+// Avoid appearance of dark border around visited code links in Safari
+a:visited {
+  color: #15A872;
+}
