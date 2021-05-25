@@ -1,4 +1,4 @@
-﻿title: "Документация DTM"
+﻿title: "Документация"
 markdown: kramdown
 highlighter: rouge
 kramdown:
@@ -12,7 +12,7 @@ kramdown:
       line_numbers: false
       start_line: 1
 remote_theme: pmarsceill/just-the-docs
-#color_scheme: corporate_colors
-lang: ru
+color_scheme: custom_colors
+#lang: ru
 search_enabled: true
 
