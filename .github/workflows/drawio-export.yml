@@ -92,7 +92,7 @@ jobs:
             then
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
-              cp "./"$fullfilename $srcfilename
+              sudo cp "./"$fullfilename $srcfilename
               ((fileCnt++))
               echo '$fileCnt'
               #fileCnt=$(expr $fileCnt + 1 )
