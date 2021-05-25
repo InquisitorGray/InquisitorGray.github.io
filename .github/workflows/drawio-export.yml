@@ -41,7 +41,7 @@ jobs:
           echo '::set-output name=INPUTFILES::true'
           files_added_modified=${{steps.file_changes.outputs.added_modified}}
           
-          srcfilepath="TMP/XML/"
+          srcfilepath="./TMP/XML/"
           fileCnt=0
           for changed_file in ${files_added_modified}; do
             fullfilename=${changed_file}
@@ -56,8 +56,8 @@ jobs:
               echo "${srcfilename}"
               #cd "${fulldirname}"
               #cat "./"${fullfilename}
-              cat "./TMP/XML/readme.md"
-              cp "./"$fullfilename "./"$srcfilename
+              cat ${srcfilepath}"readme.md"
+              cp "./"$fullfilename $srcfilename
               #cp "./"${fullfilename} "./"{$srcfilename}
               #cp $fullfilename $srcfilename
               #cp ${fullfilename} ${srcfilename}
@@ -77,7 +77,7 @@ jobs:
           echo '::set-output name=INPUTFILES::true'
           files_renamed=${{steps.file_changes.outputs.renamed}}
           
-          srcfilepath="TMP/XML/"
+          srcfilepath="./TMP/XML/"
           fileCnt=0
           pwd
           ls .
@@ -92,7 +92,7 @@ jobs:
             then
               srcfilename="${srcfilepath}${filename}"
               echo "${srcfilename}"
-              cp ${fullfilename} ${srcfilename}
+              cp "./"$fullfilename $srcfilename
               ((fileCnt++))
               echo '$fileCnt'
               #fileCnt=$(expr $fileCnt + 1 )
