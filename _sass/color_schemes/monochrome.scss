@@ -117,7 +117,7 @@ figure.sintax-highlight {
 .highlight .p { color: #000000 } // punctuation //
 .highlight .cm { color: #000000 } // comment.multiline //
 .highlight .cp { color: #000000 } // comment.preproc //
-.highlight .c1 { color: #000000 } // comment.single //
+.highlight .c1 { font-style: italic; color: #000000 } // comment.single //
 .highlight .cs { color: #000000 } // comment.special //
 .highlight .gd { color: #000000 } // generic.deleted //
 .highlight .ge { font-style: italic; color: #93a1a1 } // generic.emph //
