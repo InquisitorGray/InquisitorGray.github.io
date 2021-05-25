@@ -18,7 +18,7 @@ a:link {
 }
 
 a:visited {
-  color: $link-color-visited;
+  color: darken($link-color,10%);
 //  color: #15a872;
 }
 
