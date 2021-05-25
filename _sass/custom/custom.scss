@@ -20,8 +20,4 @@ a:visited {
   color: #15a872;
 }
 
-//custom variables for code highlighting
-$code-background-color: #f8f8f8;
-$border-color: $code-background-color;
-
 @import "../color_schemes/monochrome.scss";
