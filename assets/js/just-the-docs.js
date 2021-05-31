@@ -77,12 +77,6 @@ function initSearch() {
       
       lunr.tokenizer.separator = {{ site.search.tokenizer_separator | default: site.search_tokenizer_separator | default: "/[\s\-/]+/" }}
 
-
-      var lunr = require('./lib/lunr.js');
-      require('./lunr.stemmer.support.js')(lunr);
-      require('./lunr.ru.js')(lunr);
-      require('./lunr.multi.js')(lunr);
-
       var index = lunr(function(){
         // the reason "en" does not appear above is that "en" is built in into lunr js
         this.use(lunr.multiLanguage('en', 'ru'));
