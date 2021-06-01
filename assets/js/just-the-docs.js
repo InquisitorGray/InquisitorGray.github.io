@@ -79,7 +79,8 @@ function initSearch() {
 
       var index = lunr(function(){
         // use the language (ru)
-        this.use(lunr.ru);
+        //this.use(lunr.ru);
+        this.use(lunr.multiLanguage('en', 'ru'));
         this.ref('id');
         this.field('title', { boost: 200 });
         this.field('content', { boost: 2 });
