@@ -78,6 +78,8 @@ function initSearch() {
       lunr.tokenizer.separator = {{ site.search.tokenizer_separator | default: site.search_tokenizer_separator | default: "/[\s\-/]+/" }}
 
       var index = lunr(function(){
+        // use the language (ru)
+        this.use(lunr.ru);
         this.ref('id');
         this.field('title', { boost: 200 });
         this.field('content', { boost: 2 });
