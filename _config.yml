@@ -13,7 +13,7 @@ kramdown:
       start_line: 1
 remote_theme: pmarsceill/just-the-docs
 color_scheme: custom_colors
-#lang: ru
+
 search_enabled: true
 search:
   # Split pages into sections that can be searched individually
