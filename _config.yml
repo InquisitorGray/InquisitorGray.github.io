@@ -1,4 +1,6 @@
-﻿title: "Документация"
+title: "Документация"
+
+exclude: ./documentation_v3_7
 markdown: kramdown
 highlighter: rouge
 kramdown:
