@@ -1,7 +1,6 @@
 title: "Документация"
 
-exclude: ["./documentation_v3_7/"]
-#exclude: ["documentation_v3_7/"]
+exclude: ["documentation_v3_7/"]
 
 collections:
   docs:
