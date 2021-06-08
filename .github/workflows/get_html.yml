@@ -4,7 +4,8 @@ name: get-html
 
 # Controls when the action will run. 
 on:
-  page_build:
+#  page_build:
+  deployment:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
