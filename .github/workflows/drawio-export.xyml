@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: drawio-export-alt
+name: drawio-export
 
 # Controls when the action will run. 
 on:
@@ -32,12 +32,6 @@ jobs:
       - name: check-added-modified-and-copy
         id: check_added_modified
         run: |
-          ls .
-          echo "---"
-          echo $PWD
-          echo "---"
-          ls ..
-          echo "---"
           echo '::set-output name=INPUTFILES::true'
           files_added_modified=${{steps.file_changes.outputs.added_modified}}
           
@@ -48,22 +42,14 @@ jobs:
             fulldirname=$(dirname "${fullfilename}")
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
-            echo "${ext}"
             if [ "${ext}" = "drawio" ];
             then
               srcfilename="${srcfilepath}${filename}"
               echo "${fulldirname}"
               echo "${srcfilename}"
-              #cd "${fulldirname}"
-              #cat "./"${fullfilename}
-              cat ${srcfilepath}"readme.md"
-              cp "./"$fullfilename $srcfilename
-              #cp "./"${fullfilename} "./"{$srcfilename}
-              #cp $fullfilename $srcfilename
-              #cp ${fullfilename} ${srcfilename}
+              sudo cp "./"$fullfilename $srcfilename
               ((fileCnt++))
               echo '$fileCnt'
-              #fileCnt=$(expr $fileCnt + 1 )
             fi
           done
           if [ ${fileCnt} -eq 0 ];
@@ -79,23 +65,16 @@ jobs:
           
           srcfilepath="./TMP/XML/"
           fileCnt=0
-          pwd
-          ls .
           for changed_file in ${files_renamed}; do
             fullfilename=${changed_file}
-            echo "${fullfilename}"
             filename=$(basename "${fullfilename}")
             ext="${filename##*.}"
-            echo "${ext}"
-
             if [ "${ext}" = "drawio" ];
             then
               srcfilename="${srcfilepath}${filename}"
-              echo "${srcfilename}"
               sudo cp "./"$fullfilename $srcfilename
               ((fileCnt++))
               echo '$fileCnt'
-              #fileCnt=$(expr $fileCnt + 1 )
             fi
           done
           if [ ${fileCnt} -eq 0 ];
@@ -114,7 +93,7 @@ jobs:
 
       - name: removeTMPXML
         if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
-        run: rm TMP/XML/*.drawio
+        run: sudo rm TMP/XML/*.drawio
 
       - if: steps.check_added_modified.outputs.INPUTFILES == 'true'
         run: |
@@ -128,13 +107,10 @@ jobs:
             if [ "${ext}" = "drawio" ];
             then
               filename=$(basename "${fullfilename}" "drawio")
-              echo "${filename}"
               filename="${filename}.svg"
-              echo "${filename}"
               destfilename="${destfilepath}${filename}"
-              echo "${destfilename}"
               fullfilename=$(dirname "${changed_file})/${filename}"
-              cp "${destfilename}" "${fullfilename}"
+              sudo cp "${destfilename}" "${fullfilename}"
             fi
           done
 
@@ -149,19 +125,16 @@ jobs:
             if [ "${ext}" = "drawio" ];
             then
               filename=$(basename "${fullfilename}" "drawio")
-              echo "${filename}"
               filename="${filename}.svg"
-              echo "${filename}"
               destfilename="${destfilepath}${filename}"
-              echo "${destfilename}"
               fullfilename=$(dirname "${changed_file})/${filename}"
-              cp "${destfilename}" "${fullfilename}"
+              sudo cp "${destfilename}" "${fullfilename}"
             fi
           done
 
       - name: removeTMPSVG
         if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
-        run: rm TMP/SVG/*.svg
+        run: sudo rm TMP/SVG/*.svg
 
       - name: Get author and committer info from HEAD commit
         if: steps.check_added_modified.outputs.INPUTFILES == 'true' || steps.check_renamed.outputs.INPUTFILES == 'true'
