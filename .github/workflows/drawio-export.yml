@@ -47,7 +47,7 @@ jobs:
               srcfilename="${srcfilepath}${filename}"
               echo "${fulldirname}"
               echo "${srcfilename}"
-              sudo cp "./$fullfilename" "$srcfilename"
+              sudo cp -H "./$fullfilename" "$srcfilename"
               #rsync -aHAX "./"$fullfilename $srcfilename
               ((fileCnt++))
               echo '$fileCnt'
@@ -73,7 +73,7 @@ jobs:
             if [ "${ext}" = "drawio" ];
             then
               srcfilename="${srcfilepath}${filename}"
-              sudo cp "./$fullfilename" "$srcfilename"
+              sudo cp -H "./$fullfilename" "$srcfilename"
               #rsync -a "./"$fullfilename $srcfilename
               ((fileCnt++))
               echo '$fileCnt'
@@ -112,7 +112,7 @@ jobs:
               filename="${filename}.svg"
               destfilename="${destfilepath}${filename}"
               fullfilename=$(dirname "${changed_file})/${filename}"
-              sudo cp "${destfilename}" "${fullfilename}"
+              sudo cp -H "${destfilename}" "${fullfilename}"
               #rsync -a "${destfilename}" "${fullfilename}"
             fi
           done
@@ -131,7 +131,7 @@ jobs:
               filename="${filename}.svg"
               destfilename="${destfilepath}${filename}"
               fullfilename=$(dirname "${changed_file})/${filename}"
-              sudo cp "${destfilename}" "${fullfilename}"
+              sudo cp -H "${destfilename}" "${fullfilename}"
               #rsync -a "${destfilename}" "${fullfilename}"
             fi
           done
