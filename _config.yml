@@ -2,6 +2,8 @@ title: "Документация"
 
 exclude: ["documentation_v3_7/"]
 
+destination: docs/
+
 collections:
   docs:
     output: true
