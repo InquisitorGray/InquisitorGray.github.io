@@ -22,4 +22,4 @@ jobs:
           
       - name: Update search file for Lunr
         run: |
-          $ bundle exec just-the-docs rake search:init
+          bundle exec just-the-docs rake search:init
