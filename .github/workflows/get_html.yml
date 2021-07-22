@@ -22,4 +22,8 @@ jobs:
           
       - name: Update search file for Lunr
         run: |
+          sudo gem install bundler jekyll
+          bundle install
           bundle exec just-the-docs rake search:init
+
+#&& chmod -R 777 /srv/jekyll && bundle install && bundle exec jekyll build && bundle exec rake search:init"
