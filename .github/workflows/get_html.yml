@@ -20,8 +20,6 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Check _site folder
+      - name: Update search file for Lunr
         run: |
-          ls .
-          ls ./_site
-          
+          $ bundle exec just-the-docs rake search:init
