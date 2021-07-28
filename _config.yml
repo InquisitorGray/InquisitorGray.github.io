@@ -24,7 +24,7 @@ kramdown:
       line_numbers: false
       start_line: 1
 #remote_theme: pmarsceill/just-the-docs
-theme: just-the-docs
+theme: jekyll-theme-cayman
 color_scheme: custom_colors
 
 search_enabled: true
