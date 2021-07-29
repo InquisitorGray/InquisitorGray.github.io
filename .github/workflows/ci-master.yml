@@ -50,7 +50,7 @@ jobs:
 
       - name: 🎩 Install Jekyll
         run: |
-          gem install bundler:2.1.4 jekyll
+          sudo gem install bundler:2.1.4 jekyll
           chmod -R 777 /srv/jekyll
           bundle _2.1.4_ install
           if [ -d "_site" ]; then
