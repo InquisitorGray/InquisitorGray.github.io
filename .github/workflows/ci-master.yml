@@ -1,45 +1,85 @@
-on: 
+name: Build and Deploy
+on:
   push:
     branches:
-    - main
-
-name: Master branch CI
+      - 'main'
 
 jobs:
-
-  jekyll-latest:
-    name: Build Jekyll site (latest)
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
 
-    - uses: actions/checkout@master
+      - name: Set env.BRANCH
+        run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
 
-    - name: Build the site in the jekyll/builder container
-      run: |
-        docker run --rm \
-        --volume="${{ github.workspace }}:/srv/jekyll" \
-        jekyll/builder:latest /bin/bash -c "gem install bundler && chmod -R 777 /srv/jekyll && bundle install && bundle exec jekyll build && bundle exec rake search:init"
-  jekyll-3-8-5:
-    name: Build Jekyll site (v3.8.5)
-    runs-on: ubuntu-latest
-    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 10
 
-    - uses: actions/checkout@master
+      - name: Remove BOM
+        run: |
+           sudo apt install dos2unix
+           sudo find . -type f -name "*.md" -exec dos2unix -r {} +
+           sudo find . -type f -name "*.scss" -exec dos2unix -r {} +
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
 
-    - name: Build the site in the jekyll/builder container
-      run: |
-        docker run --rm \
-        --volume="${{ github.workspace }}:/srv/jekyll" \
-        jekyll/builder:3.8.5 /bin/bash -c "gem install bundler && chmod -R 777 /srv/jekyll && bundle install && bundle exec jekyll build && bundle exec rake search:init"
-  assets:
-    name: Format and test CSS and JS
-    runs-on: ubuntu-latest
+      - name: Manage folder
+        run: |
+          [ -d _site ] || mkdir _site
+          #[ -d _site/${{env.BRANCH}} ] || mkdir _site/${{env.BRANCH}}
+          #cp -r src/. docs/${{env.BRANCH}}
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - run: npm install
-    - run: npm test
+      # Use GitHub Actions' cache to shorten build times and decrease load on servers
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+            
+      #- name: 🧹 Clean site
+      #  run: |
+      #    if [ -d "_site" ]; then
+      #      rm -rf _site/*
+      #    fi
+
+      - name: 🎩 Install Jekyll
+        run: |
+          gem install bundler:2.1.4 jekyll
+          chmod -R 777 /srv/jekyll
+          bundle _2.1.4_ install
+          if [ -d "_site" ]; then
+            rm -rf _site/*
+          fi
+          run: bundle exec jekyll build -s . -d _site
+          bundle exec rake search:init
+
+      #- name: 🔨 Build site
+      #  #run: bundle exec jekyll build -s . -d ${{env.BRANCH}}
+      #  run: bundle exec jekyll build -s . -d _site
+      
+      #- name: Copy css
+      #  run: |
+      #    sudo cp -r css ${{env.BRANCH}}/assets
+
+      #- name: Build the site in the jekyll/builder container
+      #  run: |
+      #    docker run --rm \
+      #    --volume="${{ github.workspace }}:/srv/jekyll" \
+      #    jekyll/builder:latest /bin/bash -c "gem install bundler:2.1.4 && chmod -R 777 /srv/jekyll && bundle _2.1.4_ install && bundle exec jekyll build && bundle exec rake search:init"
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          #folder: ${{env.BRANCH}} # The folder the action should deploy.
+          folder: _site/ # The folder the action should deploy.
+          #target-folder: docs/${{env.BRANCH}}
+          target-folder: /
+
+      - uses: actions/checkout@master
