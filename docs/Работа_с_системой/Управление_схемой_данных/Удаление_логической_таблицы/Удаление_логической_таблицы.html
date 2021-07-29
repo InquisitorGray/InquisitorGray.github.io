@@ -1,0 +1,40 @@
+<h1 id="удаление-логической-таблицы">Удаление логической таблицы</h1>
+
+<p>Чтобы удалить <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логическую таблицу</a> 
+и ее данные, выполните запрос <a href="../../../Справочная_информация/Запросы_SQLplus/DROP_TABLE/DROP_TABLE.md">DROP TABLE</a> 
+(см. пример <a href="#пример">ниже</a>).</p>
+
+<p>При успешном выполнении запроса все данные, связанные с логической таблицей, удаляются из указанных 
+<a href="../../../Введение/Поддерживаемые_СУБД_хранилища/Поддерживаемые_СУБД_хранилища.md">СУБД</a> <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Хранилище_данных/Хранилище_данных.md">хранилища</a>. 
+Логическая таблица удаляется при удалении ее последнего месторасположения (см. секцию <code class="language-sql highlighter-rouge"><span class="n">DATASOURCE_TYPE</span></code> 
+в разделе <a href="../../../Справочная_информация/Запросы_SQLplus/DROP_TABLE/DROP_TABLE.md">DROP TABLE</a>).</p>
+
+<h2 id="пример">Пример</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- выбор базы данных sales по умолчанию</span>
+<span class="n">USE</span> <span class="n">sales</span>
+
+<span class="c1">-- удаление таблицы sales из СУБД ADQM</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">sales</span> <span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="s1">'adqm'</span>
+
+<span class="c1">-- проверка наличия логической таблицы sales</span>
+<span class="k">SELECT</span>
+  <span class="k">CASE</span>
+    <span class="k">WHEN</span> <span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">THEN</span> <span class="s1">'таблица существует'</span>
+    <span class="k">ELSE</span> <span class="s1">'таблицы не существует'</span>
+  <span class="k">END</span>
+<span class="k">FROM</span> <span class="n">INFORMATION_SCHEMA</span><span class="p">.</span><span class="n">tables</span>
+<span class="k">WHERE</span> <span class="n">table_schema</span> <span class="o">=</span> <span class="s1">'SALES'</span> <span class="k">AND</span> <span class="k">table_name</span> <span class="o">=</span> <span class="s1">'SALES'</span>
+
+<span class="c1">-- удаление таблицы sales из оставшихся СУБД (ADB, ADG)</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">sales</span>
+
+<span class="c1">-- проверка наличия логической таблицы sales</span>
+<span class="k">SELECT</span>
+  <span class="k">CASE</span>
+    <span class="k">WHEN</span> <span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">THEN</span> <span class="s1">'таблица существует'</span>
+    <span class="k">ELSE</span> <span class="s1">'таблицы не существует'</span>
+  <span class="k">END</span>
+<span class="k">FROM</span> <span class="n">INFORMATION_SCHEMA</span><span class="p">.</span><span class="n">tables</span>
+<span class="k">WHERE</span> <span class="n">table_schema</span> <span class="o">=</span> <span class="s1">'SALES'</span> <span class="k">AND</span> <span class="k">table_name</span> <span class="o">=</span> <span class="s1">'SALES'</span>
+</code></pre></div></div>

@@ -1,0 +1,58 @@
+<h1 id="физическая-схема-данных">Физическая схема данных</h1>
+
+<p><em>Физическая схема данных</em> — структура хранения данных в 
+<a href="../Хранилище_данных/Хранилище_данных.md">хранилище</a>, создаваемая и поддерживаемая системой.</p>
+
+<p>Для каждой <a href="../Логическая_таблица/Логическая_таблица.md">логической таблицы</a> система создает и поддерживает 
+набор <a href="../Физическая_таблица/Физическая_таблица.md">физических таблиц</a>, перечисленных в таблице ниже. 
+Состав набора физических таблиц зависит от типа <a href="../../../Введение/Поддерживаемые_СУБД_хранилища/Поддерживаемые_СУБД_хранилища.md">СУБД</a> 
+хранилища.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Физическая таблица</th>
+      <th style="text-align: center">ADB</th>
+      <th style="text-align: center">ADG</th>
+      <th style="text-align: center">ADQM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">&lt;table&gt;_staging</td>
+      <td style="text-align: center">+<br />Горячие записи</td>
+      <td style="text-align: center">+<br />Горячие записи</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">tbl_buffer</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">+<br />Идентификаторы горячих записей</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">&lt;table&gt;_actual</td>
+      <td style="text-align: center">+<br />Актуальные и архивные записи</td>
+      <td style="text-align: center">+<br />Актуальные записи</td>
+      <td style="text-align: center">+<br />Горячие, актуальные и архивные записи <strong>всех</strong> узлов кластера</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">&lt;table&gt;_history</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">+<br />Архивные записи</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">&lt;table&gt;_actual_shard</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">+<br />Горячие, актуальные и архивные записи узла кластера</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">tbl_buffer_shard</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">+<br />Идентификаторы горячих записей узла кластера</td>
+    </tr>
+  </tbody>
+</table>

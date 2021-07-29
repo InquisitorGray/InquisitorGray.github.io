@@ -1,0 +1,22 @@
+<h1 id="check_versions">CHECK_VERSIONS</h1>
+
+<p>Запрос позволяет получить информацию о версиях следующих программных компонентов:</p>
+<ul>
+  <li><a href="../../../Обзор_понятий_компонентов_и_связей/Компоненты_системы/Компоненты_системы.md">компонентов системы</a>,</li>
+  <li>компонентов, с которыми работает система.</li>
+</ul>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>объект ResultSet с записями, содержащими информацию об именах и версиях компонентах, при успешном 
+выполнении запроса (см. рисунок ниже);</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<p class="figure-center"><img src="check_versions.png" alt="" /></p>
+<p class="figure-caption-center"><em>Ответ CHECK_VERSIONS</em></p>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CHECK_VERSIONS</span><span class="p">()</span>
+</code></pre></div></div>

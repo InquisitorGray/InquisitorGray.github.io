@@ -1,0 +1,70 @@
+<h1 id="insert-into-logical_table">INSERT INTO logical_table</h1>
+
+<p>Запрос позволяет загрузить данные в <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логическую таблицу</a> 
+<a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логической базы данных</a> 
+из внешнего источника данных. Загружаемые данные должны соответствовать формату, 
+<a href="../CREATE_UPLOAD_EXTERNAL_TABLE/CREATE_UPLOAD_EXTERNAL_TABLE.md">указанному при создании внешней таблицы загрузки</a> и описанному 
+в разделе <a href="../../Формат_загрузки_данных/Формат_загрузки_данных.md">Формат загрузки данных</a>.</p>
+
+<p>Запрос обрабатывается в порядке, описанном в разделе <a href="../../../Обзор_понятий_компонентов_и_связей/Связи_с_другими_системами_и_компонентами/Порядок_обработки_запросов_на_загрузку_данных/Порядок_обработки_запросов_на_загрузку_данных.md">Порядок обработки запросов на загрузку данных</a>.</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>пустой объект ResultSet при успешном выполнении запроса;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<p>При успешном выполнении запроса данные загружаются в СУБД <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Хранилище_данных/Хранилище_данных.md">хранилища</a>, 
+выбранные для размещения данных таблицы. Месторасположение данных таблицы можно задавать запросами 
+<a href="../CREATE_TABLE/CREATE_TABLE.md">CREATE TABLE</a> и <a href="../DROP_TABLE/DROP_TABLE.md">DROP TABLE</a>.</p>
+
+<p><strong>Примечания</strong></p>
+
+<ul>
+  <li>Перед выполнением запроса необходимо создать <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Внешняя_таблица/Внешняя_таблица.md">внешнюю таблицу</a>, 
+загрузить данные в топик Kafka и открыть <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Дельта/Дельта.md">дельту</a>. 
+Подробнее о порядке выполнения действий для загрузки данных см. в разделе <a href="../../../Работа_с_системой/Загрузка_данных/Загрузка_данных.md">Загрузка данных</a>.</li>
+  <li>Имена и порядок следования столбцов должны совпадать в топике Kafka, внешней таблице загрузке и 
+запросе на загрузку данных. Исключением является служебное поле <code class="language-sql highlighter-rouge"><span class="n">sys_op</span></code>, которое обязательно 
+для топика и опционально для внешней таблицы, но должно отсутствовать в запросе на загрузку данных 
+при явном перечислении столбцов. Подробнее о требованиях к загружаемым данным см. в разделе 
+<a href="../../Формат_загрузки_данных/Формат_загрузки_данных.md">Формат загрузки данных</a>.</li>
+</ul>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<p>Запрос с явным перечислением столбцов внешней таблицы:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="k">table_name</span>
+<span class="k">SELECT</span> <span class="n">column_list</span> <span class="k">FROM</span> <span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="n">ext_table_name</span>
+</code></pre></div></div>
+
+<p>Запрос с использованием символа <code class="language-sql highlighter-rouge"><span class="o">*</span></code>:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="k">table_name</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="n">ext_table_name</span>
+</code></pre></div></div>
+
+<h2 id="параметры">Параметры</h2>
+
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">db_name</span></code> — имя логической базы данных. Опционально, если выбрана логическая БД, 
+<a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемая по умолчанию</a>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">table_name</span></code> — имя логической таблицы, в которую загружаются данные;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">column_list</span></code> — список имен столбцов внешней таблицы загрузки. Должен включать все имена столбцов 
+логической таблицы. Если внешняя таблица содержит служебное поле <code class="language-sql highlighter-rouge"><span class="n">sys_op</span></code>, оно не указывается;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">ext_table_name</span></code> — имя внешней таблицы загрузки.</li>
+</ul>
+
+<h2 id="ограничения">Ограничения</h2>
+
+<p>Выполнение запроса возможно только при наличии открытой дельты 
+(см. <a href="../BEGIN_DELTA/BEGIN_DELTA.md">BEGIN DELTA</a>).</p>
+
+<h2 id="пример">Пример</h2>
+
+<p>Пример загрузки данных с открытием и закрытием дельты:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">BEGIN</span> <span class="n">DELTA</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales_ext_upload</span>
+
+<span class="k">COMMIT</span> <span class="n">DELTA</span>
+</code></pre></div></div>

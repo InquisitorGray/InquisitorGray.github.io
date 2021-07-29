@@ -1,0 +1,177 @@
+<h1 id="select">SELECT</h1>
+
+<p>Запрос позволяет выбрать данные из <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логических таблиц</a> 
+и <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическое_представление/Логическое_представление.md">представлений</a>. 
+Запрос можно использовать как самостоятельный запрос для <a href="../../../Работа_с_системой/Запрос_данных/Запрос_данных.md">чтения данных</a>, 
+а также в качестве подзапроса в <a href="../INSERT_INTO_download_external_table/INSERT_INTO_download_external_table.md">запросах на выгрузку данных</a> 
+и запросах на <a href="../CREATE_VIEW/CREATE_VIEW.md">создание</a> и <a href="../ALTER_VIEW/ALTER_VIEW.md">обновление</a> логических представлений.</p>
+
+<p>Для выбора доступны следующие данные:</p>
+<ul>
+  <li>актуальные данные;</li>
+  <li>архивные данные, которые были актуальны в указанный момент времени;</li>
+  <li>изменения данных, выполненные в рамках указанного диапазона <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Дельта/Дельта.md">дельт</a>.</li>
+</ul>
+
+<p>Запрос обрабатывается в порядке, описанном в разделе <a href="../../../Обзор_понятий_компонентов_и_связей/Связи_с_другими_системами_и_компонентами/Порядок_обработки_запросов_на_чтение_данных/Порядок_обработки_запросов_на_чтение_данных.md">Порядок обработки запросов на чтение данных</a>.</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>объект ResultSet c выбранными записями при успешном выполнении запроса;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">column_list</span>
+<span class="k">FROM</span> <span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="n">entity_name</span>
+<span class="p">[</span><span class="k">FOR</span> <span class="n">SYSTEM_TIME</span> <span class="n">time_expression</span> <span class="p">[</span><span class="k">AS</span> <span class="n">alias_name</span><span class="p">]]</span>
+<span class="p">[</span><span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="s1">'datasource_alias'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Описание параметров запроса см. <a href="#параметры">ниже</a>.</p>
+
+<p>В запросе можно использовать следующие секции, которые должны быть указаны в порядке их перечисления:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="k">FOR</span> <span class="n">SYSTEM_TIME</span></code> — для указания момента времени или периода, за который выбираются данные или 
+изменения данных. Если секция не указана, данные выбираются по состоянию на дату и время обработки 
+запроса;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">JOIN</span> <span class="k">ON</span></code> — для соединения данных нескольких логических таблиц или представлений;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">WHERE</span></code> — для указания условий выбора данных;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">GROUP</span> <span class="k">BY</span></code> — для группировки данных;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">HAVING</span></code> — для указания условий выбора сгруппированных данных;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">ORDER</span> <span class="k">BY</span></code> — для сортировки данных;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">LIMIT</span></code> — для ограничения количества возвращаемых строк;</li>
+  <li><a id="param_datasource_type"></a><code class="language-sql highlighter-rouge"><span class="n">DATASOURCE_TYPE</span></code> — для указания <a href="../../../Введение/Поддерживаемые_СУБД_хранилища/Поддерживаемые_СУБД_хранилища.md">СУБД</a> 
+<a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Хранилище_данных/Хранилище_данных.md">хранилища</a>, 
+из которой выбираются данные.</li>
+</ul>
+
+<p>Для имен таблиц, представлений и столбцов можно использовать псевдонимы. В запросе доступны оператор 
+<code class="language-sql highlighter-rouge"><span class="k">DISTINCT</span></code>, агрегатные функции, а также соединение нескольких логических таблиц или логических 
+представлений из одной или нескольких <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логических БД</a>.</p>
+
+<p>Поддерживаются следующие типы соединений:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="p">[</span><span class="k">INNER</span><span class="p">]</span></code> — внутреннее соединение,</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">NATURAL</span></code> — внутреннее соединение по всем столбцам с одинаковыми именами, ключи соединения 
+не указываются,</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">LEFT</span> <span class="p">[</span><span class="k">OUTER</span><span class="p">]</span></code> — левое внешнее соединение,</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">RIGHT</span> <span class="p">[</span><span class="k">OUTER</span><span class="p">]</span></code> — правое внешнее соединение,</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">FULL</span> <span class="p">[</span><span class="k">OUTER</span><span class="p">]</span></code> — полное внешнее соединение,</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">CROSS</span></code> — декартово произведение таблиц или представлений, ключи соединения не указываются.</li>
+</ul>
+
+<p><strong>Примечание:</strong> некоторые агрегатные функции и типы соединений недоступны для исполнения в определенных 
+СУБД хранилища. Список доступных возможностей см. в разделе <a href="../../Поддержка_SQL/Поддержка_SQL.md">Поддержка SQL</a>.</p>
+
+<h2 id="параметры">Параметры</h2>
+
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">column_list</span></code> — список выбираемых столбцов таблицы или представления. Допустимо указывать символ <code class="language-sql highlighter-rouge"><span class="o">*</span></code> 
+для выбора всех столбцов;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">db_name</span></code> — имя логической базы данных, из которой выбираются данные. Указывается опционально, если 
+выбрана логическая БД, <a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемая по умолчанию</a>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">entity_name</span></code> — имя таблицы или представления, из которого выбираются данные;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">time_expression</span></code> — выражение, которое задает момент или период времени, за который выбираются 
+данные или изменения данных. Формат выражения см. <a href="#sect_for_system_time">ниже</a>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">alias_name</span></code> — псевдоним таблицы или представления. Может включать латинские буквы, цифры и символы 
+подчеркивания;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">datasource_alias</span></code> — системный псевдоним СУБД хранилища, из которой выбираются данные. Возможные 
+значения: adb, adqm, adg.</li>
+</ul>
+
+<p><a id="sect_for_system_time"></a></p>
+<h2 id="синтаксис-директивы-for-system_time">Синтаксис директивы FOR SYSTEM_TIME</h2>
+
+<p>Директива <code class="language-sql highlighter-rouge"><span class="k">FOR</span> <span class="n">SYSTEM_TIME</span></code> позволяет указать момент, по состоянию на который запрашиваются данные, 
+или период (диапазон дельт), за который запрашиваются изменения. Директива относится к логической таблице 
+или представлению, после имени которого она следует. Если в запросе соединяется несколько логических 
+таблиц и представлений, для каждой логической сущности можно указать свою директиву, при этом значения 
+директив могут различаться (см. пример <a href="#ex_different_system_times">ниже</a>).</p>
+
+<p>Директива указывается в формате <code class="language-sql highlighter-rouge"><span class="k">FOR</span> <span class="n">SYSTEM_TIME</span> <span class="n">time_expression</span></code>, где выражение <code class="language-sql highlighter-rouge"><span class="n">time_expression</span></code> 
+принимает одно из следующих значений:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="k">AS</span> <span class="k">OF</span> <span class="s1">'YYYY-MM-DD HH:MM:SS'</span></code> — для запроса данных, актуальных на указанную дату и время;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">AS</span> <span class="k">OF</span> <span class="n">DELTA_NUM</span> <span class="n">delta_num</span></code> — для запроса данных, актуальных на дату и время закрытия дельты 
+с номером <code class="language-sql highlighter-rouge"><span class="n">delta_num</span></code>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">AS</span> <span class="k">OF</span> <span class="n">LATEST_UNCOMMITTED_DELTA</span></code> — для запроса данных на текущий момент, включая данные, загруженные 
+в рамках открытой (горячей) дельты. По горячей дельте возвращаются записи, загруженные в рамках 
+непрерывного диапазона завершенных операций записи (см. параметры <code class="language-sql highlighter-rouge"><span class="n">cn_from</span></code> и <code class="language-sql highlighter-rouge"><span class="n">cn_to</span></code> 
+в разделе <a href="../GET_DELTA_HOT/GET_DELTA_HOT.md">GET_DELTA_HOT</a>);</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">STARTED</span> <span class="k">IN</span> <span class="p">(</span><span class="n">delta_num1</span><span class="p">,</span> <span class="n">delta_num2</span><span class="p">)</span></code> — для запроса данных, добавленных или измененных в период 
+между дельтой <code class="language-sql highlighter-rouge"><span class="n">delta_num1</span></code> и дельтой <code class="language-sql highlighter-rouge"><span class="n">delta_num2</span></code> (включительно);</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">FINISHED</span> <span class="k">IN</span> <span class="p">(</span><span class="n">delta_num1</span><span class="p">,</span> <span class="n">delta_num2</span><span class="p">)</span></code> — для запроса данных, удаленных в период между дельтой 
+<code class="language-sql highlighter-rouge"><span class="n">delta_num1</span></code> и дельтой <code class="language-sql highlighter-rouge"><span class="n">delta_num2</span></code> (включительно).</li>
+</ul>
+
+<h2 id="ограничения">Ограничения</h2>
+
+<ul>
+  <li>Не допускается комбинирование подзапросов к логическим базам данных с подзапросами к системным 
+представлениям <code class="language-sql highlighter-rouge"><span class="n">INFORMATION_SCHEMA</span></code>.</li>
+  <li>Если ключами секции <code class="language-sql highlighter-rouge"><span class="k">JOIN</span></code> выступают поля типа Nullable, то строки, где хотя бы один из ключей 
+имеет значение NULL, не соединяются.</li>
+</ul>
+
+<h2 id="примеры">Примеры</h2>
+
+<p>Запрос с неявным указанием столбцов и секцией <code class="language-sql highlighter-rouge"><span class="k">WHERE</span></code>:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span>
+<span class="k">WHERE</span> <span class="n">store_id</span> <span class="o">=</span> <span class="mi">1234</span>
+</code></pre></div></div>
+
+<p>Запрос с явным указанием столбцов и выбором данных из определенной СУБД хранилища (ADQM):</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">sold</span><span class="p">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">sold</span><span class="p">.</span><span class="n">product_amount</span>
+<span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores_by_sold_products</span> <span class="k">AS</span> <span class="n">sold</span>
+<span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="s1">'adqm'</span>
+</code></pre></div></div>
+
+<p>Запрос с агрегацией, группировкой и сортировкой данных, а также выбором первых 20 строк:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">s</span><span class="p">.</span><span class="n">store_id</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">product_units</span><span class="p">)</span> <span class="k">AS</span> <span class="n">product_amount</span>
+<span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">AS</span> <span class="n">s</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">store_id</span><span class="p">)</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">product_amount</span> <span class="k">DESC</span>
+<span class="k">LIMIT</span> <span class="mi">20</span>
+</code></pre></div></div>
+
+<p>Запрос записей, актуальных на момент закрытия дельты с номером 9:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">FOR</span> <span class="n">SYSTEM_TIME</span> <span class="k">AS</span> <span class="k">OF</span> <span class="n">DELTA_NUM</span> <span class="mi">9</span>
+</code></pre></div></div>
+
+<p>Запрос с соединением данных двух логических таблиц из двух различных логических БД:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span>
+  <span class="n">st</span><span class="p">.</span><span class="n">identification_number</span><span class="p">,</span>
+  <span class="n">st</span><span class="p">.</span><span class="n">category</span><span class="p">,</span>
+  <span class="n">s</span><span class="p">.</span><span class="n">product_code</span>
+<span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores</span> <span class="k">FOR</span> <span class="n">SYSTEM_TIME</span> <span class="k">AS</span> <span class="k">OF</span> <span class="n">LATEST_UNCOMMITTED_DELTA</span> <span class="k">AS</span> <span class="n">st</span>
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">sales2</span><span class="p">.</span><span class="n">sales</span> <span class="k">FOR</span> <span class="n">SYSTEM_TIME</span> <span class="k">AS</span> <span class="k">OF</span> <span class="n">LATEST_UNCOMMITTED_DELTA</span> <span class="k">AS</span> <span class="n">s</span>
+  <span class="k">ON</span> <span class="n">st</span><span class="p">.</span><span class="n">identification_number</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">store_id</span>
+</code></pre></div></div>
+
+<p><a id="ex_different_system_times"></a>
+Запрос с соединением записей логической таблицы, добавленных и измененных в двух различных диапазонах 
+дельт:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- выбор логической базы данных sales в качестве базы данных по умолчанию</span>
+<span class="n">use</span> <span class="n">sales</span>
+
+<span class="c1">-- запрос данных из логической таблицы prices</span>
+<span class="k">SELECT</span>
+  <span class="n">p1</span><span class="p">.</span><span class="n">product_code</span><span class="p">,</span>
+  <span class="n">p1</span><span class="p">.</span><span class="n">price</span> <span class="k">as</span> <span class="n">feb_price</span><span class="p">,</span>
+  <span class="n">p2</span><span class="p">.</span><span class="n">price</span> <span class="k">as</span> <span class="n">march_price</span><span class="p">,</span>
+  <span class="p">(</span><span class="n">p2</span><span class="p">.</span><span class="n">price</span> <span class="o">-</span> <span class="n">p1</span><span class="p">.</span><span class="n">price</span><span class="p">)</span> <span class="k">as</span> <span class="n">diff</span>
+<span class="k">FROM</span>
+  <span class="p">(</span><span class="k">SELECT</span> <span class="n">product_code</span><span class="p">,</span>
+  <span class="n">price</span> <span class="k">from</span> <span class="n">sales</span><span class="p">.</span><span class="n">prices</span>
+  <span class="k">FOR</span> <span class="n">SYSTEM_TIME</span> <span class="n">STARTED</span> <span class="k">IN</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span> <span class="k">AS</span> <span class="n">p1</span>
+<span class="k">FULL</span> <span class="k">JOIN</span> <span class="p">(</span><span class="k">select</span> <span class="n">product_code</span><span class="p">,</span>
+  <span class="n">price</span> <span class="k">from</span> <span class="n">sales</span><span class="p">.</span><span class="n">prices</span>
+  <span class="k">FOR</span> <span class="n">SYSTEM_TIME</span> <span class="n">STARTED</span> <span class="k">IN</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="k">AS</span> <span class="n">p2</span>
+  <span class="k">ON</span> <span class="n">p1</span><span class="p">.</span><span class="n">product_code</span> <span class="o">=</span> <span class="n">p2</span><span class="p">.</span><span class="n">product_code</span>
+<span class="k">WHERE</span> <span class="n">p1</span><span class="p">.</span><span class="n">product_code</span> <span class="k">is</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">diff</span> <span class="k">DESC</span>
+<span class="k">LIMIT</span> <span class="mi">50</span>
+<span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="s1">'adb'</span>
+</code></pre></div></div>

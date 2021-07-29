@@ -1,0 +1,38 @@
+<h1 id="изменение-логического-представления">Изменение логического представления</h1>
+
+<p>Чтобы изменить <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическое_представление/Логическое_представление.md">логическое представление</a> 
+в <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логической БД</a>, 
+выполните запрос <a href="../../../Справочная_информация/Запросы_SQLplus/ALTER_VIEW/ALTER_VIEW.md">ALTER VIEW</a> 
+или <code class="language-sql highlighter-rouge"><span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span> <span class="k">VIEW</span></code> (см. <a href="../../../Справочная_информация/Запросы_SQLplus/CREATE_VIEW/CREATE_VIEW.md">CREATE VIEW</a>).</p>
+
+<p>При успешном выполнении запроса логическое представление изменит свой вид.</p>
+
+<h2 id="пример">Пример</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- выбор sales как логической базы данных по умолчанию</span>
+<span class="n">USE</span> <span class="n">sales</span>
+
+<span class="c1">-- создание логического представления</span>
+<span class="k">CREATE</span> <span class="k">VIEW</span> <span class="n">stores_by_sold_products</span> <span class="k">AS</span>
+  <span class="k">SELECT</span> <span class="n">store_id</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">product_units</span><span class="p">)</span> <span class="k">AS</span> <span class="n">product_amount</span>
+  <span class="k">FROM</span> <span class="n">sales</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">store_id</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">product_amount</span> <span class="k">DESC</span>
+  <span class="k">LIMIT</span> <span class="mi">10</span>
+
+<span class="c1">-- изменение логического представления</span>
+<span class="k">ALTER</span> <span class="k">VIEW</span> <span class="n">stores_by_sold_products</span> <span class="k">AS</span>
+  <span class="k">SELECT</span> <span class="n">store_id</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">product_units</span><span class="p">)</span> <span class="k">AS</span> <span class="n">product_amount</span>
+  <span class="k">FROM</span> <span class="n">sales</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">store_id</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">product_amount</span> <span class="k">ASC</span>
+  <span class="k">LIMIT</span> <span class="mi">20</span>
+
+<span class="c1">-- пересоздание логического представления</span>
+<span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span> <span class="k">VIEW</span> <span class="n">stores_by_sold_products</span> <span class="k">AS</span>
+  <span class="k">SELECT</span> <span class="n">store_id</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">product_units</span><span class="p">)</span> <span class="k">AS</span> <span class="n">product_amount</span>
+  <span class="k">FROM</span> <span class="n">sales</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">store_id</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">product_amount</span> <span class="k">DESC</span>
+  <span class="k">LIMIT</span> <span class="mi">30</span>
+</code></pre></div></div>

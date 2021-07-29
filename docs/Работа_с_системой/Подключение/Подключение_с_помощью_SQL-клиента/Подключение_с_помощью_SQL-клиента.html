@@ -1,0 +1,36 @@
+<h1 id="подключение-с-помощью-sql-клиента">Подключение с помощью SQL-клиента</h1>
+
+<p>Перед настройкой подключения загрузите скомпилированный файл драйвера с именем <code class="language-sql highlighter-rouge"><span class="n">dtm</span><span class="o">-</span><span class="n">jdbc</span><span class="o">-&lt;</span><span class="k">version</span><span class="o">&gt;</span><span class="p">.</span><span class="n">jar</span></code> 
+в вашу файловую систему.</p>
+
+<p>Чтобы настроить подключение к системе с помощью SQL-клиента:</p>
+<ol>
+  <li>Откройте меню, отвечающее за добавление новых JDBC-драйверов. В SQL-клиенте DBeaver это меню 
+<strong>Driver Management</strong>, доступное в панели <strong>Database Navigator</strong>, в DataGrip — меню <strong>Data Sources</strong>.</li>
+  <li>Добавьте новый драйвер со следующими настройками (см. рисунок <a href="#img_driver_settings">ниже</a>):
+    <ul>
+      <li><strong>(Driver) Name</strong> — произвольное имя драйвера, например DTM,</li>
+      <li><strong>(Class) Name</strong> — <code class="language-sql highlighter-rouge"><span class="n">io</span><span class="p">.</span><span class="n">arenadata</span><span class="p">.</span><span class="n">dtm</span><span class="p">.</span><span class="n">jdbc</span><span class="p">.</span><span class="n">DtmDriver</span></code>,</li>
+      <li><strong>URL Template</strong> — <code class="language-sql highlighter-rouge"><span class="n">jdbc</span><span class="p">:</span><span class="n">adtm</span><span class="p">:</span><span class="o">//</span><span class="err">{</span><span class="k">host</span><span class="err">}</span><span class="p">:</span><span class="err">{</span><span class="n">port</span><span class="err">}</span><span class="o">/</span><span class="err">{</span><span class="k">database</span><span class="err">}</span></code>,</li>
+      <li><strong>Default Port</strong> (если параметр присутствует) — 9090 или 9092.</li>
+    </ul>
+  </li>
+  <li>Нажмите кнопку <strong>Add (File)</strong> для добавления файла драйвера и выберите файл <code class="language-sql highlighter-rouge"><span class="n">dtm</span><span class="o">-</span><span class="n">jdbc</span><span class="o">-&lt;</span><span class="k">version</span><span class="o">&gt;</span><span class="p">.</span><span class="n">jar</span></code> 
+в вашей файловой системе.</li>
+  <li>Сохраните настройки драйвера.</li>
+  <li>Настройте новое подключение к системе с использованием добавленного JDBC-драйвера и укажите 
+URL для подключения (например, <code class="language-sql highlighter-rouge"><span class="n">jdbc</span><span class="p">:</span><span class="n">adtm</span><span class="p">:</span><span class="o">//</span><span class="mi">10</span><span class="p">.</span><span class="mi">92</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">3</span><span class="p">:</span><span class="mi">9092</span></code>).</li>
+</ol>
+
+<p>После завершения настройки подключитесь к системе с помощью SQL-клиента.</p>
+
+<p>На рисунке ниже показаны параметры JDBC-драйвера DTM в SQL-клиенте DBeaver.</p>
+
+<p class="figure-center"><a id="img_driver_settings"></a>
+<img src="Настройки_драйвера.png" alt="" height="50%" width="50%" /></p>
+<p class="figure-caption-center"><em>Параметры JDBC-драйвера</em></p>
+
+<p>На рисунке ниже показаны параметры подключения к системе с использованием драйвера DTM.</p>
+
+<p class="figure-center"><img src="Настройки_подключения.png" alt="" height="50%" width="50%" /></p>
+<p class="figure-caption-center"><em>Параметры подключения к системе</em></p>

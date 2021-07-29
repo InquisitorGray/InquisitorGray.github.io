@@ -1,0 +1,49 @@
+<h1 id="alter-view">ALTER VIEW</h1>
+
+<p>Запрос позволяет изменить вид <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическое_представление/Логическое_представление.md">логического представления</a> 
+в <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логической базе данных</a>.</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>пустой объект ResultSet при успешном выполнении запроса;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<p><strong>Примечание:</strong> логическое представление можно также изменить с помощью запроса <code class="language-sql highlighter-rouge"><span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span> <span class="k">VIEW</span></code> 
+(см. <a href="../CREATE_VIEW/CREATE_VIEW.md">CREATE VIEW</a>).</p>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ALTER</span> <span class="k">VIEW</span> <span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="n">view_name</span> <span class="k">AS</span> <span class="k">SELECT</span> <span class="n">query</span>
+</code></pre></div></div>
+
+<h2 id="параметры">Параметры</h2>
+
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">db_name</span></code> — имя логической базы данных, в которой находится логическое представление. 
+Указывается опционально, если выбрана логическая БД, <a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемая по умолчанию</a>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">view_name</span></code> — имя изменяемого логического представления;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">query</span></code> — <a href="../SELECT/SELECT.md">SELECT</a>-подзапрос, на основе которого строится новый вид 
+логического представления.</li>
+</ul>
+
+<h2 id="ограничения">Ограничения</h2>
+
+<p>В подзапросе <code class="language-sql highlighter-rouge"><span class="n">query</span></code> не допускается использование:</p>
+<ul>
+  <li>логических представлений,</li>
+  <li><a href="../../Системные_представления_INFORMATION_SCHEMA/Системные_представления_INFORMATION_SCHEMA.md">системных представлений</a> 
+INFORMATION_SCHEMA,</li>
+  <li>директивы <a href="../SELECT/SELECT.md#sect_for_system_time">FOR SYSTEM_TIME</a>,</li>
+  <li>секции <a href="../SELECT/SELECT.md#param_datasource_type">DATASOURCE_TYPE</a>.</li>
+</ul>
+
+<h2 id="пример">Пример</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ALTER</span> <span class="k">VIEW</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores_by_sold_products</span> <span class="k">AS</span>
+  <span class="k">SELECT</span> <span class="n">store_id</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">product_units</span><span class="p">)</span> <span class="k">AS</span> <span class="n">product_amount</span>
+  <span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">store_id</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">product_amount</span> <span class="k">ASC</span>
+<span class="k">LIMIT</span> <span class="mi">20</span>
+</code></pre></div></div>

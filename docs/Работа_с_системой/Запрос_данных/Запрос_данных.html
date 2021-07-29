@@ -1,0 +1,39 @@
+<h1 id="запрос-данных">Запрос данных</h1>
+
+<p>Система позволяет запрашивать небольшие объемы актуальных и архивных данных, а также изменений, 
+выполненных в рамках указанных дельт. Возможные способы выборки данных описаны в секции 
+<a href="../../Справочная_информация/Запросы_SQLplus/SELECT/SELECT.md#sect_for_system_time">FOR SYSTEM_TIME</a> раздела <a href="../../Справочная_информация/Запросы_SQLplus/SELECT/SELECT.md">SELECT</a>.</p>
+
+<p>Чтобы запросить небольшой объем данных из <a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логических таблиц</a> 
+и (или) <a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическое_представление/Логическое_представление.md">представлений</a>, 
+выполните запрос <a href="../../Справочная_информация/Запросы_SQLplus/SELECT/SELECT.md">SELECT</a>. Запросы на чтение 
+данных обрабатываются в порядке, описанном в разделе 
+<a href="../../Обзор_понятий_компонентов_и_связей/Связи_с_другими_системами_и_компонентами/Порядок_обработки_запросов_на_чтение_данных/Порядок_обработки_запросов_на_чтение_данных.md">Порядок обработки запросов на чтение данных</a>. 
+При успешном выполнении запроса запрошенные данные возвращаются в ответе.</p>
+
+<p><strong>Примечание:</strong> под небольшим объемом данных подразумевается результат, содержащий десятки строк. 
+Для запроса большого объема данных следует использовать функцию <a href="../Выгрузка_данных/Выгрузка_данных.md">выгрузки данных</a>.</p>
+
+<p>На рисунке ниже показан пример запроса из логической таблицы <code class="language-sql highlighter-rouge"><span class="n">sales</span></code>, возвращающий одну строку. 
+Так как секция <code class="language-sql highlighter-rouge"><span class="n">DATASOURCE_TYPE</span></code> не указана, система автоматически направляет запрос в СУБД, оптимальную 
+для его исполнения (см. <a href="Маршрутизация_запросов_к_данным/Маршрутизация_запросов_к_данным.md">Маршрутизация запросов к данным</a>).</p>
+
+<p class="figure-center"><img src="Запрос_данных.png" alt="" /></p>
+<p class="figure-caption-center"><em>Запрос небольшого объема данных</em></p>
+
+<h2 id="пример">Пример</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- выбор логической базы данных sales в качестве базы данных по умолчанию</span>
+<span class="n">USE</span> <span class="n">sales</span>
+
+<span class="c1">-- запрос данных из логической таблицы sales</span>
+<span class="k">SELECT</span> <span class="n">s</span><span class="p">.</span><span class="n">store_id</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">product_units</span><span class="p">)</span> <span class="k">AS</span> <span class="n">product_amount</span>
+<span class="k">FROM</span> <span class="n">sales</span> <span class="k">AS</span> <span class="n">s</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">store_id</span><span class="p">)</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">product_amount</span> <span class="k">DESC</span>
+<span class="k">LIMIT</span> <span class="mi">20</span>
+
+<span class="c1">-- запрос данных из логического представления stores_by_sold_products</span>
+<span class="k">SELECT</span> <span class="n">sold</span><span class="p">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">sold</span><span class="p">.</span><span class="n">product_amount</span>
+<span class="k">FROM</span> <span class="n">stores_by_sold_products</span> <span class="k">AS</span> <span class="n">sold</span>
+</code></pre></div></div>

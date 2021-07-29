@@ -1,0 +1,30 @@
+<h1 id="get_delta_by_num">GET_DELTA_BY_NUM</h1>
+
+<p>Запрос позволяет получить информацию о закрытой <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Дельта/Дельта.md">дельте</a> 
+по ее номеру. Перед выполнением запроса необходимо определить логическую базу данных, 
+<a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемую по умолчанию</a>, 
+если она еще не определена.</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>объект ResultSet c одной записью, содержащей информацию о дельте, при успешном выполнении запроса;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<p>Возвращаемая информация включает следующие параметры:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">delta_num</span></code> — номер дельты,</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">delta_date</span></code> — дата и время закрытия дельты,</li>
+  <li><code class="language-sql highlighter-rouge"><span class="p">[</span><span class="n">cn_from</span><span class="p">,</span> <span class="n">cn_to</span><span class="p">]</span></code> — диапазон номеров выполненных <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Операция_записи/Операция_записи.md">операций записи</a>.</li>
+</ul>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">GET_DELTA_BY_NUM</span><span class="p">(</span><span class="n">delta_num</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="параметры">Параметры</h2>
+
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">delta_num</span></code> — целый неотрицательный номер дельты.</li>
+</ul>

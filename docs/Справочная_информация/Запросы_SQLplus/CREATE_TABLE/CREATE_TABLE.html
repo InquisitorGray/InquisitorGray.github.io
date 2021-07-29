@@ -1,0 +1,103 @@
+<h1 id="create-table">CREATE TABLE</h1>
+
+<p>Запрос позволяет создать <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логическую таблицу</a> 
+в <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логической базе данных</a>. 
+В зависимости от параметров запроса данные логической таблицы размещаются в указанных или всех 
+<a href="../../../Введение/Поддерживаемые_СУБД_хранилища/Поддерживаемые_СУБД_хранилища.md">СУБД</a> 
+<a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Хранилище_данных/Хранилище_данных.md">хранилища</a>.</p>
+
+<p>Рекомендуется создавать логическую таблицу с размещением данных, как минимум, в СУБД, которая выбрана 
+для выгрузки данных в <a href="../../../Эксплуатация/Конфигурация/Конфигурация.md">конфигурации</a> системы. 
+Данные могут размещаться в любых СУБД хранилища, однако, если они размещаются вне СУБД выгрузки, 
+их выгрузка недоступна.</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>пустой объект ResultSet при успешном выполнении запроса;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<p>При успешном выполнении запроса появляется новая таблица в <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_схема_данных/Логическая_схема_данных.md">логической схеме данных</a>. 
+Соответствующие <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Физическая_таблица/Физическая_таблица.md">физические таблицы</a> 
+появляются в СУБД хранилища, указанных в запросе, или, если СУБД не указаны в запросе, — 
+во всех СУБД хранилища.</p>
+
+<p><strong>Примечание:</strong> изменение логической таблицы недоступно. Для замены некорректной таблицы необходимо 
+удалить ее и создать новую.</p>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="k">table_name</span> <span class="p">(</span>
+  <span class="n">column_name_1</span> <span class="n">datatype_1</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">column_name_2</span> <span class="n">datatype_2</span> <span class="k">DEFAULT</span> <span class="n">default_value_2</span><span class="p">,</span>
+  <span class="n">column_name_3</span> <span class="n">datatype_3</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">column_list_1</span><span class="p">)</span>
+<span class="p">)</span> <span class="n">DISTRIBUTED</span> <span class="k">BY</span> <span class="p">(</span><span class="n">column_list_2</span><span class="p">)</span>
+<span class="n">DATASOURCE_TYPE</span> <span class="p">(</span><span class="n">datasource_aliases</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="параметры">Параметры</h2>
+
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">db_name</span></code> — имя логической базы данных, в которой создается логическая таблица. Указывается 
+опционально, если выбрана логическая БД, <a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемая по умолчанию</a>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">table_name</span></code> — имя создаваемой логической таблицы, уникальное среди логических сущностей логической БД;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">column_name_N</span></code> — имя столбца таблицы;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">datatype_N</span></code> — тип данных столбца <code class="language-sql highlighter-rouge"><span class="n">column_name_N</span></code>. Возможные значения см. 
+в разделе <a href="../../Поддерживаемые_типы_данных/Логические_типы_данных/Логические_типы_данных.md">Логические типы данных</a>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">default_value_N</span></code> — значение столбца <code class="language-sql highlighter-rouge"><span class="n">column_name_N</span></code> по умолчанию;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">column_list_1</span></code> — список столбцов, входящих в первичный ключ таблицы;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">column_list_2</span></code> — список столбцов целочисленного типа, входящих в ключ шардирования таблицы. Столбцы 
+должны быть из числа столбцов <code class="language-sql highlighter-rouge"><span class="n">column_list_1</span></code>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">datasource_aliases</span></code> — список псевдонимов СУБД хранилища, в которых нужно разместить данные таблицы. 
+Элементы списка перечисляются через запятую. Возможные значения: <code class="language-sql highlighter-rouge"><span class="n">adb</span></code>, <code class="language-sql highlighter-rouge"><span class="n">adqm</span></code>, <code class="language-sql highlighter-rouge"><span class="n">adg</span></code>.</li>
+</ul>
+
+<h2 id="ограничения">Ограничения</h2>
+
+<ul>
+  <li>Имена столбцов должны быть уникальны в рамках логической таблицы.</li>
+  <li>Недопустимо использование зарезервированных имен столбцов: <code class="language-sql highlighter-rouge"><span class="n">sys_op</span></code>, <code class="language-sql highlighter-rouge"><span class="n">sys_from</span></code>, <code class="language-sql highlighter-rouge"><span class="n">sys_to</span></code>, 
+<code class="language-sql highlighter-rouge"><span class="n">sys_close_date</span></code>, <code class="language-sql highlighter-rouge"><span class="n">bucket_id</span></code>, <code class="language-sql highlighter-rouge"><span class="n">sign</span></code>.</li>
+  <li>Первичный ключ должен включать все столбцы ключа шардирования.</li>
+  <li>Ключ шардирования может содержать только целочисленные столбцы.</li>
+</ul>
+
+<h2 id="примеры">Примеры</h2>
+
+<p>Создание логической таблицы с размещением данных во всех СУБД хранилища:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="p">(</span>
+  <span class="n">identification_number</span> <span class="nb">INT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">transaction_date</span> <span class="nb">TIMESTAMP</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">product_code</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">product_units</span> <span class="nb">INT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">store_id</span> <span class="nb">INT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">description</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">identification_number</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">DISTRIBUTED</span> <span class="k">BY</span> <span class="p">(</span><span class="n">identification_number</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Создание логической таблицы с составным первичным ключом и размещением данных во всех СУБД хранилища:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores</span> <span class="p">(</span>
+  <span class="n">identification_number</span> <span class="nb">INT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">category</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">region</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">address</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">description</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">identification_number</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">DISTRIBUTED</span> <span class="k">BY</span> <span class="p">(</span><span class="n">identification_number</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Создание логической таблицы с размещением данных в ADQM и ADG (без размещения в ADB):</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sales</span><span class="p">.</span><span class="n">clients</span> <span class="p">(</span>
+  <span class="n">identification_number</span> <span class="nb">INT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">first_name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">last_name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">patronymic_name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">birth_date</span> <span class="nb">DATE</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">identification_number</span><span class="p">)</span>
+<span class="p">)</span> <span class="n">DISTRIBUTED</span> <span class="k">BY</span> <span class="p">(</span><span class="n">identification_number</span><span class="p">)</span>
+<span class="n">DATASOURCE_TYPE</span> <span class="p">(</span><span class="n">adqm</span><span class="p">,</span><span class="n">adg</span><span class="p">)</span>
+</code></pre></div></div>

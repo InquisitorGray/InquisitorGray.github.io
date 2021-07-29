@@ -1,0 +1,72 @@
+<h1 id="программное-подключение">Программное подключение</h1>
+
+<p>JDBC-драйвер системы позволяет подключаться программно (без использования SQL-клиента). Вы можете 
+реализовать свое приложение, работающее с системой через JDBC-подключение.</p>
+
+<p>Чтобы подключиться к системе с помощью программного подключения:</p>
+<ol>
+  <li>Загрузите скомпилированный файл драйвера с именем <code class="language-sql highlighter-rouge"><span class="n">dtm</span><span class="o">-</span><span class="n">jdbc</span><span class="o">-&lt;</span><span class="k">version</span><span class="o">&gt;</span><span class="p">.</span><span class="n">jar</span></code>.</li>
+  <li>Определите путь к jar-файлу драйвера любым из способов:
+    <ol>
+      <li>задайте путь с помощью переменной окружения <code class="language-sql highlighter-rouge"><span class="n">CLASSPATH</span></code>;</li>
+      <li>задайте путь в командной строке при запуске своего приложения (формат зависит от операционной 
+системы):
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">java</span> <span class="o">-</span><span class="n">classpath</span> <span class="o">/&lt;</span><span class="n">path</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">driver</span><span class="o">&gt;/</span><span class="n">dtm</span><span class="o">-</span><span class="n">jdbc</span><span class="o">-&lt;</span><span class="n">version</span><span class="o">&gt;.</span><span class="na">jar</span> <span class="n">myapplication</span><span class="o">.</span><span class="na">class</span>
+</code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+  <li>В реализации класса вашего приложения, который отвечает за подключение к системе (см. пример <a href="#ex_connection_class">ниже</a>):
+    <ol>
+      <li>импортируйте пакеты Java SQL:
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.sql.*</span><span class="o">;</span>
+</code></pre></div>        </div>
+      </li>
+      <li>если используется Java версии менее 1.6, загрузите драйвер в память:
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"io.arenadata.dtm.jdbc.DtmDriver"</span><span class="o">);</span>
+</code></pre></div>        </div>
+      </li>
+      <li>установите соединение с системой с помощью метода <code class="language-sql highlighter-rouge"><span class="n">DriverManager</span><span class="p">.</span><span class="n">getConnection</span><span class="p">()</span></code> в следующем 
+формате:
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"jdbc:adtm://DtmHost:portNumber/logicalDatabaseName"</span><span class="o">;</span>
+<span class="nc">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p>Строка <code class="language-sql highlighter-rouge"><span class="n">url</span></code> содержит параметры:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">DtmHost</span></code> — IP-адрес или имя хоста, на котором установлена система;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">portNumber</span></code> — номер порта для подключения;</li>
+  <li>(опционально) <code class="language-sql highlighter-rouge"><span class="n">logicalDatabaseName</span></code> — имя логической базы данных, используемой по умолчанию.</li>
+</ul>
+
+<p>Пример <code class="language-sql highlighter-rouge"><span class="n">url</span></code>:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"jdbc:adtm://10.92.3.3:9092/demo"</span><span class="o">;</span>
+<span class="nc">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>После установки соединения можно выполнять <a href="../../../Справочная_информация/Запросы_SQLplus/Запросы_SQLplus.md">запросы SQL+</a>. 
+По окончании работы с системой нужно закрыть подключение.</p>
+
+<p><a id="ex_connection_class"></a>
+В примере ниже показана базовая реализация класса <code class="language-sql highlighter-rouge"><span class="n">SimpleDtmJDBCExample</span></code>, который устанавливает соединение 
+с системой по заданному адресу и затем закрывает соединение.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.sql.*</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleDtmJDBCExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Connection</span> <span class="n">conn</span><span class="o">;</span>
+        <span class="nc">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"jdbc:adtm://10.92.3.3:9092/demo"</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">conn</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Connected"</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// Catch all for the SQL exceptions</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="n">conn</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>

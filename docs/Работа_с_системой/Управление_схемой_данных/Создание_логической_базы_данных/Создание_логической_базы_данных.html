@@ -1,0 +1,40 @@
+<h1 id="создание-логической-базы-данных">Создание логической базы данных</h1>
+
+<p>Чтобы создать <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логическую базу данных</a>, 
+выполните запрос <a href="../../../Справочная_информация/Запросы_SQLplus/CREATE_DATABASE/CREATE_DATABASE.md">CREATE DATABASE</a> 
+(см. пример <a href="#пример">ниже</a>). В случае успешного выполнения запроса в <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_схема_данных/Логическая_схема_данных.md">логической схеме данных</a> 
+появляется новая логическая база данных.</p>
+
+<p>Чтобы проверить наличие логической базы данных, используйте любой из способов:</p>
+<ul>
+  <li>выполните <a href="../Запрос_метаданных_логической_схемы/Запрос_метаданных_логической_схемы.md">запрос метаданных</a> 
+логической схемы данных,</li>
+  <li>проверьте дерево объектов в вашем SQL-клиенте (см. рисунок <a href="#img_table_in_tree">ниже</a>).</li>
+</ul>
+
+<p><strong>Совет:</strong> для удобства написания последующих запросов к этой логической базе данных ее можно выбрать 
+в качестве <a href="../../Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемой по умолчанию</a>.</p>
+
+<p>На рисунке ниже показана логическая БД в дереве объектов SQL-клиента (см. рисунок ниже).</p>
+
+<p class="figure-center"><a id="img_table_in_tree"></a>
+<img src="Логическая_база_данных.png" alt="" height="50%" width="50%" /></p>
+<p class="figure-caption-center"><em>Логическая БД в дереве объектов</em></p>
+
+<h2 id="пример">Пример</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- создание логической базы данных sales</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">sales</span>
+
+<span class="c1">-- проверка наличия логической базы данных sales</span>
+<span class="k">SELECT</span>
+  <span class="k">CASE</span>
+    <span class="k">WHEN</span> <span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">THEN</span> <span class="s1">'БД существует'</span>
+    <span class="k">ELSE</span> <span class="s1">'БД не существует'</span>
+  <span class="k">END</span>
+<span class="k">FROM</span> <span class="n">INFORMATION_SCHEMA</span><span class="p">.</span><span class="n">schemata</span>
+<span class="k">WHERE</span> <span class="k">schema_name</span> <span class="o">=</span> <span class="s1">'SALES'</span>
+
+<span class="c1">-- выбор логической базы данных sales в качестве базы данных по умолчанию</span>
+<span class="n">USE</span> <span class="n">SALES</span>
+</code></pre></div></div>

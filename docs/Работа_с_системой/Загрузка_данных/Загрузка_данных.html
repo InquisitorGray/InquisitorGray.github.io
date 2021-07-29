@@ -1,0 +1,81 @@
+<h1 id="загрузка-данных">Загрузка данных</h1>
+
+<p>Для загрузки данных нужен существующий топик Kafka. Если в брокере сообщений Kafka настроено 
+автоматическое создание топиков, то дополнительные действия не требуются. Иначе необходимо создать топик, 
+если он еще не создан. Подробнее о создании топиков см. в документации Kafka:</p>
+<ul>
+  <li>раздел <a href="https://kafka.apache.org/documentation/#quickstart">Quick Start</a>,</li>
+  <li>раздел <a href="https://kafka.apache.org/documentation/#basic_ops_add_topic">Adding and removing topics</a>.</li>
+</ul>
+
+<p>Чтобы загрузить данные из внешней информационной системы в <a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логическую таблицу</a>:</p>
+<ol>
+  <li>Загрузите данные из внешней информационной системы в топик Kafka.<br />
+Данные должны иметь формат, описанный в разделе <a href="../../Справочная_информация/Формат_загрузки_данных/Формат_загрузки_данных.md">Формат загрузки данных</a>.</li>
+  <li><a href="../../Справочная_информация/Запросы_SQLplus/CREATE_TABLE/CREATE_TABLE.md">Создайте</a> 
+<a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логическую таблицу</a>, 
+если она еще не создана.</li>
+  <li><a href="../../Справочная_информация/Запросы_SQLplus/CREATE_UPLOAD_EXTERNAL_TABLE/CREATE_UPLOAD_EXTERNAL_TABLE.md">Создайте</a> 
+<a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Внешняя_таблица/Внешняя_таблица.md">внешнюю таблицу</a> 
+загрузки, если она еще не создана.</li>
+  <li>Выполните запрос <a href="../../Справочная_информация/Запросы_SQLplus/BEGIN_DELTA/BEGIN_DELTA.md">BEGIN DELTA</a> 
+на открытие <a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Дельта/Дельта.md">дельты</a>, 
+если она еще не открыта.</li>
+  <li>Выполните запрос <a href="../../Справочная_информация/Запросы_SQLplus/INSERT_INTO_logical_table/INSERT_INTO_logical_table.md">INSERT INTO logical_table</a> 
+на загрузку данных из топика в логическую таблицу. В запросе нужно указать внешнюю таблицу загрузки, 
+определяющую параметры загрузки.<br />
+После успешного окончания загрузки данных система вернет ответ с пустым объектом ResultSet.</li>
+  <li>Если необходимо, загрузите другие данные, например в другие логические таблицы.<br />
+В рамках одной открытой дельты можно выполнять произвольное количество запросов 
+<a href="../../Справочная_информация/Запросы_SQLplus/INSERT_INTO_logical_table/INSERT_INTO_logical_table.md">INSERT INTO logical_table</a>, 
+при этом не допускается загрузка различных состояний одного и того же объекта.</li>
+  <li>Выполните запрос <a href="../../Справочная_информация/Запросы_SQLplus/COMMIT_DELTA/COMMIT_DELTA.md">COMMIT DELTA</a> 
+для сохранения изменений и закрытия дельты.</li>
+</ol>
+
+<p>При успешном выполнении последовательности действий загруженные данные сохраняются в качестве актуальных, 
+а предыдущая версия данных, если такая была, становится архивной. Подробнее о версионировании см. 
+в разделе <a href="Версионирование_данных/Версионирование_данных.md">Версионирование данных</a>.</p>
+
+<p>Пока дельта не закрыта, все изменения данных, выполненные в рамках нее, можно отменить 
+(см. <a href="../../Справочная_информация/Запросы_SQLplus/ROLLBACK_DELTA/ROLLBACK_DELTA.md">ROLLBACK DELTA</a>). 
+Созданные внешние таблицы загрузки можно использовать повторно или удалить.</p>
+
+<h2 id="пример">Пример</h2>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- выбор логической базы данных sales в качестве базы данных по умолчанию</span>
+<span class="n">USE</span> <span class="n">sales</span>
+
+<span class="c1">-- создание логической таблицы sales</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sales</span> <span class="p">(</span>
+  <span class="n">identification_number</span> <span class="nb">INT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">transaction_date</span> <span class="nb">TIMESTAMP</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">product_code</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">product_units</span> <span class="nb">INT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">store_id</span> <span class="nb">INT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">description</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">identification_number</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">DISTRIBUTED</span> <span class="k">BY</span> <span class="p">(</span><span class="n">identification_number</span><span class="p">)</span>
+
+<span class="c1">-- создание внешней таблицы загрузки</span>
+<span class="k">CREATE</span> <span class="n">UPLOAD</span> <span class="k">EXTERNAL</span> <span class="k">TABLE</span> <span class="n">sales_ext_upload</span> <span class="p">(</span>
+  <span class="n">identification_number</span> <span class="nb">INT</span><span class="p">,</span>
+  <span class="n">transaction_date</span> <span class="nb">TIMESTAMP</span><span class="p">,</span>
+  <span class="n">product_code</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">product_units</span> <span class="nb">INT</span><span class="p">,</span>
+  <span class="n">store_id</span> <span class="nb">INT</span><span class="p">,</span>
+  <span class="n">description</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">LOCATION</span>  <span class="s1">'kafka://zk1:2181,zk2:2181,zk3:2181/sales'</span>
+<span class="n">FORMAT</span> <span class="s1">'AVRO'</span>
+<span class="n">MESSAGE_LIMIT</span> <span class="mi">1000</span>
+
+<span class="c1">-- открытие новой (горячей) дельты</span>
+<span class="k">BEGIN</span> <span class="n">DELTA</span>
+
+<span class="c1">-- запуск загрузки данных в логическую таблицу sales</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">sales</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales_ext_upload</span>
+
+<span class="c1">-- закрытие дельты (фиксация изменений)</span>
+<span class="k">COMMIT</span> <span class="n">DELTA</span>
+</code></pre></div></div>

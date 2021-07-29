@@ -1,0 +1,35 @@
+<h1 id="get_delta_hot">GET_DELTA_HOT</h1>
+
+<p>Запрос позволяет получить информацию о горячей <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Дельта/Дельта.md">дельте</a>. 
+Перед выполнением запроса необходимо определить логическую базу данных, 
+<a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемую по умолчанию</a>, 
+если она еще не определена.</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>объект ResultSet c одной записью при успешном выполнении запроса. Если дельта присутствует, запись 
+содержит информацию о дельте, иначе — возвращается пустая запись;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<p>Возвращаемая информация включает следующие параметры:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">delta_num</span></code> — номер дельты;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="p">[</span><span class="n">cn_from</span><span class="p">,</span> <span class="n">cn_to</span><span class="p">]</span></code> — диапазон порядковых номеров непрерывной последовательности 
+<a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Операция_записи/Операция_записи.md">операций записи</a>, 
+выполненных в рамках дельты;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">cn_max</span></code> — максимальный номер операции среди операций записи, выполненных в рамках дельты. 
+До успешного завершения операций записи возвращается максимальный номер операции записи в последней 
+закрытой дельте;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">is_rolling_back</span></code> — флаг отката;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">write_op_finished</span></code> — массив операций записей, выполненных в рамках дельты.</li>
+</ul>
+
+<p>В связи с многопоточной обработкой операций значения <code class="language-sql highlighter-rouge"><span class="n">cn_to</span></code> и <code class="language-sql highlighter-rouge"><span class="n">cn_max</span></code> горячей дельты могут отличаться. 
+Например, если в рамках горячей дельты завершены операции записи с номерами 1, 2, 3 и 7, то значение 
+<code class="language-sql highlighter-rouge"><span class="n">cn_to</span></code> этой дельты равно 3, а значение <code class="language-sql highlighter-rouge"><span class="n">cn_max</span></code> равно 7.</p>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">GET_DELTA_HOT</span><span class="p">()</span>
+</code></pre></div></div>

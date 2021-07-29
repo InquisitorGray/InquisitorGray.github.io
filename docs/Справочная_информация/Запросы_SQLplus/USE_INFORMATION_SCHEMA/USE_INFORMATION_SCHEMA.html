@@ -1,0 +1,21 @@
+<h1 id="use-information_schema">USE INFORMATION_SCHEMA</h1>
+
+<p>Запрос позволяет изменить <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логическую базу данных</a> 
+<a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">по умолчанию</a> 
+на <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Сервисная_база_данных/Сервисная_база_данных.md">сервисную базу данных</a>.</p>
+
+<p><strong>Совет:</strong> запрос можно выполнить перед запросами <a href="../SELECT_FROM_INFORMATION_SCHEMA/SELECT_FROM_INFORMATION_SCHEMA.md">SELECT FROM INFORMATION_SCHEMA</a> — 
+это даст возможность не указывать префикс <code class="language-sql highlighter-rouge"><span class="n">INFORMATION_SCHEMA</span></code> перед именами системных 
+представлений в запросах к сервисной базе данных.</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>объект ResultSet c одной записью, содержащей имя сервисной базы данных (<code class="language-sql highlighter-rouge"><span class="n">information_schema</span></code>), 
+при успешном выполнении запроса;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">USE</span> <span class="n">INFORMATION_SCHEMA</span>
+</code></pre></div></div>

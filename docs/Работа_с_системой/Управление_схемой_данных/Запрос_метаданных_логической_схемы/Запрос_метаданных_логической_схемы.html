@@ -1,0 +1,28 @@
+<h1 id="запрос-метаданных-логической-схемы">Запрос метаданных логической схемы</h1>
+
+<p>Чтобы запросить метаданные объектов <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_схема_данных/Логическая_схема_данных.md">логической схемы данных</a>, 
+выполните запрос <a href="../../../Справочная_информация/Запросы_SQLplus/SELECT_FROM_INFORMATION_SCHEMA/SELECT_FROM_INFORMATION_SCHEMA.md">SELECT FROM INFORMATION_SCHEMA</a> 
+(см. примеры <a href="#примеры">ниже</a>). Доступно получение информации о сущностях и их свойствах, перечисленных 
+в разделе <a href="../../../Справочная_информация/Системные_представления_INFORMATION_SCHEMA/Системные_представления_INFORMATION_SCHEMA.md">Системные представления (INFORMATION_SCHEMA)</a>.</p>
+
+<h2 id="примеры">Примеры</h2>
+
+<p>Запрос списка всех <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логических БД</a> 
+<a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Окружение/Окружение.md">окружения</a> 
+с лексической сортировкой по возрастанию:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="k">schema_name</span> <span class="k">FROM</span> <span class="n">INFORMATION_SCHEMA</span><span class="p">.</span><span class="n">schemata</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="k">schema_name</span>
+</code></pre></div></div>
+
+<p>Запрос информации о логических сущностях логической БД <code class="language-sql highlighter-rouge"><span class="n">SALES</span></code>:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">INFORMATION_SCHEMA</span><span class="p">.</span><span class="n">tables</span>
+<span class="k">WHERE</span> <span class="n">table_schema</span> <span class="o">=</span> <span class="s1">'SALES'</span>
+</code></pre></div></div>
+
+<p>Запрос списка имен, типов и столбцов логических сущностей окружения:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">TC</span><span class="p">.</span><span class="n">table_schema</span><span class="p">,</span> <span class="n">TC</span><span class="p">.</span><span class="k">table_name</span><span class="p">,</span> <span class="n">TT</span><span class="p">.</span><span class="n">table_type</span><span class="p">,</span> <span class="n">TC</span><span class="p">.</span><span class="k">column_name</span>
+<span class="k">FROM</span> <span class="n">information_schema</span><span class="p">.</span><span class="n">columns</span> <span class="k">AS</span> <span class="n">TC</span>
+<span class="k">JOIN</span> <span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span> <span class="k">AS</span> <span class="n">TT</span>
+  <span class="k">ON</span> <span class="n">TC</span><span class="p">.</span><span class="n">table_schema</span> <span class="o">=</span> <span class="n">TT</span><span class="p">.</span><span class="n">table_schema</span> <span class="k">and</span> <span class="n">TC</span><span class="p">.</span><span class="k">table_name</span> <span class="o">=</span> <span class="n">TT</span><span class="p">.</span><span class="k">table_name</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">TC</span><span class="p">.</span><span class="n">table_schema</span><span class="p">,</span> <span class="n">TC</span><span class="p">.</span><span class="k">table_name</span>
+</code></pre></div></div>

@@ -1,0 +1,47 @@
+<h1 id="создание-логического-представления">Создание логического представления</h1>
+
+<p>Логическое представление можно создать на основе данных одной или нескольких <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логических таблиц</a>.</p>
+
+<p>Чтобы создать <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическое_представление/Логическое_представление.md">логическое представление</a> 
+в <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логической БД</a>, 
+выполните запрос <a href="../../../Справочная_информация/Запросы_SQLplus/CREATE_VIEW/CREATE_VIEW.md">CREATE VIEW</a> 
+(см. пример <a href="#пример">ниже</a>). При успешном выполнении запроса в 
+<a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_схема_данных/Логическая_схема_данных.md">логической схеме данных</a> 
+появляется новое логическое представление.</p>
+
+<p>Чтобы проверить наличие логического представления, используйте любой из способов:</p>
+<ul>
+  <li>выполните <a href="../Запрос_метаданных_логической_схемы/Запрос_метаданных_логической_схемы.md">запрос метаданных</a> логической схемы данных,</li>
+  <li>выполните запрос <a href="../../../Справочная_информация/Запросы_SQLplus/SELECT/SELECT.md">SELECT</a> 
+к логическому представлению,</li>
+  <li>проверьте дерево объектов в вашем SQL-клиенте (см. рисунок ниже).</li>
+</ul>
+
+<p>На рисунке ниже показан фрагмент дерева объектов SQL-клиента, которое содержит логическое представление 
+<code class="language-sql highlighter-rouge"><span class="n">stores_by_sold_products</span></code>.</p>
+
+<p class="figure-center"><img src="Логическое_представление.png" alt="" height="50%" width="50%" /></p>
+<p class="figure-caption-center"><em>Логическое представление в дереве объектов</em></p>
+
+<h2 id="пример">Пример</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- выбор базы данных sales по умолчанию</span>
+<span class="n">USE</span> <span class="n">sales</span>
+
+<span class="c1">-- создание представления stores_by_sold_products</span>
+<span class="k">CREATE</span> <span class="k">VIEW</span> <span class="n">stores_by_sold_products</span> <span class="k">AS</span>
+  <span class="k">SELECT</span> <span class="n">store_id</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">product_units</span><span class="p">)</span> <span class="k">AS</span> <span class="n">product_quantity</span>
+  <span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">store_id</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">product_amount</span> <span class="k">DESC</span>
+  <span class="k">LIMIT</span> <span class="mi">30</span>
+
+<span class="c1">-- проверка наличия логического представления stores_by_sold_products</span>
+<span class="k">SELECT</span>
+  <span class="k">CASE</span>
+    <span class="k">WHEN</span> <span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">THEN</span> <span class="s1">'представление существует'</span>
+    <span class="k">ELSE</span> <span class="s1">'представления не существует'</span>
+  <span class="k">END</span>
+<span class="k">FROM</span> <span class="n">INFORMATION_SCHEMA</span><span class="p">.</span><span class="n">tables</span>
+<span class="k">WHERE</span> <span class="n">table_schema</span> <span class="o">=</span> <span class="s1">'SALES'</span> <span class="k">AND</span> <span class="k">table_name</span> <span class="o">=</span> <span class="s1">'STORES_BY_SOLD_PRODUCTS'</span>
+</code></pre></div></div>

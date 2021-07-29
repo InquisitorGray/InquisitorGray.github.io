@@ -1,0 +1,75 @@
+<h1 id="маршрутизация-запросов-к-данных">Маршрутизация запросов к данных</h1>
+
+<p>Запросы к данным маршрутизируются следующим образом:</p>
+<ul>
+  <li>если в запросе указана <a href="../../../Введение/Поддерживаемые_СУБД_хранилища/Поддерживаемые_СУБД_хранилища.md">СУБД</a> 
+<a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Хранилище_данных/Хранилище_данных.md">хранилища</a> 
+(см. <a href="../../../Справочная_информация/Запросы_SQLplus/SELECT/SELECT.md#param_datasource_type">DATASOURCE_TYPE</a>), в которой должен быть выполнен запрос, запрос направляется 
+в указанную СУБД;</li>
+  <li>иначе запрос маршрутизируется автоматически на основе его категории в соответствии 
+с <a href="../../../Эксплуатация/Конфигурация/Конфигурация.md">конфигурацией</a> системы.</li>
+</ul>
+
+<p>По умолчанию в конфигурации определен следующий порядок выбора СУБД для исполнения запросов:</p>
+<ul>
+  <li>реляционные запросы — запросы с операторами JOIN и (или) подзапросами — направляются в ADB;</li>
+  <li>запросы агрегации и группировки данных направляются в ADQM;</li>
+  <li>запросы точечного чтения по ключу направляются в ADG;</li>
+  <li>запросы, не соответствующие ни одной из предыдущих категорий, направляются в ADB.</li>
+</ul>
+
+<p>Категория запроса определяется в указанном выше порядке. Например, если запрос содержит оператор JOIN, 
+то он попадает в первую категорию независимо от наличия агрегации, группировки и чтения по ключу. 
+Примеры запросов каждой из категорий см. <a href="#примеры-запросов-различных-категорий">ниже</a>.</p>
+
+<p>Указанный порядок выбора СУБД эффективно использует возможности каждой из СУБД хранилища, однако 
+при необходимости его можно изменить в конфигурации системы.</p>
+
+<p><strong>Примечание:</strong> наиболее полный синтаксис запросов доступен в ADB. ADG и ADQM имеют ограничения 
+на выполнение запросов, вызванные особенностями этих СУБД (см. <a href="../../../Справочная_информация/Поддержка_SQL/Поддержка_SQL.md">Поддержка SQL</a>).</p>
+
+<h2 id="примеры-запросов-различных-категорий">Примеры запросов различных категорий</h2>
+
+<p>Реляционный запрос:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">AS</span> <span class="n">s</span>
+<span class="k">JOIN</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores</span> <span class="k">AS</span> <span class="n">st</span>
+<span class="k">ON</span> <span class="n">s</span><span class="p">.</span><span class="n">store_id</span> <span class="o">=</span> <span class="n">st</span><span class="p">.</span><span class="n">identification_number</span>
+</code></pre></div></div>
+
+<p>Реляционный запрос с агрегацией, группировкой и чтением по ключу (<code class="language-sql highlighter-rouge"><span class="n">st</span><span class="p">.</span><span class="n">identification_number</span></code>):</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span>
+<span class="n">st</span><span class="p">.</span><span class="n">identification_number</span><span class="p">,</span>
+<span class="n">st</span><span class="p">.</span><span class="n">category</span><span class="p">,</span>
+<span class="k">SUM</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">product_units</span><span class="p">)</span> <span class="k">AS</span> <span class="n">product_amount</span>
+<span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores</span> <span class="k">AS</span> <span class="n">st</span>
+<span class="k">JOIN</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">AS</span> <span class="n">s</span>
+<span class="k">ON</span> <span class="n">st</span><span class="p">.</span><span class="n">identification_number</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">store_id</span>
+<span class="k">WHERE</span> <span class="n">st</span><span class="p">.</span><span class="n">identification_number</span> <span class="o">&lt;&gt;</span> <span class="mi">10004</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">st</span><span class="p">.</span><span class="n">identification_number</span><span class="p">,</span> <span class="n">st</span><span class="p">.</span><span class="n">category</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">product_amount</span> <span class="k">DESC</span>
+</code></pre></div></div>
+
+<p>Запрос агрегации и группировки:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">s</span><span class="p">.</span><span class="n">product_code</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">product_units</span><span class="p">)</span> <span class="k">AS</span> <span class="n">product_amount</span>
+<span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">AS</span> <span class="n">s</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">s</span><span class="p">.</span><span class="n">product_code</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">product_amount</span> <span class="k">ASC</span>
+</code></pre></div></div>
+
+<p>Запрос агрегации и группировки с чтением по ключу (<code class="language-sql highlighter-rouge"><span class="n">s</span><span class="p">.</span><span class="n">identification_number</span></code>):</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">s</span><span class="p">.</span><span class="n">product_code</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">product_units</span><span class="p">)</span> <span class="k">AS</span> <span class="n">product_amount</span>
+<span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">AS</span> <span class="n">s</span>
+<span class="k">WHERE</span> <span class="n">s</span><span class="p">.</span><span class="n">identification_number</span> <span class="o">&gt;</span> <span class="mi">20000</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">s</span><span class="p">.</span><span class="n">product_code</span>
+</code></pre></div></div>
+
+<p>Запрос чтения по ключу:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">as</span> <span class="n">s</span>
+<span class="k">WHERE</span> <span class="n">s</span><span class="p">.</span><span class="n">identification_number</span> <span class="k">BETWEEN</span> <span class="mi">1001</span> <span class="k">AND</span> <span class="mi">2000</span>
+</code></pre></div></div>
+
+<p>Запрос неопределенной категории:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">AS</span> <span class="n">s</span>
+<span class="k">WHERE</span> <span class="n">s</span><span class="p">.</span><span class="n">product_units</span> <span class="o">&gt;</span> <span class="mi">2</span>  
+</code></pre></div></div>

@@ -1,0 +1,100 @@
+<h1 id="системные-представления-information_schema">Системные представления (INFORMATION_SCHEMA)</h1>
+
+<p>Набор системных представлений (INFORMATION_SCHEMA) предоставляет доступ к метаданным 
+<a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_схема_данных/Логическая_схема_данных.md">логической схемы данных</a> 
+и содержит следующие элементы:</p>
+<ul>
+  <li><a href="#schemata">schemata</a>,</li>
+  <li><a href="#tables">tables</a>,</li>
+  <li><a href="#columns">columns</a>,</li>
+  <li><a href="#table_constraints">table_constraints</a>,</li>
+  <li><a href="#key_column_usage">key_column_usage</a>.</li>
+</ul>
+
+<p>Набор системных представлений и их свойств фиксирован и недоступен для изменения.</p>
+
+<h2 id="schemata">schemata</h2>
+
+<p>Системное представление <code class="language-sql highlighter-rouge"><span class="n">schemata</span></code> содержит список <a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логических баз данных</a> 
+<a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Окружение/Окружение.md">окружения</a>. 
+По каждой логической базе доступна следующая информация:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="k">catalog_name</span></code> — наименование каталога, в который помещена логическая база данных. Значение 
+по умолчанию — public;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">schema_name</span></code> — наименование логической базы данных.</li>
+</ul>
+
+<h2 id="tables">tables</h2>
+
+<p>Системное представление <code class="language-sql highlighter-rouge"><span class="n">tables</span></code> содержит список <a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логических таблиц</a> 
+и <a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическое_представление/Логическое_представление.md">представлений</a> 
+окружения. По каждой таблице или представлению доступна следующая информация:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">table_catalog</span></code> — наименование каталога, в который помещена таблица или представление. 
+Значение по умолчанию — public;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">table_schema</span></code> — наименование логической базы данных, к которой относится таблица или представление;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">table_name</span></code> — наименование таблицы или представления;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">table_type</span></code> — тип объекта. Возможные значения: BASE_TABLE — логическая таблица, VIEW — логическое 
+представление.</li>
+</ul>
+
+<h2 id="columns">columns</h2>
+
+<p>Системное представление <code class="language-sql highlighter-rouge"><span class="n">columns</span></code> содержит список столбцов логических таблиц и представлений окружения. 
+По каждому столбцу доступна следующая информация:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">table_catalog</span></code> — наименование каталога, в который помещена таблица или представление. Значение 
+по умолчанию — public;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">table_schema</span></code> — наименование логической базы данных, к которой относится таблица или представление;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">table_name</span></code> — наименование таблицы или представления, к которому относится столбец;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">column_name</span></code> — наименование столбца, по которому предоставлена информация;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">is_nullable</span></code> — признак того, может ли значение столбца иметь пустое значение (null). Возможные 
+значения: YES — столбец может содержать пустое значение; NO — столбец должен содержать непустое 
+значение;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">ordinal_position</span></code> — порядковый номер столбца в таблице или представлении (нумерация начинается с 1);</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">character_maximum_length</span></code> — максимально допустимое количество символов (для строковых значений);</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">datetime_precision</span></code> — степень отображаемой точности значений типа TIMESTAMP. Возможное значение: 
+от 0 (точность до секунд) до 6 (точность до микросекунд).</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">data_type</span></code> — тип данных столбца. Возможные значения см. в разделе <a href="../Поддерживаемые_типы_данных/Логические_типы_данных/Логические_типы_данных.md">Логические типы данных</a>.</li>
+</ul>
+
+<h2 id="table_constraints">table_constraints</h2>
+
+<p>Системное представление <code class="language-sql highlighter-rouge"><span class="n">table_constraints</span></code> содержит список ограничений логических таблиц и представлений 
+окружения. По каждому ограничению доступна следующая информация:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="k">constraint_catalog</span></code> — наименование каталога, в который помещена таблица или представление 
+с ограничением. Значение по умолчанию — public;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">constraint_schema</span></code> — наименование логической базы данных, к которой относится таблица или 
+представление с ограничением;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">constraint_name</span></code> — наименование ограничения;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">table_schema</span></code> — наименование логической базы данных, к которой относится таблица или представление 
+с ограничением;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">table_name</span></code> — наименование таблицы или представления, к которому относится ограничение;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">constraint_type</span></code> — тип ограничения. Возможные значения: primary key — первичный ключ, sharding key — 
+ключ шардирования.</li>
+</ul>
+
+<h2 id="key_column_usage">key_column_usage</h2>
+
+<p>Системное представление <code class="language-sql highlighter-rouge"><span class="n">key_column_usage</span></code> содержит список столбцов окружения, с которыми связаны 
+какие-либо ограничения. По каждому столбцу доступна следующая информация:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="k">constraint_catalog</span></code> — наименование каталога, в который помещена таблица или представление 
+с ограничением. Значение по умолчанию — public;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">constraint_schema</span></code> — наименование логической базы данных, к которой относится таблица 
+или представление с ограничением;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">constraint_name</span></code> — наименование ограничения;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">table_schema</span></code> — наименование логической базы данных, к которой относится таблица или представление 
+с ограничением;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">table_name</span></code> — наименование таблицы или представления, к которому относится ограничение;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">column_name</span></code> — наименование столбца, на который накладывается ограничение;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">ordinal_position</span></code> — порядковый номер поля в ключе (нумерация начинается с 1).</li>
+</ul>
+
+<h2 id="взаимосвязь-системных-представлений">Взаимосвязь системных представлений</h2>
+
+<p>На рисунке ниже показана взаимосвязь системных представлений.</p>
+
+<p class="figure-center"><img src="Связь_системных_представлений.svg" alt="" /></p>
+<p class="figure-caption-center"><em>Взаимосвязь системных представлений</em></p>

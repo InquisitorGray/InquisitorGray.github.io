@@ -1,0 +1,121 @@
+<h1 id="формат-загрузки-данных">Формат загрузки данных</h1>
+
+<p>Данные загружаются в систему в виде сообщений топиков Kafka. Сообщения имеют структуру, показанную 
+на рисунке ниже.</p>
+
+<p class="figure-center"><img src="Структура_загружаемого_сообщения.svg" alt="" /></p>
+<p class="figure-caption-center"><em>Структура загружаемых сообщений</em></p>
+
+<p>Для успешной загрузки данные должны соответствовать следующим условиям:</p>
+<ul>
+  <li>Данные представлены в виде сообщений топика Kafka.</li>
+  <li>Каждое сообщение состоит из заголовка и тела сообщения. Требования к ключу заголовка не предъявляются.</li>
+  <li>Тело сообщения содержит бинарный файл в формате Apache Avro, состоящий из схемы данных и набора записей, 
+которые соответствуют этой схеме данных.</li>
+  <li>Схема данных тела сообщения содержит следующие элементы: имя, тип “record” и перечень полей. 
+Для каждого поля указано имя, а также тип данных из числа перечисленных в разделе 
+<a href="../Поддерживаемые_типы_данных/Загружаемые_типы_данных/Загружаемые_типы_данных.md">Загружаемые типы данных</a> 
+(см. пример <a href="#пример-загружаемой-схемы-данных-avro">ниже</a>). Последним полем схемы указано служебное поле <code class="language-sql highlighter-rouge"><span class="n">sys_op</span></code> с типом данных int.</li>
+  <li>В наборе записей тела сообщения для каждой записи указан перечень полей и их значений. Последним полем 
+каждой записи указано служебное поле <code class="language-sql highlighter-rouge"><span class="n">sys_op</span></code> со значением 0 (если запись добавляется или обновляется) 
+или 1 (если запись удаляется). Имена и порядок перечисления полей, а также типы данных их значений 
+соответствуют схеме данных (см. пример <a href="#пример-загружаемых-записей-avro">ниже</a>).</li>
+  <li>Состав и порядок полей совпадают во всех следующих объектах:
+    <ul>
+      <li>в схеме данных тела сообщения,</li>
+      <li>в наборе загружаемых записей,</li>
+      <li>во внешней таблице загрузки (поле <code class="language-sql highlighter-rouge"><span class="n">sys_op</span></code> может отсутствовать, так как при создании внешней 
+таблицы его можно не указывать),</li>
+      <li>в логической таблице, в которую загружаются данные (поле <code class="language-sql highlighter-rouge"><span class="n">sys_op</span></code> <strong>должно</strong> отсутствовать, 
+так как оно относится к числу зарезервированных служебных полей).</li>
+    </ul>
+  </li>
+</ul>
+
+<p>В схеме данных тела сообщения можно использовать логические типы Avro, а также элементы unions 
+(см. пример <a href="#пример-загружаемой-схемы-данных-avro">ниже</a>). Типы данных Avro, доступные к загрузке в систему, описаны в разделе 
+<a href="../Поддерживаемые_типы_данных/Загружаемые_типы_данных/Загружаемые_типы_данных.md">Загружаемые типы данных</a>.</p>
+
+<p>Подробнее о формате Avro см. в официальной документации на сайте <a href="https://avro.apache.org/">https://avro.apache.org</a>.</p>
+
+<h2 id="примеры">Примеры</h2>
+
+<h3 id="пример-загружаемой-схемы-данных-avro">Пример загружаемой схемы данных Avro</h3>
+
+<p>Пример ниже содержит схему данных Avro, используемую для загрузки данных о продажах в логическую таблицу 
+<code class="language-sql highlighter-rouge"><span class="n">sales</span></code>. Для поля <code class="language-sql highlighter-rouge"><span class="n">transaction_date</span></code> указан логический тип Avro, для поля <code class="language-sql highlighter-rouge"><span class="n">description</span></code> — элемент union. 
+Для наглядности примера бинарные данные представлены в <strong>JSON-формате</strong>.</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sales"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"record"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"identification_number"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"transaction_date"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"logicalType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"timestamp-micros"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"product_code"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"product_units"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"store_id"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"null"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"string"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sys_op"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"int"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="пример-загружаемых-записей-avro">Пример загружаемых записей Avro</h3>
+
+<p>Пример ниже содержит набор записей о продажах, загружаемых в логическую таблицу <code class="language-sql highlighter-rouge"><span class="n">sales</span></code>. 
+Для наглядности примера бинарные данные представлены в <strong>JSON-формате</strong>.</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"identification_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000111</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"transaction_date"</span><span class="p">:</span><span class="w"> </span><span class="mi">1614269474000000</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"product_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ABC102101"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"product_units"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"store_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000012345</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Покупка по акции 1+1"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"sys_op"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"identification_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000112</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"transaction_date"</span><span class="p">:</span><span class="w"> </span><span class="mi">1614334214000000</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"product_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ABC102001"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"product_units"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"store_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000123</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Покупка без акций"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"sys_op"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"identification_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000020</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"transaction_date"</span><span class="p">:</span><span class="w"> </span><span class="mi">1614636614000000</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"product_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ABC102010"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"product_units"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"store_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000123</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Покупка по акции 1+1"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"sys_op"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>

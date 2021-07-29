@@ -1,0 +1,41 @@
+<h1 id="создание-внешней-таблицы-выгрузки">Создание внешней таблицы выгрузки</h1>
+
+<p>Чтобы создать <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Внешняя_таблица/Внешняя_таблица.md">внешнюю таблицу выгрузки</a> 
+в <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логической БД</a>, 
+выполните запрос <a href="../../../Справочная_информация/Запросы_SQLplus/CREATE_DOWNLOAD_EXTERNAL_TABLE/CREATE_DOWNLOAD_EXTERNAL_TABLE.md">CREATE DOWNLOAD EXTERNAL TABLE</a> 
+(см. пример <a href="#пример">ниже</a>). При успешном выполнении запроса 
+в <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_схема_данных/Логическая_схема_данных.md">логической схеме данных</a> 
+появляется новая внешняя таблица выгрузки. Проверить наличие внешней таблицы можно в дереве объектов 
+SQL-клиента (см. рисунок <a href="#img_table_in_tree">ниже</a>).</p>
+
+<p><strong>Совет:</strong> для удобства разделения таблиц выгрузки и загрузки рекомендуется задавать имя таблицы, 
+указывающее на ее тип (например, <code class="language-sql highlighter-rouge"><span class="n">transactions_ext_download</span></code> или <code class="language-sql highlighter-rouge"><span class="n">transactions_ext_upload</span></code>).</p>
+
+<p><strong>Примечание:</strong> внешняя таблица представляет собой декларацию приемника данных и формата выгрузки данных и 
+не хранит сами данные.</p>
+
+<p>На рисунке ниже показан фрагмент дерева объектов SQL-клиента, которое содержит внешнюю таблицу выгрузки 
+<code class="language-sql highlighter-rouge"><span class="n">sales_ext_download</span></code>.</p>
+
+<p class="figure-center"><a id="img_table_in_tree"></a>
+<img src="Внешняя_таблица_выгрузки.png" alt="" height="50%" width="50%" /></p>
+<p class="figure-caption-center"><em>Внешняя таблица выгрузки в дереве объектов</em></p>
+
+<h2 id="пример">Пример</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- выбор базы данных sales по умолчанию</span>
+<span class="n">USE</span> <span class="n">sales</span>
+
+<span class="c1">-- создание внешней таблицы выгрузки</span>
+<span class="k">CREATE</span> <span class="n">DOWNLOAD</span> <span class="k">EXTERNAL</span> <span class="k">TABLE</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales_ext_download</span> <span class="p">(</span>
+  <span class="n">identification_number</span> <span class="nb">INT</span><span class="p">,</span>
+  <span class="n">transaction_date</span> <span class="nb">TIMESTAMP</span><span class="p">,</span>
+  <span class="n">product_code</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">product_units</span> <span class="nb">INT</span><span class="p">,</span>
+  <span class="n">store_id</span> <span class="nb">INT</span><span class="p">,</span>
+  <span class="n">description</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">LOCATION</span>  <span class="s1">'kafka://zk1:2181,zk2:2181,zk3:2181/sales_out'</span>
+<span class="n">FORMAT</span> <span class="s1">'AVRO'</span>
+<span class="n">CHUNK_SIZE</span> <span class="mi">1000</span>
+</code></pre></div></div>

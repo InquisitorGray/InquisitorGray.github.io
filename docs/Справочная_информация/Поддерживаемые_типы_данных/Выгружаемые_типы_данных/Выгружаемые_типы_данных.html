@@ -1,0 +1,81 @@
+<h1 id="выгружаемые-типы-данных">Выгружаемые типы данных</h1>
+
+<p>Типы данных Avro, выгружаемые из системы, зависят от СУБД хранилища, из которой выгружаются данные. 
+В таблице ниже для каждого <a href="../Логические_типы_данных/Логические_типы_данных.md">логического типа данных</a> 
+указаны выгружаемые типы данных Avro.</p>
+
+<p>Подробнее о типах данных Avro см. в <a href="https://docs.oracle.com/database/nosql-12.1.3.0/GettingStartedGuide/avroschemas.html#avro-primitivedatatypes">официальной документации</a> 
+Apache Avro.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Логический тип данных</th>
+      <th style="text-align: left">Тип данных Avro, выгружаемый из ADB</th>
+      <th style="text-align: left">Тип данных Avro, выгружаемый из ADG</th>
+      <th style="text-align: left">Тип данных Avro, выгружаемый из ADQM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">BOOLEAN</td>
+      <td style="text-align: left">boolean</td>
+      <td style="text-align: left">boolean</td>
+      <td style="text-align: left">int</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">VARCHAR (n)</td>
+      <td style="text-align: left">string</td>
+      <td style="text-align: left">string</td>
+      <td style="text-align: left">string</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">UUID</td>
+      <td style="text-align: left">string</td>
+      <td style="text-align: left">string</td>
+      <td style="text-align: left">string</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">INT</td>
+      <td style="text-align: left">long</td>
+      <td style="text-align: left">long</td>
+      <td style="text-align: left">long</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BIGINT</td>
+      <td style="text-align: left">long</td>
+      <td style="text-align: left">long</td>
+      <td style="text-align: left">long</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DOUBLE</td>
+      <td style="text-align: left">double</td>
+      <td style="text-align: left">double</td>
+      <td style="text-align: left">double</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">FLOAT</td>
+      <td style="text-align: left">float</td>
+      <td style="text-align: left">float</td>
+      <td style="text-align: left">float</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DATE</td>
+      <td style="text-align: left">int</td>
+      <td style="text-align: left">int</td>
+      <td style="text-align: left">int</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TIME (precision)</td>
+      <td style="text-align: left">long</td>
+      <td style="text-align: left">long</td>
+      <td style="text-align: left">long</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TIMESTAMP (precision)</td>
+      <td style="text-align: left">long</td>
+      <td style="text-align: left">long</td>
+      <td style="text-align: left">long</td>
+    </tr>
+  </tbody>
+</table>

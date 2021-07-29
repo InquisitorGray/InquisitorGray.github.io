@@ -1,0 +1,450 @@
+<h1 id="поддержка-sql">Поддержка SQL</h1>
+
+<p>В <a href="../Запросы_SQLplus/SELECT/SELECT.md">SELECT</a>-запросах к данным можно использовать функции, описанные 
+в таблице ниже.</p>
+
+<p><a href="../../Введение/Поддерживаемые_СУБД_хранилища/Поддерживаемые_СУБД_хранилища.md">СУБД</a> <a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Хранилище_данных/Хранилище_данных.md">хранилища</a> 
+имеют ограничения на использование некоторых функций в запросах, вызванные особенностями этих СУБД. 
+Наиболее полный синтаксис запросов доступен в ADB.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Функция</th>
+      <th style="text-align: center">Доступна в ADB</th>
+      <th style="text-align: center">Доступна в ADQM</th>
+      <th style="text-align: center">Доступна в ADG</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">ABS</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ACOS</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ASIN</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ATAN</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ATAN2</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">AVG</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BIT_AND</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BIT_OR</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">CASE</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">CAST</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">CBRT</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">CEIL</td>
+      <td style="text-align: center">+<br />аргумент FLOAT</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">CEILING</td>
+      <td style="text-align: center">+<br />аргумент FLOAT</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">CHAR</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">COALESCE</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">COS</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">COUNT</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">CROSS JOIN</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DEGREES</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">EXCEPT</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">EXP</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">FLOOR</td>
+      <td style="text-align: center">+<br />аргумент FLOAT</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">FULL JOIN</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">GREATEST</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">HEX</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">IFNULL</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">INTERSECT</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">JOIN для трех таблиц</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">JOIN с подзапросом</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">LEAST</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">LENGTH</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">LIKELY</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">LN</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">LOG</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">LOWER</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MAX</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MIN</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MOD</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NULLIF</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">OCTET_LENGTH</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">PI</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">POSITION</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">POWER</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">PRINTF</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QUOTE</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">RADIANS</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">RANDOM</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">REPLACE</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">RIGHT JOIN</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ROUND</td>
+      <td style="text-align: center">+<br />аргумент FLOAT</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">SIGN</td>
+      <td style="text-align: center">+<br />аргумент FLOAT</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">SIN</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">SQRT</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">SUBSTRING</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">SUM</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TAN</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TRIM</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TRUNC</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TYPEOF</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">UNION</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+      <td style="text-align: center">−</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">UPPER</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+      <td style="text-align: center">+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="примеры-неподдерживаемых-запросов">Примеры неподдерживаемых запросов</h2>
+
+<h3 id="avg">AVG</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">product_units</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span>
+</code></pre></div></div>
+
+<h3 id="cross-join">CROSS JOIN</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">AS</span> <span class="n">s</span>
+<span class="k">CROSS</span> <span class="k">JOIN</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores</span> <span class="k">AS</span> <span class="n">st</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">s</span><span class="p">.</span><span class="n">store_id</span><span class="p">,</span> <span class="n">st</span><span class="p">.</span><span class="n">category</span>
+<span class="k">LIMIT</span> <span class="mi">5</span>
+<span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="s1">'ADQM'</span>
+</code></pre></div></div>
+
+<h3 id="full-join">FULL JOIN</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">AS</span> <span class="n">s</span>
+<span class="k">FULL</span> <span class="k">JOIN</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores</span> <span class="k">AS</span> <span class="n">st</span>
+<span class="k">ON</span> <span class="n">s</span><span class="p">.</span><span class="n">store_id</span> <span class="o">=</span> <span class="n">st</span><span class="p">.</span><span class="n">identification_number</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">s</span><span class="p">.</span><span class="n">store_id</span>
+<span class="k">LIMIT</span> <span class="mi">5</span>
+<span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="s1">'ADG'</span>
+</code></pre></div></div>
+
+<h3 id="join-для-трех-таблиц">JOIN для трех таблиц</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">demo</span><span class="p">.</span><span class="n">territories</span> <span class="k">AS</span> <span class="n">t</span>
+<span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">demo</span><span class="p">.</span><span class="n">employee_territories</span> <span class="k">AS</span> <span class="n">et</span>
+<span class="k">ON</span> <span class="n">t</span><span class="p">.</span><span class="n">territory_id</span> <span class="o">=</span> <span class="n">et</span><span class="p">.</span><span class="n">territory_id</span>
+<span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">demo</span><span class="p">.</span><span class="n">employees</span> <span class="k">AS</span> <span class="n">e</span>
+<span class="k">ON</span> <span class="n">t</span><span class="p">.</span><span class="n">territory_id</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">territory_id</span>
+<span class="k">WHERE</span> <span class="n">e</span><span class="p">.</span><span class="n">last_name</span> <span class="k">is</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">t</span><span class="p">.</span><span class="n">territory_id</span>
+<span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="s1">'ADQM'</span>
+</code></pre></div></div>
+
+<h3 id="join-с-подзапросом">JOIN с подзапросом</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">AS</span> <span class="n">s</span>
+<span class="k">INNER</span> <span class="k">JOIN</span>
+<span class="p">(</span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores</span><span class="p">)</span> <span class="k">AS</span> <span class="n">st</span>
+<span class="k">ON</span> <span class="n">s</span><span class="p">.</span><span class="n">store_id</span> <span class="o">=</span> <span class="n">st</span><span class="p">.</span><span class="n">identification_number</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">s</span><span class="p">.</span><span class="n">store_id</span>
+<span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="s1">'ADQM'</span>
+</code></pre></div></div>
+
+<h3 id="right-join">RIGHT JOIN</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">AS</span> <span class="n">s</span>
+<span class="k">RIGHT</span> <span class="k">JOIN</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores</span> <span class="k">AS</span> <span class="n">st</span>
+<span class="k">ON</span> <span class="n">s</span><span class="p">.</span><span class="n">store_id</span> <span class="o">=</span> <span class="n">st</span><span class="p">.</span><span class="n">identification_number</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">st</span><span class="p">.</span><span class="n">identification_number</span>
+<span class="k">LIMIT</span> <span class="mi">5</span>
+<span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="s1">'ADG'</span>
+</code></pre></div></div>

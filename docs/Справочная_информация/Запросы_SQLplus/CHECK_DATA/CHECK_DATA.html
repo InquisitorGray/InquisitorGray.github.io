@@ -1,0 +1,81 @@
+<h1 id="check_data">CHECK_DATA</h1>
+
+<p>Запрос позволяет проверить идентичность данных <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логической таблицы</a>, 
+загруженных в различные <a href="../../../Введение/Поддерживаемые_СУБД_хранилища/Поддерживаемые_СУБД_хранилища.md">СУБД</a> 
+<a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Хранилище_данных/Хранилище_данных.md">хранилища</a> 
+в указанный период.</p>
+
+<p>Проверка выполняется по всем <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Операция_записи/Операция_записи.md">операциям записи</a>, 
+начиная с <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Дельта/Дельта.md">дельты</a>, 
+указанной в запросе, и заканчивая последней закрытой дельтой. Граничные дельты включаются в проверку.</p>
+
+<p>Алгоритм проверки зависит от параметров запроса:</p>
+<ul>
+  <li>если в запросе указаны столбцы к проверке, по каждой операции записи вычисляется хэш значений этих 
+столбцов и полученные значения сравниваются в целевых СУБД хранилища;</li>
+  <li>если столбцы не указаны, сравнивается количество записей, загруженных в рамках каждой операции записи, 
+в каждую из целевых СУБД хранилища.</li>
+</ul>
+
+<p><strong>Примечание:</strong> в проверке участвуют целевые СУБД хранилища — те СУБД, в которых размещены данные 
+проверяемой логической таблицы. Если такая СУБД одна, проверка все равно выполняется и считается успешной 
+(см. рисунок <a href="#img_check_for_one_db">ниже</a>).</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>объект ResultSet с одной записью, содержащей результаты проверки, при успешном выполнении запроса;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<p>Возвращаемая информация включает сообщение об успешной проверке или найденных расхождениях, а также список 
+проверенных СУБД хранилища.</p>
+
+<p>На рисунке ниже показан пример ответа в случае расхождения: хэш в ADB отличается от хэша в ADG и ADQM. 
+Различия вызваны тем, что запись была удалена напрямую из ADB (за рамками системы), а записи в ADG и ADQM 
+остались без изменений.</p>
+
+<p class="figure-center"><img src="check_data_с_расхождениями.png" alt="" /></p>
+<p class="figure-caption-center"><em>Ответ CHECK_DATA с найденными расхождениями</em></p>
+
+<p>На рисунке ниже показан пример ответа в случае успешной проверки логической таблицы, данные которой 
+размещены только в ADB.</p>
+
+<p class="figure-center"><a id="img_check_for_one_db"></a>
+<img src="check_data_без_расхождений.png" alt="" height="50%" width="50%" /></p>
+<p class="figure-caption-center"><em>Ответ CHECK_DATA с проверкой только в ADB</em></p>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CHECK_DATA</span><span class="p">([</span><span class="n">db_name</span><span class="p">.]</span><span class="k">table_name</span><span class="p">,</span> <span class="n">delta_number</span><span class="p">[,</span> <span class="n">square</span><span class="o">-</span><span class="n">bracketed_column_list</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h2 id="параметры">Параметры</h2>
+
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">db_name</span></code> — имя логической базы данных, в которой находится проверяемая логическая таблица. Указывается 
+опционально, если выбрана логическая БД, <a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемая по умолчанию</a>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">table_name</span></code> — имя проверяемой логической таблицы;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">delta_number</span></code> — номер дельты, с которой начинается проверка. Должен быть меньше или равен номеру 
+последней закрытой дельты. Номер последней закрытой дельты можно узнать с помощью запроса 
+<a href="../../../Справочная_информация/Запросы_SQLplus/GET_DELTA_OK/GET_DELTA_OK.md">GET_DELTA_OK</a>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">square_bracketed_column_list</span></code> — список проверяемых столбцов таблицы. Элементы списка должны быть 
+указаны в квадратных скобках через запятую, например <code class="language-sql highlighter-rouge"><span class="p">[</span><span class="n">identification_number</span><span class="p">,</span> <span class="n">transaction_date</span><span class="p">]</span></code>. 
+Если столбцы не указаны, проверка выполняется по количеству записей, загруженных в рамках каждой 
+операции записи в каждую целевую СУБД хранилища.</li>
+</ul>
+
+<h2 id="ограничения">Ограничения</h2>
+
+<p>Нет строгой гарантии отсутствия ложноположительных результатов.</p>
+
+<h2 id="примеры">Примеры</h2>
+
+<p>Проверка целостности данных логической таблицы <code class="language-sql highlighter-rouge"><span class="n">sales</span></code> в диапазоне [дельта 4, последняя закрытая дельта]:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CHECK_DATA</span><span class="p">(</span><span class="n">sales</span><span class="p">.</span><span class="n">sales</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Проверка целостности данных столбцов <code class="language-sql highlighter-rouge"><span class="n">identification_number</span></code> и <code class="language-sql highlighter-rouge"><span class="n">transaction_date</span></code> логической таблицы 
+<code class="language-sql highlighter-rouge"><span class="n">sales</span></code>:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CHECK_DATA</span><span class="p">(</span><span class="n">sales</span><span class="p">.</span><span class="n">sales</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="n">identification_number</span><span class="p">,</span> <span class="n">transaction_date</span><span class="p">])</span>
+<span class="n">CHECK_DATA</span><span class="p">(</span><span class="n">sales</span><span class="p">.</span><span class="n">sales</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</code></pre></div></div>

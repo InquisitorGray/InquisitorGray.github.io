@@ -1,0 +1,90 @@
+<h1 id="truncate-history">TRUNCATE HISTORY</h1>
+
+<p>Запрос позволяет удалить записи <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логической таблицы</a> 
+согласно заданным условиям. В зависимости от параметров запроса удаляются записи одной из категорий:</p>
+
+<ul>
+  <li>
+    <p>записи таблицы, которые были перенесены в архив до указанного момента времени (включительно) и 
+соответствуют условию, заданному в запросе;</p>
+  </li>
+  <li>
+    <p>все архивные и актуальные записи таблицы, которые соответствуют условию, заданному в запросе.</p>
+  </li>
+</ul>
+
+<p>Если в запросе указан момент времени, система определяет <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Дельта/Дельта.md">дельту</a>, 
+которая являлась последней закрытой дельтой на тот момент, и удаляет все записи логической таблицы, 
+которые стали архивными в эту дельту или ранее и соответствуют заданному условию. Иначе, если задано 
+ключевое слово <code class="language-sql highlighter-rouge"><span class="n">infinite</span></code>, удаляются все записи таблицы, соответствующие условию.</p>
+
+<p>В ответе возвращается:</p>
+
+<ul>
+  <li>
+    <p>пустой объект ResultSet при успешном выполнении запроса;</p>
+  </li>
+  <li>
+    <p>исключение при неуспешном выполнении запроса.</p>
+  </li>
+</ul>
+
+<p>В результате успешного выполнения запроса записи, удовлетворяющие его параметрам, удаляются из логической 
+таблицы.</p>
+
+<p><strong>Внимание:</strong> удаленные данные не подлежат восстановлению средствами системы.</p>
+
+<p>На рисунке ниже показан пример работы запроса с указанным моментом времени. В примере логическая таблица 
+содержит три записи об одном клиенте, загруженные в рамках трех разных дельт (дельта 0, дельта 1, дельта 2) 
+в течение одного дня (2021-03-03). В результате исполнения запроса удаляется <code class="language-sql highlighter-rouge"><span class="err">запись</span> <span class="mi">0</span></code>: на момент 
+времени 18:00:00 <code class="language-sql highlighter-rouge"><span class="err">дельта</span> <span class="mi">1</span></code> была последней закрытой дельтой, и только <code class="language-sql highlighter-rouge"><span class="err">запись</span> <span class="mi">0</span></code> была архивной в эту 
+дельту (<code class="language-sql highlighter-rouge"><span class="err">запись</span> <span class="mi">1</span></code> была актуальной).</p>
+
+<p class="figure-center"><img src="truncate_history.svg" alt="" /></p>
+<p class="figure-caption-center"><em>Удаление архивной записи по запросу с меткой времени</em></p>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">TRUNCATE</span> <span class="n">HISTORY</span> <span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="k">table_name</span> <span class="k">FOR</span> <span class="n">SYSTEM_TIME</span> <span class="k">AS</span> <span class="k">OF</span> <span class="n">date_time_expression</span>
+<span class="p">[</span><span class="k">WHERE</span> <span class="n">filter_expression</span><span class="p">]</span>
+</code></pre></div></div>
+<h2 id="параметры">Параметры</h2>
+
+<ul>
+  <li>
+    <p><code class="language-sql highlighter-rouge"><span class="n">db_name</span></code> — имя логической базы данных. Указывается опционально, если выбрана логическая БД, 
+<a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемая по умолчанию</a>;</p>
+  </li>
+  <li>
+    <p><code class="language-sql highlighter-rouge"><span class="k">table_name</span></code> — имя логической таблицы, из которой удаляются записи;</p>
+  </li>
+  <li>
+    <p><code class="language-sql highlighter-rouge"><span class="n">date_time_expression</span></code> — выражение, определяющее категорию удаляемых записей. Может принимать 
+следующие значения:</p>
+
+    <ul>
+      <li>
+        <p><code class="language-sql highlighter-rouge"><span class="s1">'YYYY-MM-DD HH:MM:SS'</span></code> — удаление архивных записей по указанный момент времени;</p>
+      </li>
+      <li>
+        <p><code class="language-sql highlighter-rouge"><span class="s1">'infinite'</span></code> — удаление всех актуальных и архивных записей;</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-sql highlighter-rouge"><span class="n">filter_expression</span></code> — условие выбора записей, подлежащих удалению.</p>
+  </li>
+</ul>
+
+<h2 id="пример">Пример</h2>
+
+<p>Удаление архивных записей таблицы <code class="language-sql highlighter-rouge"><span class="n">sales</span></code>, в которых значение столбца <code class="language-sql highlighter-rouge"><span class="n">product_units</span></code> меньше <code class="language-sql highlighter-rouge"><span class="mi">10</span></code>, 
+по момент времени <code class="language-sql highlighter-rouge"><span class="s1">'2019-12-23 15:15:14'</span></code>:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">TRUNCATE</span> <span class="n">HISTORY</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">FOR</span> <span class="n">SYSTEM_TIME</span> <span class="k">AS</span> <span class="k">OF</span> <span class="s1">'2019-12-23 15:15:14'</span>
+<span class="k">WHERE</span> <span class="n">product_units</span> <span class="o">&lt;</span> <span class="mi">10</span>
+</code></pre></div></div>
+<p>Удаление всех актуальных и архивных записей таблицы <code class="language-sql highlighter-rouge"><span class="n">stores</span></code>, в которых значение столбца 
+<code class="language-sql highlighter-rouge"><span class="n">identification_number</span></code> равно <code class="language-sql highlighter-rouge"><span class="mi">123456</span></code>:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">TRUNCATE</span> <span class="n">HISTORY</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores</span> <span class="k">FOR</span> <span class="n">SYSTEM_TIME</span> <span class="k">AS</span> <span class="k">OF</span> <span class="s1">'infinite'</span>
+<span class="k">WHERE</span> <span class="n">identification_number</span> <span class="o">=</span> <span class="mi">123456</span>
+</code></pre></div></div>

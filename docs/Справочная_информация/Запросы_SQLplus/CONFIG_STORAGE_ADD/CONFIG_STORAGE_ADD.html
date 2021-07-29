@@ -1,0 +1,39 @@
+<h1 id="config_storage_add">CONFIG_STORAGE_ADD</h1>
+
+<p>Запрос позволяет подключить к системе источник данных — <a href="../../../Введение/Поддерживаемые_СУБД_хранилища/Поддерживаемые_СУБД_хранилища.md">СУБД</a> 
+указанного типа. После успешного выполнения запроса можно 
+<a href="../CREATE_TABLE/CREATE_TABLE.md">создавать</a> <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логические таблицы</a> 
+с размещением данных в этой СУБД и <a href="../INSERT_INTO_logical_table/INSERT_INTO_logical_table.md">загружать</a> 
+данные в нее.</p>
+
+<p><strong>Примечание:</strong> перед выполнением запроса необходимо добавить параметры СУБД 
+в <a href="../../../Эксплуатация/Конфигурация/Конфигурация.md">конфигурацию</a> системы.</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>пустой объект ResultSet при успешном выполнении запроса;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<p>При успешном выполнении запроса все <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логические базы данных</a> 
+<a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Окружение/Окружение.md">окружения</a> 
+активируются для указанной СУБД <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Хранилище_данных/Хранилище_данных.md">хранилища</a>. 
+При этом копирование логических таблиц и их данных из других СУБД хранилища не происходит и не может быть 
+выполнено средствами системы.</p>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CONFIG_STORAGE_ADD</span><span class="p">(</span><span class="s1">'datasource_alias'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="параметры">Параметры</h2>
+
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">datasource_alias</span></code> — псевдоним СУБД хранилища. Возможные значения: <code class="language-sql highlighter-rouge"><span class="n">adb</span></code>, <code class="language-sql highlighter-rouge"><span class="n">adqm</span></code>, <code class="language-sql highlighter-rouge"><span class="n">adg</span></code>.</li>
+</ul>
+
+<h2 id="пример">Пример</h2>
+
+<p>Подключение ADB к хранилищу:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CONFIG_STORAGE_ADD</span><span class="p">(</span><span class="s1">'adb'</span><span class="p">)</span>
+</code></pre></div></div>

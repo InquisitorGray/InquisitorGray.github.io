@@ -1,0 +1,49 @@
+<h1 id="выгрузка-данных">Выгрузка данных</h1>
+
+<p>Система позволяет выгружать актуальные и архивные данные, а также совокупность изменений, выполненных 
+в рамках указанных дельт. Возможные способы выборки выгружаемых данных описаны в секции 
+<a href="../../Справочная_информация/Запросы_SQLplus/SELECT/SELECT.md#sect_for_system_time">FOR SYSTEM_TIME</a> раздела <a href="../../Справочная_информация/Запросы_SQLplus/SELECT/SELECT.md">SELECT</a>.</p>
+
+<p>Для выгрузки данных нужен существующий топик Kafka. Если в брокере сообщений Kafka настроено 
+автоматическое создание топиков, то дополнительные действия не требуются. Иначе необходимо создать топик, 
+если он еще не создан. Подробнее о создании топиков см. в документации Kafka:</p>
+<ul>
+  <li>раздел <a href="https://kafka.apache.org/documentation/#quickstart">Quick Start</a>,</li>
+  <li>раздел <a href="https://kafka.apache.org/documentation/#basic_ops_add_topic">Adding and removing topics</a>.</li>
+</ul>
+
+<p>Чтобы выгрузить данные из <a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логической таблицы</a> 
+или <a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическое_представление/Логическое_представление.md">логического представления</a> 
+во внешнюю информационную систему:</p>
+<ol>
+  <li><a href="../../Справочная_информация/Запросы_SQLplus/CREATE_DOWNLOAD_EXTERNAL_TABLE/CREATE_DOWNLOAD_EXTERNAL_TABLE.md">Создайте</a> 
+<a href="../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Внешняя_таблица/Внешняя_таблица.md">внешнюю таблицу</a> 
+выгрузки, если она еще не создана.</li>
+  <li>Выполните запрос <a href="../../Справочная_информация/Запросы_SQLplus/INSERT_INTO_download_external_table/INSERT_INTO_download_external_table.md">INSERT INTO download_external_table</a> 
+на выгрузку данных в топик. В запросе нужно указать внешнюю таблицу выгрузки, определяющую параметры 
+выгрузки.</li>
+  <li>Выгрузите данные из топика во внешнюю информационную систему.</li>
+</ol>
+
+<p>Созданные внешние таблицы выгрузки можно использовать повторно или удалить.</p>
+
+<h2 id="пример">Пример</h2>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- выбор логической базы данных sales в качестве базы данных по умолчанию</span>
+<span class="n">USE</span> <span class="n">sales</span>
+
+<span class="c1">-- создание внешней таблицы выгрузки</span>
+<span class="k">CREATE</span> <span class="n">DOWNLOAD</span> <span class="k">EXTERNAL</span> <span class="k">TABLE</span> <span class="n">sales_ext_download</span> <span class="p">(</span>
+  <span class="n">identification_number</span> <span class="nb">INT</span><span class="p">,</span>
+  <span class="n">transaction_date</span> <span class="nb">TIMESTAMP</span><span class="p">,</span>
+  <span class="n">product_code</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">product_units</span> <span class="nb">INT</span><span class="p">,</span>
+  <span class="n">store_id</span> <span class="nb">INT</span><span class="p">,</span>
+  <span class="n">description</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">LOCATION</span>  <span class="s1">'kafka://zk1:2181,zk2:2181,zk3:2181/sales_out'</span>
+<span class="n">FORMAT</span> <span class="s1">'AVRO'</span>
+<span class="n">CHUNK_SIZE</span> <span class="mi">1000</span>
+
+<span class="c1">-- запуск выгрузки данных из логической таблицы sales</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">sales_ext_download</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sales</span> <span class="k">WHERE</span> <span class="n">product_units</span> <span class="o">&gt;</span> <span class="mi">2</span>
+</code></pre></div></div>

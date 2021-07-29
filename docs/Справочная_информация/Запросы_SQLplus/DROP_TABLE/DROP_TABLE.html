@@ -1,0 +1,57 @@
+<h1 id="drop-table">DROP TABLE</h1>
+
+<p>Запрос позволяет удалить <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_таблица/Логическая_таблица.md">логическую таблицу</a> 
+и ее данные из <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логической базы данных</a>. 
+В зависимости от параметров запроса данные таблицы удаляются из указанных или всех 
+<a href="../../../Введение/Поддерживаемые_СУБД_хранилища/Поддерживаемые_СУБД_хранилища.md">СУБД</a> <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Хранилище_данных/Хранилище_данных.md">хранилища</a>.</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>пустой объект ResultSet при успешном выполнении запроса;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<p>При успешном выполнении запроса данные логической таблицы удаляются из указанных СУБД хранилища. 
+Логическая таблица удаляется из <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_схема_данных/Логическая_схема_данных.md">логической схемы данных</a> 
+при удалении данных из последней СУБД.</p>
+
+<p><strong>Внимание:</strong> удаленные данные не подлежат восстановлению средствами системы. Удаление данных из СУБД, 
+заданной для выгрузки в <a href="../../../Эксплуатация/Конфигурация/Конфигурация.md">конфигурации</a> системы, 
+приведет к невозможности <a href="../../../Работа_с_системой/Выгрузка_данных/Выгрузка_данных.md">выгрузки</a> 
+этих данных.</p>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="p">[</span><span class="n">IF</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="k">table_name</span>
+<span class="p">[</span><span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="n">datasource_alias</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Опциональная секция <code class="language-sql highlighter-rouge"><span class="n">IF</span> <span class="k">EXISTS</span></code> активирует проверку существования логической таблицы до попытки ее удаления. 
+При наличии этой секции запрос по отсутствующей таблице возвращает успешный ответ.</p>
+
+<h2 id="параметры">Параметры</h2>
+
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">db_name</span></code> — имя логической базы данных, из которой удаляется логическая таблица. Указывается 
+опционально, если выбрана логическая БД, <a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемая по умолчанию</a>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="k">table_name</span></code> — имя удаляемой логической таблицы;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">datasource_alias</span></code> — псевдоним СУБД хранилища, из которой удаляются данные логической таблицы. 
+Возможные значения: <code class="language-sql highlighter-rouge"><span class="n">adb</span></code>, <code class="language-sql highlighter-rouge"><span class="n">adqm</span></code> и <code class="language-sql highlighter-rouge"><span class="n">adg</span></code>. Значение можно указывать без кавычек, в одинарных кавычках 
+(например, <code class="language-sql highlighter-rouge"><span class="s1">'adb'</span></code>) или двойных кавычках (например, <code class="language-sql highlighter-rouge"><span class="nv">"adb"</span></code>). Если секция <code class="language-sql highlighter-rouge"><span class="n">DATASOURCE_TYPE</span></code> 
+с псевдонимом не указана, данные удаляются из всех СУБД хранилища.</li>
+</ul>
+
+<h2 id="примеры">Примеры</h2>
+
+<p>Удаление логической таблицы с удалением данных из всех СУБД хранилища:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span>
+</code></pre></div></div>
+
+<p>Удаление логической таблицы с проверкой на ее существование:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales_unknown_existence</span>
+</code></pre></div></div>
+
+<p>Последовательное удаление логической таблицы из ADB и ADG:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores</span> <span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="n">adb</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">sales</span><span class="p">.</span><span class="n">stores</span> <span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="n">adg</span>
+</code></pre></div></div>

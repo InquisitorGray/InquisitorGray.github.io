@@ -1,0 +1,36 @@
+<h1 id="get_delta_by_datetime">GET_DELTA_BY_DATETIME</h1>
+
+<p>Запрос позволяет получить информацию о последней закрытой <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Дельта/Дельта.md">дельте</a> 
+на указанные дату и время. Перед выполнением запроса необходимо определить 
+<a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логическую базу данных</a>, 
+<a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемую по умолчанию</a>, 
+если она еще не определена.</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>объект ResultSet c одной записью, содержащей информацию о дельте, при успешном выполнении запроса;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<p>Возвращаемая информация включает следующие параметры:</p>
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">delta_num</span></code> — номер дельты,</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">delta_date</span></code> — дата и время закрытия дельты,</li>
+  <li><code class="language-sql highlighter-rouge"><span class="p">[</span><span class="n">cn_from</span><span class="p">,</span> <span class="n">cn_to</span><span class="p">]</span></code> — диапазон номеров выполненных <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Операция_записи/Операция_записи.md">операций записи</a>.</li>
+</ul>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">GET_DELTA_BY_DATETIME</span><span class="p">(</span><span class="n">date_time_expression</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="параметры">Параметры</h2>
+
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">date_time_expression</span></code> — момент даты-времени вида <code class="language-sql highlighter-rouge"><span class="s1">'YYYY-MM-DD HH:MM:SS'</span></code>.</li>
+</ul>
+
+<h2 id="пример">Пример</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">GET_DELTA_BY_DATETIME</span><span class="p">(</span><span class="s1">'2021-03-25 07:30:32'</span><span class="p">)</span>
+</code></pre></div></div>

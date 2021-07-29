@@ -1,0 +1,55 @@
+<h1 id="insert-into-download_external_table">INSERT INTO download_external_table</h1>
+
+<p>Запрос позволяет выгрузить данные, выбранные <a href="../SELECT/SELECT.md">SELECT</a>-подзапросом 
+к <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Логическая_база_данных/Логическая_база_данных.md">логической базе данных</a>, 
+во внешний приемник данных. Запрос обрабатывается в порядке, описанном в разделе 
+<a href="../../../Обзор_понятий_компонентов_и_связей/Связи_с_другими_системами_и_компонентами/Порядок_обработки_запросов_на_выгрузку_данных/Порядок_обработки_запросов_на_выгрузку_данных.md">Порядок обработки запросов на выгрузку данных</a>.</p>
+
+<p>В ответе возвращается:</p>
+<ul>
+  <li>пустой объект ResultSet при успешном выполнении запроса;</li>
+  <li>исключение при неуспешном выполнении запроса.</li>
+</ul>
+
+<p>При успешном выполнении запроса данные выгружаются из СУБД <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Хранилище_данных/Хранилище_данных.md">хранилища</a>, 
+выбранной для выгрузки в <a href="../../../Эксплуатация/Конфигурация/Конфигурация.md">конфигурации</a> системы. 
+Данные выгружаются в том формате и в тот приемник данных, которые были указаны 
+<a href="../CREATE_DOWNLOAD_EXTERNAL_TABLE/CREATE_DOWNLOAD_EXTERNAL_TABLE.md">при создании внешней таблицы выгрузки</a>. Формат данных соответствует 
+описанному в разделе <a href="../../Формат_выгрузки_данных/Формат_выгрузки_данных.md">Формат выгрузки данных</a>.</p>
+
+<p><strong>Примечания:</strong></p>
+
+<ul>
+  <li>Перед выполнением запроса необходимо создать <a href="../../../Обзор_понятий_компонентов_и_связей/Основные_понятия/Внешняя_таблица/Внешняя_таблица.md">внешнюю таблицу</a> 
+с указанием <a href="../../Формат_пути_к_внешнему_приемнику_данных/Формат_пути_к_внешнему_приемнику_данных.md">пути</a> 
+к топику Kafka. Подробнее о порядке выполнения действий для выгрузки данных см. в разделе 
+<a href="../../../Работа_с_системой/Выгрузка_данных/Выгрузка_данных.md">Выгрузка данных</a>.</li>
+  <li>Имена и порядок следования столбцов должны совпадать в SELECT-подзапросе на выгрузку данных и 
+внешней таблице выгрузки.</li>
+</ul>
+
+<h2 id="синтаксис">Синтаксис</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="p">[</span><span class="n">db_name</span><span class="p">.]</span><span class="n">ext_table_name</span> <span class="k">SELECT</span> <span class="p">...</span>
+</code></pre></div></div>
+
+<h2 id="параметры">Параметры</h2>
+
+<ul>
+  <li><code class="language-sql highlighter-rouge"><span class="n">db_name</span></code> — имя логической базы данных, из которой выгружаются данные. Указывается опционально, 
+если выбрана логическая БД, <a href="../../../Работа_с_системой/Другие_функции/Определение_логической_БД_по_умолчанию/Определение_логической_БД_по_умолчанию.md">используемая по умолчанию</a>;</li>
+  <li><code class="language-sql highlighter-rouge"><span class="n">ext_table_name</span></code> — имя внешней таблицы выгрузки.</li>
+</ul>
+
+<h2 id="ограничения">Ограничения</h2>
+
+<ul>
+  <li>Секция <a href="../SELECT/SELECT.md#param_datasource_type">DATASOURCE_TYPE</a> игнорируется в SELECT-подзапросе.</li>
+  <li>Выгружаемые данные должны быть доступны в СУБД, выбранной для выгрузки в конфигурации системы.</li>
+</ul>
+
+<h2 id="пример">Пример</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales_ext_download</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sales</span><span class="p">.</span><span class="n">sales</span> <span class="k">WHERE</span> <span class="n">sales</span><span class="p">.</span><span class="n">product_units</span> <span class="o">&gt;</span> <span class="mi">2</span>
+</code></pre></div></div>
