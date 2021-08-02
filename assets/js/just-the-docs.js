@@ -1,7 +1,7 @@
 ---
 ---
   
-const removeMd = require('{{ "assets/js/strip-markdown.js" | absolute_url }}');
+//const removeMd = require('{{ "assets/js/strip-markdown.js" | absolute_url }}');
 
 (function (jtd, undefined) {
 
