@@ -1,3 +1,5 @@
+const removeMd = require('./strip-markdown');
+
 (function (jtd, undefined) {
 
 // Event handling
@@ -74,7 +76,8 @@ function initSearch() {
           this.add({
             id: i,
             title: docs[i].title,
-            content: docs[i].content,
+            //content: docs[i].content,
+            content: removeMd(docs[i].content),
           });
         }
       });
