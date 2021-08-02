@@ -96,8 +96,8 @@ function initSearch() {
           this.add({
             id: i,
             title: docs[i].title,
-            //content: docs[i].content,
-            content: removeMd(docs[i].content),
+            content: docs[i].content,
+            //content: removeMd(docs[i].content),
             {%- if site.search.rel_url != false %}
             relUrl: docs[i].relUrl
             {%- endif %}
