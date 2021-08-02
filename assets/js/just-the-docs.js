@@ -1,7 +1,7 @@
 ---
 ---
   
-const removeMd = require('./strip-markdown');
+const removeMd = require('/strip-markdown.js');
 
 (function (jtd, undefined) {
 
